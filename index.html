@@ -326,58 +326,108 @@
         </section>
     </main>
 
+    <!-- Password Modal -->
+    <div id="password-modal" class="fixed inset-0 z-[300] bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm text-center animate-in zoom-in-95 duration-200">
+            <h3 class="text-xl font-black mb-2 text-slate-900">관리자 인증</h3>
+            <p class="text-xs text-slate-500 mb-6">데이터를 수정하려면 비밀번호를 입력하세요.<br/>(기본 비밀번호: 1234)</p>
+            <input type="password" id="admin-password" placeholder="비밀번호 입력" class="w-full p-4 border border-slate-200 rounded-xl mb-6 text-center tracking-widest outline-none focus:border-rose-500" onkeydown="if(event.key === 'Enter') checkPassword()" />
+            <div class="flex gap-3">
+                <button onclick="closePasswordModal()" class="flex-1 py-3.5 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors">취소</button>
+                <button onclick="checkPassword()" class="flex-1 py-3.5 bg-rose-600 text-white rounded-xl font-bold hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200">확인</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 7. ADMIN MODAL -->
     <div id="admin-modal" class="fixed inset-0 z-[200] bg-slate-900/40 backdrop-blur-sm hidden overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
-            <div class="inline-block w-full max-w-4xl my-8 text-left align-middle transition-all transform bg-white shadow-2xl rounded-3xl p-6 md:p-10">
+            <div class="inline-block w-full max-w-5xl my-8 text-left align-middle transition-all transform bg-white shadow-2xl rounded-3xl p-6 md:p-10">
                 <div class="flex justify-between items-center mb-10">
                     <h2 class="text-3xl font-black">극단 데이터 관리</h2>
                     <button onclick="closeAdmin()" class="p-3 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
 
-                <!-- Current Performance Edit -->
-                <div class="mb-12 bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-200">
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-rose-600"><i class="fa-solid fa-gear"></i> 현재 상연 정보 수정</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">공연명</label>
-                            <input id="admin-curr-title" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column: Current Performance & History -->
+                    <div>
+                        <!-- Current Performance Edit -->
+                        <div class="mb-8 bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-200">
+                            <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-rose-600"><i class="fa-solid fa-gear"></i> 현재 공연 & 배우 사진 수정</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">공연명</label>
+                                    <input id="admin-curr-title" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">기간</label>
+                                    <input id="admin-curr-period" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">장소</label>
+                                    <input id="admin-curr-location" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">시간</label>
+                                    <input id="admin-curr-time" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                </div>
+                                <div class="col-span-1 sm:col-span-2 space-y-1 mt-2">
+                                    <label class="text-[10px] font-bold text-rose-500 uppercase">메인 포스터 이미지 URL</label>
+                                    <input id="admin-curr-img" class="w-full p-2.5 text-sm border border-rose-200 rounded-lg outline-none focus:border-rose-500 bg-white" />
+                                </div>
+                                
+                                <!-- Actor Images -->
+                                <div class="col-span-1 sm:col-span-2 mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">배우 1 사진 URL</label>
+                                        <input id="admin-actor1-img" class="w-full p-2 text-xs border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">배우 2 사진 URL</label>
+                                        <input id="admin-actor2-img" class="w-full p-2 text-xs border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">배우 3 사진 URL</label>
+                                        <input id="admin-actor3-img" class="w-full p-2 text-xs border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">배우 4 사진 URL</label>
+                                        <input id="admin-actor4-img" class="w-full p-2 text-xs border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="saveCurrentData()" class="w-full py-3.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition-all btn-hover">공연 정보 반영하기</button>
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">기간</label>
-                            <input id="admin-curr-period" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">장소</label>
-                            <input id="admin-curr-location" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">시간</label>
-                            <input id="admin-curr-time" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
-                        </div>
-                        <div class="col-span-1 md:col-span-2 space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">포스터 이미지 URL</label>
-                            <input id="admin-curr-img" class="w-full p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
+
+                        <!-- History Archive Management -->
+                        <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
+                            <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900"><i class="fa-solid fa-clock-rotate-left"></i> 공연 기록 추가</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                                <input id="admin-hist-title" placeholder="공연명" class="p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                <input id="admin-hist-year" placeholder="연도 (예: 2024)" type="number" class="p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                                <input id="admin-hist-img" placeholder="이미지 URL" class="p-2.5 text-sm border border-slate-200 rounded-lg outline-none focus:border-rose-500" />
+                            </div>
+                            <button onclick="addHistory()" class="w-full py-3 bg-rose-600 text-white font-bold rounded-xl hover:bg-rose-700 transition-all mb-8">기록 추가하기</button>
+
+                            <h3 class="text-sm font-bold text-slate-500 mb-3 uppercase tracking-tighter">등록된 기록 목록</h3>
+                            <div id="admin-history-list" class="space-y-2 max-h-[200px] overflow-y-auto pr-2">
+                                <!-- Admin History Rendered Here -->
+                            </div>
                         </div>
                     </div>
-                    <button onclick="saveCurrentData()" class="w-full py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition-all btn-hover">공연 정보 저장하기</button>
+
+                    <!-- Right Column: Review Management -->
+                    <div>
+                        <div class="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-200 h-full flex flex-col">
+                            <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-rose-600"><i class="fa-solid fa-comments"></i> 관객 후기 관리</h3>
+                            <p class="text-xs text-slate-500 mb-4">부적절한 후기를 삭제하거나 오타를 수정할 수 있습니다.</p>
+                            <div id="admin-review-list" class="space-y-3 overflow-y-auto pr-2 flex-1">
+                                <!-- Admin Reviews Rendered Here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- History Archive Management -->
-                <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900"><i class="fa-solid fa-plus"></i> 공연 기록 추가</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                        <input id="admin-hist-title" placeholder="공연명" class="p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
-                        <input id="admin-hist-year" placeholder="연도 (예: 2024)" type="number" class="p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
-                        <input id="admin-hist-img" placeholder="이미지 URL" class="p-3 border border-slate-200 rounded-xl outline-none focus:border-rose-500" />
-                    </div>
-                    <button onclick="addHistory()" class="w-full py-4 bg-rose-600 text-white font-bold rounded-xl hover:bg-rose-700 transition-all mb-10 btn-hover">기록 추가하기</button>
-
-                    <h3 class="text-lg font-bold mb-4">현재 등록된 공연 기록</h3>
-                    <div id="admin-history-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-                        <!-- Admin History Rendered Here -->
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -393,7 +443,7 @@
                 <div class="text-[10px] md:text-xs space-y-2">
                     <p>창원시 마산합포구 오동동14길 62 (소극장 빨간객석)</p>
                     <p>© 2026 THEATER BULSSICHON. ALL RIGHTS RESERVED.</p>
-                    <button onclick="openAdmin()" class="flex items-center gap-1 hover:text-rose-600 transition-colors mx-auto md:mx-0 mt-4">
+                    <button onclick="promptAdmin()" class="flex items-center gap-1 hover:text-rose-600 transition-colors mx-auto md:mx-0 mt-4">
                         <i class="fa-solid fa-lock text-[10px]"></i> 관리자 모드 진입
                     </button>
                 </div>
@@ -433,12 +483,13 @@
             ]
         };
 
+        const ADMIN_PASSWORD = "1234";
+
         // --- 2. UI Navigation ---
         function showSection(id) {
             document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
 
-            // Nav Highlight
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('text-rose-600');
                 btn.classList.add('text-slate-600');
@@ -535,7 +586,6 @@
                             </div>
                             <p class="text-sm text-slate-600 leading-relaxed keep-all">${rev.text}</p>
                             
-                            <!-- Reply Input UI -->
                             <div id="reply-box-${rev.id}" class="hidden mt-4 flex gap-2">
                                 <input id="reply-input-${rev.id}" type="text" placeholder="답글을 남겨주세요..." class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs outline-none focus:border-rose-500">
                                 <button onclick="submitReply('${rev.id}')" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold">등록</button>
@@ -574,6 +624,7 @@
             
             this.reset();
             renderReviews();
+            if(document.getElementById('admin-modal').classList.contains('block')) renderAdminReviews();
             showToast('소중한 관객 후기가 등록되었습니다.');
         });
 
@@ -598,13 +649,43 @@
         }
 
         // --- 5. Admin Actions ---
+        function promptAdmin() {
+            document.getElementById('password-modal').classList.remove('hidden');
+            document.getElementById('admin-password').value = '';
+            setTimeout(() => document.getElementById('admin-password').focus(), 100);
+        }
+
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.add('hidden');
+        }
+
+        function checkPassword() {
+            const pw = document.getElementById('admin-password').value;
+            if(pw === ADMIN_PASSWORD) {
+                closePasswordModal();
+                openAdmin();
+                showToast('관리자 모드로 접속했습니다.');
+            } else {
+                showToast('비밀번호가 일치하지 않습니다.');
+                document.getElementById('admin-password').value = '';
+            }
+        }
+
         function openAdmin() {
             document.getElementById('admin-curr-title').value = state.current.title;
             document.getElementById('admin-curr-period').value = state.current.period;
             document.getElementById('admin-curr-location').value = state.current.location;
             document.getElementById('admin-curr-time').value = state.current.time;
             document.getElementById('admin-curr-img').value = state.current.img;
+            
+            // Actor images
+            document.getElementById('admin-actor1-img').value = state.current.actors[0].img;
+            document.getElementById('admin-actor2-img').value = state.current.actors[1].img;
+            document.getElementById('admin-actor3-img').value = state.current.actors[2].img;
+            document.getElementById('admin-actor4-img').value = state.current.actors[3].img;
+
             renderAdminHistory();
+            renderAdminReviews();
             
             document.getElementById('admin-modal').classList.remove('hidden');
             document.getElementById('admin-modal').classList.add('block');
@@ -622,20 +703,26 @@
             state.current.time = document.getElementById('admin-curr-time').value;
             state.current.img = document.getElementById('admin-curr-img').value;
             
+            // Save Actor images
+            state.current.actors[0].img = document.getElementById('admin-actor1-img').value || state.current.actors[0].img;
+            state.current.actors[1].img = document.getElementById('admin-actor2-img').value || state.current.actors[1].img;
+            state.current.actors[2].img = document.getElementById('admin-actor3-img').value || state.current.actors[2].img;
+            state.current.actors[3].img = document.getElementById('admin-actor4-img').value || state.current.actors[3].img;
+
             renderCurrent();
-            closeAdmin();
-            showToast('현재 공연 정보가 업데이트되었습니다.');
+            showToast('공연 및 사진 정보가 업데이트되었습니다.');
         }
 
+        // Admin - History
         function renderAdminHistory() {
             const container = document.getElementById('admin-history-list');
             container.innerHTML = state.history.sort((a,b) => b.year - a.year).map(item => `
-                <div class="flex justify-between items-center p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="flex justify-between items-center p-3 bg-white rounded-xl border border-slate-200">
                     <div>
-                        <span class="font-bold text-rose-600 mr-3">${item.year}</span>
-                        <span class="text-slate-800 font-semibold text-sm">${item.title}</span>
+                        <span class="font-bold text-rose-600 mr-2 text-sm">${item.year}</span>
+                        <span class="text-slate-800 font-semibold text-xs">${item.title}</span>
                     </div>
-                    <button onclick="deleteHistory('${item.id}')" class="p-2 text-slate-400 hover:text-rose-600 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
+                    <button onclick="deleteHistory('${item.id}')" class="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `).join('');
         }
@@ -666,6 +753,56 @@
             renderHistory();
             renderAdminHistory();
             showToast('공연 기록이 삭제되었습니다.');
+        }
+
+        // Admin - Reviews
+        function renderAdminReviews() {
+            const container = document.getElementById('admin-review-list');
+            container.innerHTML = state.reviews.map(rev => `
+                <div class="p-4 bg-white rounded-xl border border-slate-200" id="admin-rev-${rev.id}">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-xs text-slate-800">${rev.name} <span class="text-[10px] text-slate-400 font-normal ml-1">${rev.date}</span></span>
+                        <div class="flex gap-3">
+                            <button onclick="enableEditReview('${rev.id}')" class="text-[10px] font-bold text-blue-500 hover:underline"><i class="fa-solid fa-pen"></i> 수정</button>
+                            <button onclick="deleteReview('${rev.id}')" class="text-[10px] font-bold text-rose-500 hover:underline"><i class="fa-solid fa-trash"></i> 삭제</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 keep-all">${rev.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function enableEditReview(id) {
+            const rev = state.reviews.find(r => r.id === id);
+            const container = document.getElementById(`admin-rev-${id}`);
+            container.innerHTML = `
+                <div class="mb-2 font-bold text-xs text-slate-800">${rev.name}</div>
+                <textarea id="edit-rev-text-${id}" class="w-full p-2 border border-slate-300 rounded-lg mb-2 text-xs outline-none focus:border-blue-500" rows="2">${rev.text}</textarea>
+                <div class="flex justify-end gap-2">
+                    <button onclick="saveReviewEdit('${id}')" class="px-3 py-1.5 bg-blue-500 text-white rounded-md text-[10px] font-bold">저장</button>
+                    <button onclick="renderAdminReviews()" class="px-3 py-1.5 bg-slate-200 text-slate-700 rounded-md text-[10px] font-bold">취소</button>
+                </div>
+            `;
+        }
+
+        function saveReviewEdit(id) {
+            const newText = document.getElementById(`edit-rev-text-${id}`).value;
+            if(!newText.trim()) return;
+
+            const rev = state.reviews.find(r => r.id === id);
+            if(rev) {
+                rev.text = newText;
+            }
+            renderAdminReviews();
+            renderReviews();
+            showToast('관객 후기가 수정되었습니다.');
+        }
+
+        function deleteReview(id) {
+            state.reviews = state.reviews.filter(r => r.id !== id);
+            renderAdminReviews();
+            renderReviews();
+            showToast('관객 후기가 삭제되었습니다.');
         }
 
         // --- Init ---

@@ -52,7 +52,7 @@
             transform: translateX(-50%);
         }
         @media (max-width: 768px) {
-            .history-line::before { left: 20px; }
+            .history-line::before { left: 20px; transform: none; }
         }
     </style>
 </head>
@@ -60,16 +60,16 @@
 
     <!-- Navigation -->
     <header class="fixed w-full top-0 z-[100] glass border-b border-slate-200/50">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="showSection('home')">
-                <div class="w-10 h-10 bg-rose-600 text-white flex items-center justify-center font-black rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-rose-200">불</div>
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex justify-between items-center">
+            <div class="flex items-center gap-2 md:gap-3 cursor-pointer group" onclick="showSection('home')">
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-rose-600 text-white flex items-center justify-center font-black rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-rose-200 text-sm md:text-base">불</div>
                 <div class="flex flex-col">
-                    <span class="text-xl font-black tracking-tighter leading-none">극단 불씨촌</span>
-                    <span class="text-[10px] text-rose-600 font-bold tracking-widest uppercase">Since 1977 Masan</span>
+                    <span class="text-base md:text-xl font-black tracking-tighter leading-none">극단 불씨촌</span>
+                    <span class="text-[8px] md:text-[10px] text-rose-600 font-bold tracking-widest uppercase">Since 1977 Masan</span>
                 </div>
             </div>
 
-            <nav class="hidden xl:flex items-center gap-6">
+            <nav class="hidden lg:flex items-center gap-4 xl:gap-6">
                 <button onclick="showSection('home')" class="nav-btn font-semibold text-sm hover:text-rose-600 transition text-rose-600" id="btn-home">홈</button>
                 <button onclick="showSection('about')" class="nav-btn font-semibold text-sm hover:text-rose-600 transition" id="btn-about">극단소개</button>
                 <button onclick="showSection('history')" class="nav-btn font-semibold text-sm hover:text-rose-600 transition" id="btn-history">공연기록</button>
@@ -78,85 +78,85 @@
                 <button onclick="showSection('review')" class="px-5 py-2 bg-slate-900 text-white rounded-full text-sm font-bold btn-hover" id="btn-review">관객 후기</button>
             </nav>
 
-            <button class="xl:hidden text-2xl p-2" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars-staggered"></i></button>
+            <button class="lg:hidden text-xl md:text-2xl p-2" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars-staggered"></i></button>
         </div>
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 bg-white z-[200] flex flex-col items-center justify-center gap-8 hidden transition-all duration-300">
-        <button class="absolute top-8 right-8 text-3xl p-4" onclick="toggleMobileMenu()">&times;</button>
-        <button onclick="showSection('home'); toggleMobileMenu()" class="text-2xl font-bold">홈</button>
-        <button onclick="showSection('about'); toggleMobileMenu()" class="text-2xl font-bold">극단소개</button>
-        <button onclick="showSection('history'); toggleMobileMenu()" class="text-2xl font-bold">공연기록</button>
-        <button onclick="showSection('current'); toggleMobileMenu()" class="text-2xl font-bold">현재공연</button>
-        <button onclick="showSection('contact'); toggleMobileMenu()" class="text-2xl font-bold">오시는 길</button>
-        <button onclick="showSection('review'); toggleMobileMenu()" class="text-2xl font-bold text-rose-600">관객 후기</button>
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[200] flex flex-col items-center justify-center gap-6 md:gap-8 hidden transition-all duration-300">
+        <button class="absolute top-6 right-6 text-3xl p-4" onclick="toggleMobileMenu()">&times;</button>
+        <button onclick="showSection('home'); toggleMobileMenu()" class="text-xl font-bold">홈</button>
+        <button onclick="showSection('about'); toggleMobileMenu()" class="text-xl font-bold">극단소개</button>
+        <button onclick="showSection('history'); toggleMobileMenu()" class="text-xl font-bold">공연기록</button>
+        <button onclick="showSection('current'); toggleMobileMenu()" class="text-xl font-bold">현재공연</button>
+        <button onclick="showSection('contact'); toggleMobileMenu()" class="text-xl font-bold">오시는 길</button>
+        <button onclick="showSection('review'); toggleMobileMenu()" class="text-xl font-bold text-rose-600">관객 후기</button>
     </div>
 
-    <main class="pt-20">
+    <main class="pt-16 md:pt-20">
         <!-- 1. Home Section -->
         <section id="home" class="section-content active">
-            <div class="relative min-h-[75vh] md:min-h-[80vh] flex flex-col justify-center overflow-hidden bg-slate-950">
+            <div class="relative min-h-[60vh] md:min-h-[80vh] flex flex-col justify-center overflow-hidden bg-slate-950">
                 <div class="absolute inset-0 z-0">
                     <img src="https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=2000" class="w-full h-full object-cover opacity-40 scale-105" alt="Stage Background">
                     <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/40 to-slate-950"></div>
                 </div>
                 
-                <div class="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-24 w-full">
-                    <div class="max-w-3xl">
-                        <span class="inline-block px-3 py-1 bg-rose-600 text-white text-xs font-bold rounded mb-6 tracking-widest shadow-lg shadow-rose-900/50">창단 49주년</span>
-                        <h1 class="text-4xl md:text-7xl font-black text-white leading-tight mb-8 keep-all">
+                <div class="relative z-10 max-w-7xl mx-auto px-6 py-12 md:py-24 w-full">
+                    <div class="max-w-3xl text-center md:text-left">
+                        <span class="inline-block px-3 py-1 bg-rose-600 text-white text-[10px] md:text-xs font-bold rounded mb-4 md:mb-6 tracking-widest shadow-lg shadow-rose-900/50">창단 49주년</span>
+                        <h1 class="text-3xl md:text-7xl font-black text-white leading-tight mb-6 md:mb-8 keep-all">
                             무대 위의 불꽃,<br><span class="text-rose-500">마산의 심장</span>을 뛰게 하다
                         </h1>
-                        <p class="text-slate-300 text-base md:text-lg mb-10 leading-relaxed max-w-xl keep-all">
+                        <p class="text-slate-300 text-sm md:text-lg mb-8 md:mb-10 leading-relaxed max-w-xl mx-auto md:mx-0 keep-all">
                             오동동 좁은 골목에서 시작된 작은 불씨가 이제 경남 연극의 거대한 빛이 되었습니다. 가장 가까운 곳에서 배우의 뜨거운 숨소리를 경험하세요.
                         </p>
-                        <div class="flex flex-wrap gap-4">
-                            <button onclick="showSection('current')" class="px-8 py-4 bg-rose-600 text-white font-bold rounded-xl btn-hover shadow-lg shadow-rose-600/20">지금 공연 예약하기</button>
-                            <button onclick="showSection('about')" class="px-8 py-4 bg-white/10 text-white font-bold rounded-xl backdrop-blur hover:bg-white/20 transition border border-white/20">극단 이야기</button>
+                        <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-3 md:gap-4">
+                            <button onclick="showSection('current')" class="px-6 md:px-8 py-3 md:py-4 bg-rose-600 text-white font-bold rounded-xl btn-hover shadow-lg shadow-rose-600/20 text-sm md:text-base">지금 공연 예약하기</button>
+                            <button onclick="showSection('about')" class="px-6 md:px-8 py-3 md:py-4 bg-white/10 text-white font-bold rounded-xl backdrop-blur hover:bg-white/20 transition border border-white/20 text-sm md:text-base">극단 이야기</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-6 relative z-20 mt-12 md:mt-20 mb-24">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-2xl border border-slate-100 btn-hover">
-                        <div class="text-rose-600 text-4xl mb-6"><i class="fa-solid fa-theater-masks"></i></div>
-                        <h3 class="text-2xl font-bold mb-3 text-slate-900">150+ 작품 상연</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed keep-all">창단 이래 쉼 없이 고전과 현대극을 넘나들며 마산 시민의 삶을 조명해왔습니다.</p>
+            <div class="max-w-7xl mx-auto px-6 relative z-20 mt-8 md:mt-20 mb-16 md:mb-24">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100 btn-hover">
+                        <div class="text-rose-600 text-3xl md:text-4xl mb-4 md:mb-6"><i class="fa-solid fa-theater-masks"></i></div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-slate-900">150+ 작품 상연</h3>
+                        <p class="text-slate-500 text-xs md:text-sm leading-relaxed keep-all">창단 이래 쉼 없이 고전과 현대극을 넘나들며 마산 시민의 삶을 조명해왔습니다.</p>
                     </div>
-                    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-2xl border border-slate-100 btn-hover">
-                        <div class="text-rose-600 text-4xl mb-6"><i class="fa-solid fa-users"></i></div>
-                        <h3 class="text-2xl font-bold mb-3 text-slate-900">가장 가까운 객석</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed keep-all">소극장 빨간객석은 무대와 객석의 물리적 거리를 좁혀 압도적인 몰입감을 선사합니다.</p>
+                    <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100 btn-hover">
+                        <div class="text-rose-600 text-3xl md:text-4xl mb-4 md:mb-6"><i class="fa-solid fa-users"></i></div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-slate-900">가장 가까운 객석</h3>
+                        <p class="text-slate-500 text-xs md:text-sm leading-relaxed keep-all">소극장 빨간객석은 무대와 객석의 물리적 거리를 좁혀 압도적인 몰입감을 선사합니다.</p>
                     </div>
-                    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-2xl border border-slate-100 btn-hover">
-                        <div class="text-rose-600 text-4xl mb-6"><i class="fa-solid fa-award"></i></div>
-                        <h3 class="text-2xl font-bold mb-3 text-slate-900">지역 연극의 역사</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed keep-all">1977년 창단 정신을 잊지 않고, 지역 문화의 자부심을 무대 위에 지켜가고 있습니다.</p>
+                    <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-xl border border-slate-100 btn-hover">
+                        <div class="text-rose-600 text-3xl md:text-4xl mb-4 md:mb-6"><i class="fa-solid fa-award"></i></div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-slate-900">지역 연극의 역사</h3>
+                        <p class="text-slate-500 text-xs md:text-sm leading-relaxed keep-all">1977년 창단 정신을 잊지 않고, 지역 문화의 자부심을 무대 위에 지켜가고 있습니다.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- 2. About Section -->
-        <section id="about" class="section-content py-20">
+        <section id="about" class="section-content py-12 md:py-20">
             <div class="max-w-5xl mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-black mb-4">어둠 속에서 피어난 불씨</h2>
-                    <p class="text-slate-500">극단 불씨촌이 걸어온 열정의 시간들</p>
-                    <div class="w-12 h-1 bg-rose-600 mx-auto mt-6"></div>
+                <div class="text-center mb-12 md:mb-16">
+                    <h2 class="text-3xl md:text-4xl font-black mb-3 md:mb-4">어둠 속에서 피어난 불씨</h2>
+                    <p class="text-slate-500 text-sm md:text-base">극단 불씨촌이 걸어온 열정의 시간들</p>
+                    <div class="w-12 h-1 bg-rose-600 mx-auto mt-4 md:mt-6"></div>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
-                    <div class="rounded-3xl overflow-hidden shadow-2xl relative group h-[350px] md:h-[450px]">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-20">
+                    <div class="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl relative group h-[250px] md:h-[450px]">
                         <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800" alt="Old Photo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                         <div class="absolute inset-0 bg-rose-900/10 mix-blend-multiply"></div>
                     </div>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-6 text-rose-600 italic">"연극은 사람을 향해야 한다"</h3>
-                        <div class="space-y-4 text-slate-600 leading-relaxed text-base md:text-lg keep-all">
+                    <div class="text-center md:text-left">
+                        <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-rose-600 italic">"연극은 사람을 향해야 한다"</h3>
+                        <div class="space-y-4 text-slate-600 leading-relaxed text-sm md:text-lg keep-all">
                             <p>1977년 마산 합포구의 작은 연습실에서 몇 명의 청년들이 모였습니다. 당시 어려운 사회 여건 속에서도 <span class="text-slate-900 font-semibold">'우리들의 이야기를 우리들의 목소리로 내보자'</span>는 열망이 불씨가 되었습니다.</p>
                             <p>불씨촌의 연극은 화려한 무대 장치보다 인물의 내면과 관객과의 교감에 집중합니다. 우리는 마산의 투박하지만 따뜻한 정서를 무대 위에 올리는 작업을 40년 넘게 지속하고 있습니다.</p>
                         </div>
@@ -166,46 +166,49 @@
         </section>
 
         <!-- 3. History Section -->
-        <section id="history" class="section-content py-20 bg-slate-50">
-            <div class="max-w-5xl mx-auto px-6">
-                <h2 class="text-3xl font-black mb-16 text-center">주요 공연 기록</h2>
+        <section id="history" class="section-content py-12 md:py-20 bg-slate-50">
+            <div class="max-w-5xl mx-auto px-4 md:px-6">
+                <h2 class="text-2xl md:text-3xl font-black mb-12 md:mb-16 text-center">주요 공연 기록</h2>
                 <div class="relative history-line">
-                    <div class="relative mb-20 flex justify-between items-center w-full">
+                    <!-- 2024 -->
+                    <div class="relative mb-12 md:mb-20 flex justify-between items-center w-full">
                         <div class="order-1 w-5/12 hidden md:block"></div>
-                        <div class="z-20 flex items-center order-1 bg-rose-600 shadow-xl w-10 h-10 rounded-full">
-                            <h1 class="mx-auto font-semibold text-lg text-white">24</h1>
+                        <div class="z-20 flex items-center order-1 bg-rose-600 shadow-xl w-8 h-8 md:w-10 md:h-10 rounded-full">
+                            <h1 class="mx-auto font-semibold text-sm md:text-lg text-white">24</h1>
                         </div>
-                        <div class="order-1 bg-white rounded-3xl shadow-xl w-full md:w-5/12 overflow-hidden border border-slate-100">
-                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=800" class="w-full h-48 object-cover" alt="Play 2024">
-                            <div class="p-6">
-                                <h3 class="mb-1 font-bold text-slate-800 text-xl">마이 리틀 프리마돈나</h3>
-                                <p class="text-sm leading-snug tracking-wide text-slate-500 italic">소극장 빨간객석 정기공연</p>
+                        <div class="order-1 bg-white rounded-2xl md:rounded-3xl shadow-lg w-[calc(100%-48px)] md:w-5/12 overflow-hidden border border-slate-100 ml-4 md:ml-0">
+                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=800" class="w-full h-32 md:h-48 object-cover" alt="Play 2024">
+                            <div class="p-4 md:p-6 text-left">
+                                <h3 class="mb-1 font-bold text-slate-800 text-base md:text-xl">마이 리틀 프리마돈나</h3>
+                                <p class="text-[10px] md:text-sm tracking-wide text-slate-500 italic">소극장 빨간객석 정기공연</p>
                             </div>
                         </div>
                     </div>
-                    <div class="relative mb-20 flex justify-between items-center w-full">
-                        <div class="order-1 bg-white rounded-3xl shadow-xl w-full md:w-5/12 overflow-hidden border border-slate-100 md:text-right">
-                            <img src="https://images.unsplash.com/photo-1521336575822-6da63fb45455?q=80&w=800" class="w-full h-48 object-cover" alt="Play 2021">
-                            <div class="p-6">
-                                <h3 class="mb-1 font-bold text-slate-800 text-xl">다녀왔습니다</h3>
-                                <p class="text-sm leading-snug tracking-wide text-slate-500 italic">빨간객석 재개관 기념작</p>
+                    <!-- 2021 -->
+                    <div class="relative mb-12 md:mb-20 flex justify-between items-center w-full">
+                        <div class="order-1 bg-white rounded-2xl md:rounded-3xl shadow-lg w-[calc(100%-48px)] md:w-5/12 overflow-hidden border border-slate-100 md:text-right ml-4 md:ml-0">
+                            <img src="https://images.unsplash.com/photo-1521336575822-6da63fb45455?q=80&w=800" class="w-full h-32 md:h-48 object-cover" alt="Play 2021">
+                            <div class="p-4 md:p-6 text-left md:text-right">
+                                <h3 class="mb-1 font-bold text-slate-800 text-base md:text-xl">다녀왔습니다</h3>
+                                <p class="text-[10px] md:text-sm tracking-wide text-slate-500 italic">빨간객석 재개관 기념작</p>
                             </div>
                         </div>
-                        <div class="z-20 flex items-center order-1 bg-slate-900 shadow-xl w-10 h-10 rounded-full">
-                            <h1 class="mx-auto font-semibold text-lg text-white">21</h1>
+                        <div class="z-20 flex items-center order-1 bg-slate-900 shadow-xl w-8 h-8 md:w-10 md:h-10 rounded-full">
+                            <h1 class="mx-auto font-semibold text-sm md:text-lg text-white">21</h1>
                         </div>
                         <div class="order-1 w-5/12 hidden md:block"></div>
                     </div>
-                    <div class="relative mb-12 flex justify-between items-center w-full">
+                    <!-- 1977 -->
+                    <div class="relative mb-8 flex justify-between items-center w-full">
                         <div class="order-1 w-5/12 hidden md:block"></div>
-                        <div class="z-20 flex items-center order-1 bg-slate-400 shadow-xl w-10 h-10 rounded-full">
-                            <h1 class="mx-auto font-semibold text-lg text-white">77</h1>
+                        <div class="z-20 flex items-center order-1 bg-slate-400 shadow-xl w-8 h-8 md:w-10 md:h-10 rounded-full">
+                            <h1 class="mx-auto font-semibold text-sm md:text-lg text-white">77</h1>
                         </div>
-                        <div class="order-1 bg-white rounded-3xl shadow-xl w-full md:w-5/12 overflow-hidden border border-slate-100">
-                            <img src="https://images.unsplash.com/photo-1516307364728-25b1ea4c9c11?q=80&w=800" class="w-full h-48 object-cover" alt="Play 1977">
-                            <div class="p-6">
-                                <h3 class="mb-1 font-bold text-slate-800 text-xl">철부지들</h3>
-                                <p class="text-sm leading-snug tracking-wide text-slate-500 italic">극단 불씨촌 창단 공연</p>
+                        <div class="order-1 bg-white rounded-2xl md:rounded-3xl shadow-lg w-[calc(100%-48px)] md:w-5/12 overflow-hidden border border-slate-100 ml-4 md:ml-0">
+                            <img src="https://images.unsplash.com/photo-1516307364728-25b1ea4c9c11?q=80&w=800" class="w-full h-32 md:h-48 object-cover" alt="Play 1977">
+                            <div class="p-4 md:p-6 text-left">
+                                <h3 class="mb-1 font-bold text-slate-800 text-base md:text-xl">철부지들</h3>
+                                <p class="text-[10px] md:text-sm tracking-wide text-slate-500 italic">극단 불씨촌 창단 공연</p>
                             </div>
                         </div>
                     </div>
@@ -214,34 +217,34 @@
         </section>
 
         <!-- 4. Current Performance -->
-        <section id="current" class="section-content py-20">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row border border-slate-100 mb-24">
-                    <div class="lg:w-1/2 relative min-h-[400px] lg:h-auto">
+        <section id="current" class="section-content py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 md:px-6">
+                <div class="bg-white rounded-3xl md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row border border-slate-100 mb-16 md:mb-24">
+                    <div class="lg:w-1/2 relative min-h-[300px] md:min-h-[400px] lg:h-auto">
                         <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?q=80&w=1000" class="w-full h-full object-cover" alt="Current Play Poster">
-                        <div class="absolute top-8 left-8 bg-rose-600 text-white px-5 py-2 rounded-full font-bold text-sm shadow-xl animate-pulse">예매 중</div>
+                        <div class="absolute top-4 left-4 md:top-8 md:left-8 bg-rose-600 text-white px-4 md:px-5 py-1.5 md:py-2 rounded-full font-bold text-[10px] md:text-sm shadow-xl animate-pulse">예매 중</div>
                     </div>
-                    <div class="lg:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-white">
-                        <span class="text-rose-600 font-black tracking-widest text-sm mb-4 uppercase">Now Playing</span>
-                        <h2 class="text-3xl md:text-5xl font-black mb-8 italic text-slate-900 leading-tight">보이체크 (Woyzeck)</h2>
-                        <div class="space-y-6 mb-12">
-                            <div class="flex items-center gap-4 group">
-                                <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-rose-500 transition-colors"><i class="fa-solid fa-calendar-days"></i></div>
+                    <div class="lg:w-1/2 p-6 md:p-16 flex flex-col justify-center bg-white">
+                        <span class="text-rose-600 font-black tracking-widest text-xs md:text-sm mb-2 md:mb-4 uppercase">Now Playing</span>
+                        <h2 class="text-2xl md:text-5xl font-black mb-6 md:mb-8 italic text-slate-900 leading-tight">보이체크 (Woyzeck)</h2>
+                        <div class="space-y-4 md:space-y-6 mb-8 md:mb-12">
+                            <div class="flex items-center gap-3 md:gap-4 group">
+                                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-rose-500 transition-colors text-sm md:text-base"><i class="fa-solid fa-calendar-days"></i></div>
                                 <div>
-                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">공연 기간</p>
-                                    <p class="font-bold">2026. 04. 03 - 05. 30</p>
+                                    <p class="text-[8px] md:text-[10px] text-slate-400 font-bold uppercase tracking-wider">공연 기간</p>
+                                    <p class="font-bold text-xs md:text-base">2026. 04. 03 - 05. 30</p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-4 group">
-                                <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-rose-500 transition-colors"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="flex items-center gap-3 md:gap-4 group">
+                                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-rose-500 transition-colors text-sm md:text-base"><i class="fa-solid fa-location-dot"></i></div>
                                 <div>
-                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">장소</p>
-                                    <p class="font-bold">소극장 빨간객석</p>
+                                    <p class="text-[8px] md:text-[10px] text-slate-400 font-bold uppercase tracking-wider">장소</p>
+                                    <p class="font-bold text-xs md:text-base">소극장 빨간객석</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="#" class="px-8 py-4 bg-[#03cf5d] text-white font-bold rounded-2xl btn-hover flex items-center gap-3 shadow-lg shadow-green-100">
+                        <div class="flex">
+                            <a href="#" class="w-full sm:w-auto text-center px-8 py-3.5 bg-[#03cf5d] text-white font-bold rounded-xl md:rounded-2xl btn-hover flex items-center justify-center gap-3 shadow-lg shadow-green-100 text-sm md:text-base">
                                 <i class="fa-solid fa-check-to-slot"></i> 네이버 예약하기
                             </a>
                         </div>
@@ -249,30 +252,30 @@
                 </div>
 
                 <div>
-                    <h3 class="text-2xl font-black mb-12 text-center uppercase tracking-tighter">
+                    <h3 class="text-xl md:text-2xl font-black mb-10 md:mb-12 text-center uppercase tracking-tighter">
                         <span class="relative">
                             Casting Board
                             <span class="absolute -bottom-2 left-0 w-full h-1 bg-rose-600 rounded-full"></span>
                         </span>
                     </h3>
                     
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                         <!-- Actor 1 -->
-                        <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
-                            <div class="relative h-64 overflow-hidden bg-slate-200">
+                        <div class="bg-white rounded-xl md:rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
+                            <div class="relative h-40 md:h-64 overflow-hidden bg-slate-200">
                                 <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Kim Tae-hyung">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                                    <p class="text-[10px] text-rose-300 font-bold">"진실된 무대를 꿈꿉니다"</p>
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2 md:p-4">
+                                    <p class="text-[8px] md:text-[10px] text-rose-300 font-bold">"진실된 무대를 꿈꿉니다"</p>
                                 </div>
                             </div>
-                            <div class="p-5">
-                                <div class="mb-3">
-                                    <span class="text-[10px] font-bold text-rose-600 uppercase tracking-widest">Woyzeck</span>
-                                    <h4 class="text-xl font-black text-slate-900">김태형</h4>
+                            <div class="p-3 md:p-5">
+                                <div class="mb-2 md:mb-3">
+                                    <span class="text-[8px] md:text-[10px] font-bold text-rose-600 uppercase tracking-widest">Woyzeck</span>
+                                    <h4 class="text-sm md:text-xl font-black text-slate-900">김태형</h4>
                                 </div>
-                                <div class="space-y-1 text-slate-500">
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
-                                    <ul class="text-[11px] space-y-0.5 leading-tight list-disc list-inside">
+                                <div class="space-y-1 text-slate-500 hidden md:block">
+                                    <p class="text-[10px] md:text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
+                                    <ul class="text-[10px] md:text-[11px] space-y-0.5 leading-tight list-disc list-inside">
                                         <li>연극 <다녀왔습니다> 주연</li>
                                         <li>마산연극제 최우수연기상</li>
                                     </ul>
@@ -280,43 +283,43 @@
                             </div>
                         </div>
                         <!-- Actor 2 -->
-                        <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
-                            <div class="relative h-64 overflow-hidden bg-slate-200">
+                        <div class="bg-white rounded-xl md:rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
+                            <div class="relative h-40 md:h-64 overflow-hidden bg-slate-200">
                                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Park So-dam">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                                    <p class="text-[10px] text-rose-300 font-bold">"마리의 아픔에 닿고 싶습니다"</p>
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2 md:p-4">
+                                    <p class="text-[8px] md:text-[10px] text-rose-300 font-bold">"마리의 아픔에 닿고 싶습니다"</p>
                                 </div>
                             </div>
-                            <div class="p-5">
-                                <div class="mb-3">
-                                    <span class="text-[10px] font-bold text-rose-600 uppercase tracking-widest">Marie</span>
-                                    <h4 class="text-xl font-black text-slate-900">박소담</h4>
+                            <div class="p-3 md:p-5">
+                                <div class="mb-2 md:mb-3">
+                                    <span class="text-[8px] md:text-[10px] font-bold text-rose-600 uppercase tracking-widest">Marie</span>
+                                    <h4 class="text-sm md:text-xl font-black text-slate-900">박소담</h4>
                                 </div>
-                                <div class="space-y-1 text-slate-500">
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
-                                    <ul class="text-[11px] space-y-0.5 leading-tight list-disc list-inside">
+                                <div class="space-y-1 text-slate-500 hidden md:block">
+                                    <p class="text-[10px] md:text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
+                                    <ul class="text-[10px] md:text-[11px] space-y-0.5 leading-tight list-disc list-inside">
                                         <li>연극 <마이 리틀 프리마돈나></li>
-                                        <li>마산 합포 예술제 신인상</li>
+                                        <li>한예종 연극원 연기과 졸업</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <!-- Actor 3 -->
-                        <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
-                            <div class="relative h-64 overflow-hidden bg-slate-200">
+                        <div class="bg-white rounded-xl md:rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
+                            <div class="relative h-40 md:h-64 overflow-hidden bg-slate-200">
                                 <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Choi Won-seok">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                                    <p class="text-[10px] text-rose-300 font-bold">"무게감 있는 무대를 선사합니다"</p>
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2 md:p-4">
+                                    <p class="text-[8px] md:text-[10px] text-rose-300 font-bold">"무게감 있는 무대를 선사합니다"</p>
                                 </div>
                             </div>
-                            <div class="p-5">
-                                <div class="mb-3">
-                                    <span class="text-[10px] font-bold text-rose-600 uppercase tracking-widest">Drum Major</span>
-                                    <h4 class="text-xl font-black text-slate-900">최원석</h4>
+                            <div class="p-3 md:p-5">
+                                <div class="mb-2 md:mb-3">
+                                    <span class="text-[8px] md:text-[10px] font-bold text-rose-600 uppercase tracking-widest">Drum Major</span>
+                                    <h4 class="text-sm md:text-xl font-black text-slate-900">최원석</h4>
                                 </div>
-                                <div class="space-y-1 text-slate-500">
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
-                                    <ul class="text-[11px] space-y-0.5 leading-tight list-disc list-inside">
+                                <div class="space-y-1 text-slate-500 hidden md:block">
+                                    <p class="text-[10px] md:text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
+                                    <ul class="text-[10px] md:text-[11px] space-y-0.5 leading-tight list-disc list-inside">
                                         <li>극단 불씨촌 상임단원 (15년)</li>
                                         <li>경남 연극인 공로상 수상</li>
                                     </ul>
@@ -324,21 +327,21 @@
                             </div>
                         </div>
                         <!-- Actor 4 -->
-                        <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
-                            <div class="relative h-64 overflow-hidden bg-slate-200">
+                        <div class="bg-white rounded-xl md:rounded-2xl shadow-lg border border-slate-100 overflow-hidden group">
+                            <div class="relative h-40 md:h-64 overflow-hidden bg-slate-200">
                                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Jung Hae-in">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                                    <p class="text-[10px] text-rose-300 font-bold">"캐릭터의 심연을 탐구합니다"</p>
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2 md:p-4">
+                                    <p class="text-[8px] md:text-[10px] text-rose-300 font-bold">"캐릭터의 심연을 탐구합니다"</p>
                                 </div>
                             </div>
-                            <div class="p-5">
-                                <div class="mb-3">
-                                    <span class="text-[10px] font-bold text-rose-600 uppercase tracking-widest">Doctor</span>
-                                    <h4 class="text-xl font-black text-slate-900">정해인</h4>
+                            <div class="p-3 md:p-5">
+                                <div class="mb-2 md:mb-3">
+                                    <span class="text-[8px] md:text-[10px] font-bold text-rose-600 uppercase tracking-widest">Doctor</span>
+                                    <h4 class="text-sm md:text-xl font-black text-slate-900">정해인</h4>
                                 </div>
-                                <div class="space-y-1 text-slate-500">
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
-                                    <ul class="text-[11px] space-y-0.5 leading-tight list-disc list-inside">
+                                <div class="space-y-1 text-slate-500 hidden md:block">
+                                    <p class="text-[10px] md:text-[11px] text-slate-400 font-bold uppercase border-b border-slate-50 pb-1 mb-1">Career</p>
+                                    <ul class="text-[10px] md:text-[11px] space-y-0.5 leading-tight list-disc list-inside">
                                         <li>독립 영화 <마산의 바다> 출연</li>
                                         <li>연극치료사 자격증 보유</li>
                                     </ul>
@@ -350,81 +353,80 @@
             </div>
         </section>
 
-        <!-- 5. Contact Section (오시는 길 독립) -->
-        <section id="contact" class="section-content py-24 bg-slate-900 text-white">
-            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16">
-                <div class="flex flex-col justify-center">
-                    <h2 class="text-4xl font-black mb-8 italic uppercase tracking-tighter">소극장 빨간객석</h2>
-                    <p class="text-slate-400 mb-10 leading-relaxed text-lg keep-all">
+        <!-- 5. Contact Section -->
+        <section id="contact" class="section-content py-16 md:py-24 bg-slate-900 text-white">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 md:gap-16">
+                <div class="flex flex-col justify-center text-center md:text-left">
+                    <h2 class="text-3xl md:text-4xl font-black mb-6 md:mb-8 italic uppercase tracking-tighter">소극장 빨간객석</h2>
+                    <p class="text-slate-400 mb-8 md:mb-10 leading-relaxed text-sm md:text-lg keep-all">
                         마산 합포구 오동동 아구찜 거리 안쪽에 위치해 있습니다.<br>
                         연극이 끝난 후, 마산의 정취가 살아있는 거리에서 남은 여운을 즐겨보세요.
                     </p>
-                    <div class="space-y-8">
+                    <div class="space-y-6 md:space-y-8 text-left">
                         <div class="flex items-start gap-4">
-                            <div class="text-rose-500 text-2xl mt-1"><i class="fa-solid fa-map-location-dot"></i></div>
+                            <div class="text-rose-500 text-xl md:text-2xl mt-1"><i class="fa-solid fa-map-location-dot"></i></div>
                             <div>
-                                <p class="font-bold text-lg mb-1">찾아오시는 길</p>
-                                <p class="text-slate-400 text-sm">창원시 마산합포구 오동동14길 62 (소극장 빨간객석)</p>
+                                <p class="font-bold text-base md:text-lg mb-1">찾아오시는 길</p>
+                                <p class="text-slate-400 text-xs md:text-sm">창원시 마산합포구 오동동14길 62 (소극장 빨간객석)</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-4">
-                            <div class="text-rose-500 text-2xl mt-1"><i class="fa-solid fa-phone-volume"></i></div>
+                            <div class="text-rose-500 text-xl md:text-2xl mt-1"><i class="fa-solid fa-phone-volume"></i></div>
                             <div>
-                                <p class="font-bold text-lg mb-1">문의 안내</p>
-                                <p class="text-slate-400 text-sm">0507-1428-8345 | 단체 관람 문의 환영</p>
+                                <p class="font-bold text-base md:text-lg mb-1">문의 안내</p>
+                                <p class="text-slate-400 text-xs md:text-sm">0507-1428-8345 | 단체 관람 문의 환영</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="h-[450px] bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 shadow-2xl relative flex flex-col items-center justify-center text-slate-500 gap-4">
-                    <i class="fa-solid fa-map-marked-alt text-6xl opacity-20 mb-2"></i>
-                    <p class="text-sm font-bold tracking-widest uppercase">Naver Map Integration</p>
-                    <button class="px-8 py-3 bg-rose-600 text-white rounded-full text-sm font-bold hover:bg-rose-700 transition shadow-lg" onclick="window.open('https://map.naver.com')">지도로 위치 확인하기</button>
+                <div class="h-[300px] md:h-[450px] bg-slate-800 rounded-2xl md:rounded-3xl overflow-hidden border border-slate-700 shadow-2xl relative flex flex-col items-center justify-center text-slate-500 gap-4">
+                    <i class="fa-solid fa-map-marked-alt text-4xl md:text-6xl opacity-20 mb-2"></i>
+                    <p class="text-[10px] md:text-sm font-bold tracking-widest uppercase">Naver Map Integration</p>
+                    <button class="px-6 md:px-8 py-2.5 md:py-3 bg-rose-600 text-white rounded-full text-xs font-bold hover:bg-rose-700 transition shadow-lg" onclick="window.open('https://map.naver.com')">지도로 위치 확인하기</button>
                 </div>
             </div>
         </section>
 
-        <!-- 6. Review Section (관객 후기 독립 및 답글 기능) -->
-        <section id="review" class="section-content py-24 bg-slate-50">
+        <!-- 6. Review Section -->
+        <section id="review" class="section-content py-16 md:py-24 bg-slate-50">
             <div class="max-w-4xl mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-black mb-4 uppercase tracking-tighter text-slate-900">관객 한마디</h2>
-                    <p class="text-slate-500">여러분의 따뜻한 후기가 배우들에게 큰 힘이 됩니다.</p>
+                <div class="text-center mb-12 md:mb-16">
+                    <h2 class="text-3xl md:text-4xl font-black mb-3 md:mb-4 uppercase tracking-tighter text-slate-900">관객 한마디</h2>
+                    <p class="text-slate-500 text-sm md:text-base">여러분의 따뜻한 후기가 배우들에게 큰 힘이 됩니다.</p>
                 </div>
 
-                <!-- 후기 작성 폼 -->
-                <div class="bg-white p-8 md:p-10 rounded-[2rem] shadow-xl border border-slate-100 mb-16">
-                    <div class="flex flex-col gap-4">
-                        <div class="flex gap-4">
-                            <input type="text" id="reviewer-name" placeholder="닉네임" class="w-32 bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:outline-none focus:border-rose-500 transition-colors text-sm">
-                            <input type="text" id="review-input" placeholder="오늘의 무대에 대한 감상을 남겨주세요." class="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-6 py-4 focus:outline-none focus:border-rose-500 transition-colors text-sm">
+                <!-- 후기 작성 폼 (모바일 대응 세로 배치) -->
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 mb-12 md:mb-16">
+                    <div class="flex flex-col gap-3 md:gap-4">
+                        <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                            <input type="text" id="reviewer-name" placeholder="닉네임" class="w-full sm:w-32 bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:outline-none focus:border-rose-500 transition-colors text-sm">
+                            <input type="text" id="review-input" placeholder="오늘의 무대에 대한 감상을 남겨주세요." class="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-6 py-3 md:py-4 focus:outline-none focus:border-rose-500 transition-colors text-sm">
                         </div>
-                        <button onclick="addReview()" class="w-full py-4 bg-rose-600 text-white font-bold rounded-xl btn-hover shadow-lg shadow-rose-600/20">후기 등록하기</button>
+                        <button onclick="addReview()" class="w-full py-3.5 md:py-4 bg-rose-600 text-white font-bold rounded-xl btn-hover shadow-lg shadow-rose-600/20 text-sm md:text-base">후기 등록하기</button>
                     </div>
                 </div>
 
                 <!-- 후기 리스트 -->
-                <div id="review-container" class="space-y-8">
-                    <!-- Reviews inserted by JS -->
+                <div id="review-container" class="space-y-6 md:space-y-8">
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-600 py-20 px-6 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
-            <div class="text-center md:text-left">
-                <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
-                    <div class="w-8 h-8 bg-slate-800 text-white flex items-center justify-center font-bold rounded">불</div>
-                    <span class="text-xl font-black text-white tracking-tighter uppercase">Theater Bulssichon</span>
+    <footer class="bg-slate-950 text-slate-600 py-12 md:py-20 px-6 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12 text-center md:text-left">
+            <div>
+                <div class="flex items-center justify-center md:justify-start gap-2 md:gap-3 mb-4 md:mb-6">
+                    <div class="w-6 h-6 md:w-8 md:h-8 bg-slate-800 text-white flex items-center justify-center font-bold rounded text-xs md:text-sm">불</div>
+                    <span class="text-base md:text-xl font-black text-white tracking-tighter uppercase">Theater Bulssichon</span>
                 </div>
-                <div class="text-xs space-y-2">
+                <div class="text-[10px] md:text-xs space-y-1.5 md:space-y-2">
                     <p>창원시 마산합포구 오동동14길 62 (소극장 빨간객석)</p>
-                    <p>© 2026 THEATER BULSSICHON. 모든 권리는 극단 불씨촌에 있습니다.</p>
+                    <p>© 2026 THEATER BULSSICHON. ALL RIGHTS RESERVED.</p>
                 </div>
             </div>
-            <div class="flex gap-8 text-2xl">
+            <div class="flex gap-6 md:gap-8 text-xl md:text-2xl">
                 <a href="#" class="hover:text-rose-500 transition-colors"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#" class="hover:text-[#03cf5d] transition-colors"><i class="fa-solid fa-square-n"></i></a>
             </div>
@@ -432,7 +434,6 @@
     </footer>
 
     <script>
-        // Section Switching Logic
         function showSection(id) {
             const sections = document.querySelectorAll('.section-content');
             sections.forEach(el => el.classList.remove('active'));
@@ -440,7 +441,6 @@
             const target = document.getElementById(id);
             if(target) target.classList.add('active');
 
-            // Nav Button Styling
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('text-rose-600');
                 if(btn.id === 'btn-' + id) {
@@ -448,7 +448,6 @@
                 }
             });
 
-            // Special handling for the "Review" button in nav
             const reviewBtn = document.getElementById('btn-review');
             if (id === 'review') {
                 reviewBtn.classList.remove('bg-slate-900');
@@ -461,7 +460,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Mobile Menu Toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             if(menu.classList.contains('hidden')) {
@@ -473,7 +471,6 @@
             }
         }
 
-        // Review System Data (With Replies)
         const reviews = [
             { 
                 id: 1, 
@@ -496,40 +493,38 @@
             if (!container) return;
             
             container.innerHTML = reviews.map((r, index) => `
-                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
-                    <div class="flex gap-4 items-start mb-6">
-                        <div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center font-bold text-white shrink-0 shadow-lg">${r.name[0]}</div>
+                <div class="bg-white rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-sm border border-slate-100">
+                    <div class="flex gap-3 md:gap-4 items-start mb-4 md:mb-6">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900 flex items-center justify-center font-bold text-white shrink-0 shadow-lg text-xs md:text-base">${r.name[0]}</div>
                         <div class="flex-1">
-                            <div class="flex justify-between items-center mb-2">
-                                <p class="text-sm font-black text-slate-900">${r.name}</p>
-                                <span class="text-[10px] text-slate-400 font-bold uppercase">2026.03.05</span>
+                            <div class="flex justify-between items-center mb-1 md:mb-2">
+                                <p class="text-xs md:text-sm font-black text-slate-900">${r.name}</p>
+                                <span class="text-[8px] md:text-[10px] text-slate-400 font-bold uppercase">2026.03.05</span>
                             </div>
-                            <p class="text-sm text-slate-600 leading-relaxed keep-all mb-4">${r.text}</p>
+                            <p class="text-xs md:text-sm text-slate-600 leading-relaxed keep-all mb-3 md:mb-4">${r.text}</p>
                             
-                            <button onclick="toggleReplyInput(${index})" class="text-[11px] font-bold text-rose-600 hover:underline flex items-center gap-1">
+                            <button onclick="toggleReplyInput(${index})" class="text-[9px] md:text-[11px] font-bold text-rose-600 hover:underline flex items-center gap-1">
                                 <i class="fa-solid fa-reply"></i> 답글 달기
                             </button>
                         </div>
                     </div>
 
-                    <!-- Replies List -->
-                    <div class="space-y-4 ml-12">
+                    <div class="space-y-3 md:space-y-4 ml-8 md:ml-12">
                         ${r.replies.map(reply => `
-                            <div class="flex gap-3 items-start bg-slate-50 p-4 rounded-2xl border-l-4 border-rose-500">
-                                <div class="w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center font-bold text-[10px] text-white shrink-0 shadow-sm"><i class="fa-solid fa-comment-dots"></i></div>
+                            <div class="flex gap-2 md:gap-3 items-start bg-slate-50 p-3 md:p-4 rounded-xl md:rounded-2xl border-l-4 border-rose-500">
+                                <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-rose-600 flex items-center justify-center font-bold text-[8px] md:text-[10px] text-white shrink-0 shadow-sm"><i class="fa-solid fa-comment-dots"></i></div>
                                 <div>
-                                    <p class="text-[11px] font-bold text-rose-600 mb-1">${reply.name}</p>
-                                    <p class="text-xs text-slate-500 leading-relaxed keep-all">${reply.text}</p>
+                                    <p class="text-[9px] md:text-[11px] font-bold text-rose-600 mb-0.5 md:mb-1">${reply.name}</p>
+                                    <p class="text-[10px] md:text-xs text-slate-500 leading-relaxed keep-all">${reply.text}</p>
                                 </div>
                             </div>
                         `).join('')}
                     </div>
 
-                    <!-- Hidden Reply Input Area -->
-                    <div id="reply-area-${index}" class="hidden mt-6 ml-12">
+                    <div id="reply-area-${index}" class="hidden mt-4 md:mt-6 ml-8 md:ml-12">
                         <div class="flex gap-2">
-                            <input type="text" id="reply-input-${index}" placeholder="답글을 입력하세요..." class="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-rose-500">
-                            <button onclick="addReply(${index})" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold whitespace-nowrap">등록</button>
+                            <input type="text" id="reply-input-${index}" placeholder="답글..." class="flex-1 bg-slate-50 border border-slate-100 rounded-lg px-3 py-1.5 text-[10px] md:text-xs focus:outline-none focus:border-rose-500">
+                            <button onclick="addReply(${index})" class="px-3 md:px-4 py-1.5 md:py-2 bg-slate-900 text-white rounded-lg text-[10px] md:text-xs font-bold whitespace-nowrap">등록</button>
                         </div>
                     </div>
                 </div>
@@ -544,31 +539,17 @@
         function addReview() {
             const nameInput = document.getElementById('reviewer-name');
             const contentInput = document.getElementById('review-input');
-            
             if(!contentInput.value.trim()) return;
-            
             const name = nameInput.value.trim() || "익명관객";
-            reviews.unshift({ 
-                id: Date.now(),
-                name: name, 
-                text: contentInput.value.trim(),
-                replies: []
-            });
-            
-            nameInput.value = "";
-            contentInput.value = "";
+            reviews.unshift({ id: Date.now(), name: name, text: contentInput.value.trim(), replies: [] });
+            nameInput.value = ""; contentInput.value = "";
             renderReviews();
         }
 
         function addReply(index) {
             const input = document.getElementById(`reply-input-${index}`);
             if(!input.value.trim()) return;
-            
-            reviews[index].replies.push({
-                name: "방문자",
-                text: input.value.trim()
-            });
-            
+            reviews[index].replies.push({ name: "관객", text: input.value.trim() });
             input.value = "";
             renderReviews();
         }

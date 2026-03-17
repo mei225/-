@@ -46,8 +46,8 @@
         <div class="max-w-[1440px] mx-auto px-4 md:px-6 h-16 md:h-20 flex justify-between items-center">
             <div class="flex items-center gap-2 md:gap-3 cursor-pointer group" onclick="showSection('home')">
                 <!-- 로고 컨테이너 -->
-                <div class="logo-container header-logo w-8 h-8 md:w-10 md:h-10 bg-rose-600 text-white flex items-center justify-center font-black rounded-lg group-hover:rotate-12 transition-transform shadow-lg text-base md:text-lg leading-none overflow-hidden">
-                    불
+                <div class="logo-container header-logo w-8 h-8 md:w-10 md:h-10 bg-transparent text-white flex items-center justify-center font-black rounded-lg group-hover:rotate-12 transition-transform shadow-lg text-base md:text-lg leading-none overflow-hidden">
+                    <img src="./logo.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-600');">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-base md:text-lg font-black tracking-tighter leading-none text-slate-900">극단불씨촌 · 소극장빨간객석</span>
@@ -507,7 +507,9 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
             <div class="text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
-                    <div class="logo-container footer-logo w-10 h-10 bg-rose-800 text-white flex items-center justify-center font-black rounded-lg text-lg shadow-lg overflow-hidden">불</div>
+                    <div class="logo-container footer-logo w-10 h-10 bg-transparent text-white flex items-center justify-center font-black rounded-lg text-lg shadow-lg overflow-hidden">
+                        <img src="./logo.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800');">
+                    </div>
                     <div class="flex flex-col text-left">
                         <span class="text-xl md:text-2xl font-black text-white tracking-tighter leading-none">극단불씨촌 · 소극장빨간객석</span>
                     </div>
@@ -746,9 +748,13 @@
             const logoSrc = state.logoImg || "./logo.png";
             
             containers.forEach(el => {
-                el.innerHTML = `<img src="${logoSrc}" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); if(this.parentElement.classList.contains('header-logo')) this.parentElement.classList.add('bg-rose-600'); if(this.parentElement.classList.contains('footer-logo')) this.parentElement.classList.add('bg-rose-800');">`;
-                el.classList.remove('bg-rose-600', 'bg-rose-800');
-                el.classList.add('bg-transparent');
+                const currentImg = el.querySelector('img');
+                // 기존 이미지가 없거나 src 속성이 새로운 로고와 다를 때만 업데이트 (깜빡임 방지)
+                if (!currentImg || currentImg.getAttribute('src') !== logoSrc) {
+                    el.innerHTML = `<img src="${logoSrc}" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); if(this.parentElement.classList.contains('header-logo')) this.parentElement.classList.add('bg-rose-600'); if(this.parentElement.classList.contains('footer-logo')) this.parentElement.classList.add('bg-rose-800');">`;
+                    el.classList.remove('bg-rose-600', 'bg-rose-800');
+                    el.classList.add('bg-transparent');
+                }
             });
         }
 

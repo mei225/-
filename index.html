@@ -517,7 +517,7 @@
             <div class="text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
                     <div class="logo-container footer-logo w-10 h-10 bg-transparent text-white flex items-center justify-center font-black rounded-lg text-lg shadow-lg overflow-hidden">
-                        <img src="./logo.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800');">
+                        <img src="./logo2.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800');">
                     </div>
                     <div class="flex flex-col text-left">
                         <span class="text-xl md:text-2xl font-black text-white tracking-tighter leading-none">극단불씨촌 · 소극장빨간객석</span>
@@ -757,7 +757,7 @@
 
         window.renderLogo = function() {
             const containers = document.querySelectorAll('.logo-container');
-            const logoSrc = state.logoImg || "./logo.png";
+            const logoSrc = state.logoImg || "./logo2.png";
             
             containers.forEach(el => {
                 const currentImg = el.querySelector('img');

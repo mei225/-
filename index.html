@@ -47,7 +47,7 @@
             <div class="flex items-center gap-2 md:gap-3 cursor-pointer group" onclick="showSection('home')">
                 <!-- 로고 컨테이너 -->
                 <div class="logo-container header-logo w-8 h-8 md:w-10 md:h-10 bg-transparent text-white flex items-center justify-center font-black rounded-lg group-hover:rotate-12 transition-transform shadow-lg text-base md:text-lg leading-none overflow-hidden">
-                    <img src="./logo2.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-600');">
+                    <img src="./logo.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-600');">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-base md:text-lg font-black tracking-tighter leading-none text-slate-900">극단불씨촌 · 소극장빨간객석</span>
@@ -75,24 +75,24 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center gap-6 hidden transition-all duration-300">
-        <button class="absolute top-6 right-6 p-4 text-4xl text-slate-800" onclick="toggleMenu()">&times;</button>
-        <button onclick="showSection('home'); toggleMenu()" class="text-xl md:text-2xl font-bold">HOME</button>
-        <button onclick="showSection('about'); toggleMenu()" class="text-xl md:text-2xl font-bold">극단소개</button>
-        <button onclick="showSection('theater'); toggleMenu()" class="text-xl md:text-2xl font-bold">소극장 빨간객석 소개</button>
-        <button onclick="showSection('current'); toggleMenu()" class="text-xl md:text-2xl font-bold text-rose-600">현재공연</button>
-        <button onclick="showSection('history'); toggleMenu()" class="text-xl md:text-2xl font-bold">공연아카이브</button>
-        <button onclick="showSection('press'); toggleMenu()" class="text-xl md:text-2xl font-bold">언론보도</button>
-        <button onclick="showSection('review'); toggleMenu()" class="text-xl md:text-2xl font-bold text-rose-600">관람후기</button>
-        <button onclick="showSection('contact'); toggleMenu()" class="text-xl md:text-2xl font-bold">오시는 길</button>
+        <!-- Mobile Menu Overlay -->
         <button onclick="showSection('member'); toggleMenu()" class="text-xl md:text-2xl font-bold">관극회원</button>
         
         <!-- Mobile SNS Links -->
-        <div class="flex gap-8 text-2xl text-slate-300 mt-8 border-t border-slate-100 pt-8 w-1/2 justify-center">
-            <a href="#" class="hover:text-rose-500 transition-all hover:scale-110" title="인스타그램"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://blog.naver.com" target="_blank" class="hover:text-[#03cf5d] transition-all hover:scale-110 flex items-center justify-center" title="네이버 블로그">
-                <svg viewBox="0 0 24 24" fill="currentColor" class="w-[0.85em] h-[0.85em]"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 0h14c2.761 0 5 2.239 5 5v14c0 2.761-2.239 5-5 5H5c-2.761 0-5-2.239-5-5V5c0-2.761 2.239-5 5-5zm1.5 6.5v11h3.4v-5.7l3.7 5.7h3.4v-11h-3.4v5.7l-3.7-5.7h-3.4z"/></svg>
+        <div class="flex flex-wrap gap-6 text-2xl text-slate-300 mt-8 border-t border-slate-100 pt-8 w-3/4 justify-center">
+            <a href="https://www.instagram.com/bulcci_chon/" target="_blank" class="hover:text-rose-500 transition-all hover:scale-110 flex flex-col items-center gap-1" title="극단 불씨촌 인스타그램">
+                <i class="fa-brands fa-instagram"></i><span class="text-[10px] font-bold">불씨촌</span>
             </a>
-            <a href="#" class="hover:text-red-600 transition-all hover:scale-110" title="유튜브"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.instagram.com/red_theater_/" target="_blank" class="hover:text-rose-500 transition-all hover:scale-110 flex flex-col items-center gap-1" title="소극장 빨간객석 인스타그램">
+                <i class="fa-brands fa-instagram"></i><span class="text-[10px] font-bold">빨간객석</span>
+            </a>
+            <a href="https://blog.naver.com" target="_blank" class="hover:text-[#03cf5d] transition-all hover:scale-110 flex flex-col items-center gap-1" title="네이버 블로그">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-[0.85em] h-[0.85em]"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 0h14c2.761 0 5 2.239 5 5v14c0 2.761-2.239 5-5 5H5c-2.761 0-5-2.239-5-5V5c0-2.761 2.239-5 5-5zm1.5 6.5v11h3.4v-5.7l3.7 5.7h3.4v-11h-3.4v5.7l-3.7-5.7h-3.4z"/></svg>
+                <span class="text-[10px] font-bold">블로그</span>
+            </a>
+            <a href="#" class="hover:text-red-600 transition-all hover:scale-110 flex flex-col items-center gap-1" title="유튜브">
+                <i class="fa-brands fa-youtube"></i><span class="text-[10px] font-bold">유튜브</span>
+            </a>
         </div>
     </div>
 
@@ -110,7 +110,7 @@
                         <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8 keep-all tracking-tighter"><span id="hero-title">다녀왔습니다</span><br/><span id="hero-subtitle" class="text-rose-500 text-2xl md:text-4xl block mt-4 font-bold opacity-90">돌아갈 수 없는 시간을 다시 만나는 이야기</span></h1>
                         <p id="hero-desc" class="text-slate-300 text-base md:text-xl mb-12 leading-relaxed max-w-2xl mx-auto md:mx-0 keep-all">1977년 마산에서 시작된 연극의 불씨가 50년의 시간이 되어 무대 위에서 타오릅니다.</p>
                         <div class="flex flex-wrap justify-center md:justify-start gap-4">
-                            <button onclick="showSection('current')" class="px-8 md:px-10 py-4 md:py-5 bg-rose-600 text-white font-black rounded-2xl shadow-xl hover:bg-rose-700 transition-all btn-hover text-sm md:text-base tracking-widest uppercase">현재 공연 보기</button>
+                            <button onclick="showSection('current')" class="px-8 md:px-10 py-4 md:py-5 bg-rose-600 text-white font-black rounded-2xl shadow-xl hover:bg-rose-700 transition-all btn-hover text-sm md:text-base tracking-widest uppercase">Reserve Now</button>
                             <button onclick="showSection('about')" class="px-8 md:px-10 py-4 md:py-5 bg-white/10 text-white font-black rounded-2xl backdrop-blur border border-white/20 hover:bg-white/20 transition-all btn-hover text-sm md:text-base tracking-widest uppercase">Our Story</button>
                         </div>
                     </div>
@@ -304,7 +304,7 @@
                     <p class="flex items-start gap-3"><i class="fa-solid fa-check text-rose-600 mt-1.5"></i> <span>공연 일정 및 이벤트 소식 우선 안내</span></p>
                     <p class="flex items-start gap-3"><i class="fa-solid fa-check text-rose-600 mt-1.5"></i> <span>동반인 할인 혜택 제공</span></p>
                 </div>
-                <button onclick="window.open('https://form.naver.com')" class="px-8 md:px-10 py-4 bg-slate-900 text-white font-bold rounded-2xl shadow-lg btn-hover w-full sm:w-auto text-lg">관극회원 가입하기</button>
+                <button onclick="window.open('https://naver.me/FnsLVu3B')" class="px-8 md:px-10 py-4 bg-slate-900 text-white font-bold rounded-2xl shadow-lg btn-hover w-full sm:w-auto text-lg">관극회원 가입하기</button>
             </div>
         </section>
     </main>
@@ -517,7 +517,7 @@
             <div class="text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
                     <div class="logo-container footer-logo w-10 h-10 bg-transparent text-white flex items-center justify-center font-black rounded-lg text-lg shadow-lg overflow-hidden">
-                        <img src="./logo2.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800');">
+                        <img src="./logo.png" class="w-full h-full object-contain" alt="Logo" onerror="this.onerror=null; this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800');">
                     </div>
                     <div class="flex flex-col text-left">
                         <span class="text-xl md:text-2xl font-black text-white tracking-tighter leading-none">극단불씨촌 · 소극장빨간객석</span>
@@ -531,12 +531,20 @@
                     </button>
                 </div>
             </div>
-            <div class="flex gap-8 md:gap-10 text-3xl md:text-4xl">
-                <a href="#" class="hover:text-rose-500 transition-all hover:-translate-y-1"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://blog.naver.com" target="_blank" class="hover:text-[#03cf5d] transition-all hover:-translate-y-1 flex items-center justify-center" title="네이버 블로그">
-                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-[0.85em] h-[0.85em]"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 0h14c2.761 0 5 2.239 5 5v14c0 2.761-2.239 5-5 5H5c-2.761 0-5-2.239-5-5V5c0-2.761 2.239-5 5-5zm1.5 6.5v11h3.4v-5.7l3.7 5.7h3.4v-11h-3.4v5.7l-3.7-5.7h-3.4z"/></svg>
+            <div class="flex flex-wrap gap-6 md:gap-8 text-3xl md:text-4xl justify-center md:justify-end mt-8 md:mt-0">
+                <a href="https://www.instagram.com/bulcci_chon/" target="_blank" class="hover:text-rose-500 transition-all hover:-translate-y-1 flex flex-col items-center gap-1" title="극단 불씨촌 인스타그램">
+                    <i class="fa-brands fa-instagram"></i><span class="text-[10px] font-bold">불씨촌</span>
                 </a>
-                <a href="#" class="hover:text-rose-500 transition-all hover:-translate-y-1"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.instagram.com/red_theater_/" target="_blank" class="hover:text-rose-500 transition-all hover:-translate-y-1 flex flex-col items-center gap-1" title="소극장 빨간객석 인스타그램">
+                    <i class="fa-brands fa-instagram"></i><span class="text-[10px] font-bold">빨간객석</span>
+                </a>
+                <a href="https://blog.naver.com" target="_blank" class="hover:text-[#03cf5d] transition-all hover:-translate-y-1 flex flex-col items-center gap-1" title="네이버 블로그">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-[0.85em] h-[0.85em]"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 0h14c2.761 0 5 2.239 5 5v14c0 2.761-2.239 5-5 5H5c-2.761 0-5-2.239-5-5V5c0-2.761 2.239-5 5-5zm1.5 6.5v11h3.4v-5.7l3.7 5.7h3.4v-11h-3.4v5.7l-3.7-5.7h-3.4z"/></svg>
+                    <span class="text-[10px] font-bold">블로그</span>
+                </a>
+                <a href="#" class="hover:text-rose-500 transition-all hover:-translate-y-1 flex flex-col items-center gap-1" title="유튜브">
+                    <i class="fa-brands fa-youtube"></i><span class="text-[10px] font-bold">유튜브</span>
+                </a>
             </div>
         </div>
     </footer>
@@ -757,7 +765,7 @@
 
         window.renderLogo = function() {
             const containers = document.querySelectorAll('.logo-container');
-            const logoSrc = state.logoImg || "./logo2.png";
+            const logoSrc = state.logoImg || "./logo.png";
             
             containers.forEach(el => {
                 const currentImg = el.querySelector('img');
@@ -1157,7 +1165,11 @@
                 <div class="flex gap-2 items-center mb-1">
                     <span class="text-xs w-16 font-bold text-slate-600">${t.role}</span>
                     <span class="text-sm flex-1">${t.name}</span>
-                    <button onclick="delAdminTeam(${i})" class="text-rose-500 text-sm p-1"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="moveAdminTeam(${i}, -1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === 0 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-up"></i></button>
+                        <button onclick="moveAdminTeam(${i}, 1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === state.current.creativeTeam.length - 1 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-down"></i></button>
+                        <button onclick="delAdminTeam(${i})" class="text-rose-500 text-sm p-1 ml-1"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
                 </div>
             `).join('');
 
@@ -1166,7 +1178,11 @@
                 <div class="flex gap-2 items-center mb-1 border-b border-slate-100 pb-2">
                     <span class="text-xs flex-1 truncate">${d.name}</span>
                     <span class="text-sm font-bold text-rose-600">${d.price}</span>
-                    <button onclick="delAdminDc(${i})" class="text-rose-500 text-sm p-1"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="moveAdminDc(${i}, -1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === 0 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-up"></i></button>
+                        <button onclick="moveAdminDc(${i}, 1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === state.current.discounts.length - 1 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-down"></i></button>
+                        <button onclick="delAdminDc(${i})" class="text-rose-500 text-sm p-1 ml-1"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
                 </div>
             `).join('');
 
@@ -1275,6 +1291,15 @@
             if(r && n) { state.current.creativeTeam.push({role:r, name:n}); window.renderAdminTabs(); }
         }
         window.delAdminTeam = function(idx) { state.current.creativeTeam.splice(idx, 1); window.renderAdminTabs(); }
+        window.moveAdminTeam = function(idx, dir) {
+            const arr = state.current.creativeTeam;
+            if (dir === -1 && idx > 0) {
+                [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+            } else if (dir === 1 && idx < arr.length - 1) {
+                [arr[idx + 1], arr[idx]] = [arr[idx], arr[idx + 1]];
+            }
+            window.renderAdminTabs();
+        }
         
         window.addAdminDc = function() {
             const n = document.getElementById('admin-add-dc-name').value;
@@ -1282,6 +1307,15 @@
             if(n && p) { state.current.discounts.push({name:n, price:p}); window.renderAdminTabs(); }
         }
         window.delAdminDc = function(idx) { state.current.discounts.splice(idx, 1); window.renderAdminTabs(); }
+        window.moveAdminDc = function(idx, dir) {
+            const arr = state.current.discounts;
+            if (dir === -1 && idx > 0) {
+                [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+            } else if (dir === 1 && idx < arr.length - 1) {
+                [arr[idx + 1], arr[idx]] = [arr[idx], arr[idx + 1]];
+            }
+            window.renderAdminTabs();
+        }
 
         window.addAdminActor = function() {
             const role = document.getElementById('admin-add-act-role').value;

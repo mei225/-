@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>극단불씨촌 · 소극장빨간객석</title>
+    
+    <!-- 브라우저 탭 아이콘 (파비콘) -->
+    <link rel="icon" href="./logo.jpg">
+    <link rel="apple-touch-icon" href="./logo.jpg">
+
     <meta name="description" content="배우와 관객이 가장 가까이 만나는 연극의 중심. 창원 마산 합포구 오동동에 위치한 극단 불씨촌 전용 소극장 빨간객석입니다. 공연 예매, 극단 소개, 아카이브 제공.">
     <meta name="keywords" content="극단불씨촌, 소극장빨간객석, 마산연극, 창원연극, 경남연극, 오동동가볼만한곳, 마산소극장, 창원소극장, 연극예매">
     <meta name="author" content="극단 불씨촌">
@@ -24,7 +29,21 @@
     
     <style>
         :root { --primary: #0f172a; --accent: #e11d48; }
-        body { font-family: 'Pretendard', sans-serif; scroll-behavior: smooth; background-color: #f8fafc; color: #0f172a; word-break: keep-all; overflow-wrap: break-word; }
+        
+        body { 
+            font-family: 'Pretendard', sans-serif; 
+            scroll-behavior: smooth; 
+            background-color: #f8fafc; 
+            color: #0f172a; 
+            /* 모바일 한글 줄바꿈 최적화 코어 설정 */
+            word-break: keep-all; /* 단어 중간에서 찢어지는 현상 방지 */
+            overflow-wrap: break-word; /* 영어나 URL이 너무 길면 강제 줄바꿈 */
+        }
+        
+        /* 최신 타이포그래피 최적화: 제목 라인 길이를 시각적으로 균형있게 맞춰줌 */
+        h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+        /* 본문에서 단어 하나만 외롭게 다음 줄로 떨어지는 현상 방지 */
+        p { text-wrap: pretty; }
         
         /* 글로벌 로딩 스크린 */
         #global-loader {
@@ -81,7 +100,7 @@
         <div class="max-w-[1440px] mx-auto px-4 md:px-6 h-16 md:h-20 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer group" onclick="showSection('home')">
                 <div class="logo-container header-logo w-24 md:w-36 h-10 md:h-12 bg-transparent text-white flex items-center justify-center font-black rounded-lg group-hover:scale-105 transition-transform text-base md:text-lg leading-none overflow-hidden">
-                    <img src="./logo.png" class="w-full h-full object-contain" alt="극단 불씨촌 로고" onerror="this.onerror=null; this.src='./logo.jpg'; this.onerror=function(){ this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-600'); this.parentElement.classList.add('w-10'); this.parentElement.classList.add('h-10'); }">
+                    <img src="./logo.png" class="w-full h-full object-contain" alt="극단 불씨촌 로고" fetchpriority="high" onerror="this.onerror=null; this.src='./logo.jpg'; this.onerror=function(){ this.parentElement.innerHTML='불'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-600'); this.parentElement.classList.add('w-10'); this.parentElement.classList.add('h-10'); }">
                 </div>
                 <div class="flex flex-col hidden sm:flex">
                     <span class="text-base md:text-lg font-black tracking-tighter leading-none text-slate-900">극단불씨촌 · 소극장빨간객석</span>
@@ -140,13 +159,20 @@
         
         <section id="home" class="section-content active">
             <div class="relative min-h-[80vh] md:min-h-[90vh] flex items-center overflow-hidden bg-slate-950">
-                <img id="hero-bg-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105" alt="Stage Photo">
+                <img id="hero-bg-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105" alt="Stage Photo" fetchpriority="high">
                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent"></div>
                 <div class="relative z-10 max-w-[1200px] mx-auto px-6 w-full pb-10 md:pb-32">
                     <div class="max-w-4xl text-center md:text-left">
                         <span id="hero-tag" class="inline-block px-4 py-1.5 bg-rose-600 text-white text-xs md:text-sm font-bold rounded-lg mb-6 tracking-widest uppercase shadow-xl">극단 불씨촌 창단 50주년 기념 공연</span>
-                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8 keep-all tracking-tighter"><span id="hero-title">다녀왔습니다</span><br/><span id="hero-subtitle" class="text-rose-500 text-2xl md:text-4xl block mt-4 font-bold opacity-90">돌아갈 수 없는 시간을 다시 만나는 이야기</span></h1>
-                        <p id="hero-desc" class="text-slate-300 text-base md:text-xl mb-12 leading-relaxed max-w-2xl mx-auto md:mx-0 keep-all">1977년 마산에서 시작된 연극의 불씨가 50년의 시간이 되어 무대 위에서 타오릅니다.</p>
+                        
+                        <!-- 불필요한 <br/> 태그 제거, CSS 디스플레이 속성으로 모바일/PC 줄바꿈을 완벽히 호환되게 최적화 -->
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8 tracking-tighter">
+                            <span id="hero-title">다녀왔습니다</span>
+                            <span id="hero-subtitle" class="text-rose-500 text-2xl md:text-4xl block mt-4 md:mt-6 font-bold opacity-90">돌아갈 수 없는 시간을 다시 만나는 이야기</span>
+                        </h1>
+
+                        <p id="hero-desc" class="text-slate-300 text-base md:text-xl mb-12 leading-relaxed max-w-2xl mx-auto md:mx-0">1977년 마산에서 시작된 연극의 불씨가 50년의 시간이 되어 무대 위에서 타오릅니다.</p>
+                        
                         <div class="flex flex-wrap justify-center md:justify-start gap-4">
                             <button onclick="showSection('current')" class="px-8 md:px-10 py-4 md:py-5 bg-rose-600 text-white font-black rounded-2xl shadow-xl hover:bg-rose-700 transition-all btn-hover text-sm md:text-base tracking-widest uppercase">현재 공연</button>
                             <button onclick="showSection('about')" class="px-8 md:px-10 py-4 md:py-5 bg-white/10 text-white font-black rounded-2xl backdrop-blur border border-white/20 hover:bg-white/20 transition-all btn-hover text-sm md:text-base tracking-widest uppercase">극단 소개</button>
@@ -165,7 +191,7 @@
                 </div>
                 <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
                     <div class="rounded-[2.5rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] border-[12px] border-white relative">
-                        <img src="./story.png" class="w-full h-full object-cover" alt="History Photo">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800" class="w-full h-full object-cover" alt="History Photo" loading="lazy" decoding="async">
                         <div class="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur text-white p-4 rounded-xl border border-slate-700">
                             <p class="text-[10px] text-rose-400 font-bold uppercase mb-1 tracking-widest">Established</p>
                             <p class="text-3xl font-black">1977</p>
@@ -175,8 +201,11 @@
                         <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full shadow-lg">
                             <i class="fa-solid fa-award text-rose-500"></i> 경상남도 전문예술단체 지정 (2025)
                         </div>
-                        <h3 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight keep-all">마산의 삶과 현실을 담은<br/>창작 연극의 궤적</h3>
-                        <div class="text-slate-600 leading-loose space-y-4 md:space-y-6 text-base md:text-lg keep-all">
+                        
+                        <!-- 모바일에서는 글자 길이에 맞춰 자연스럽게, PC에서는 원래 의도대로 강제 꺾기 -->
+                        <h3 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight">마산의 삶과 현실을 담은 <br class="hidden sm:block"/>창작 연극의 궤적</h3>
+                        
+                        <div class="text-slate-600 leading-loose space-y-4 md:space-y-6 text-base md:text-lg">
                             <p>극단 불씨촌은 1977년 마산에서 창단된 지역 기반 전문 연극단체입니다. 불씨극회로 출발하여 동인극 운동의 정신으로 지역 사회의 삶을 무대 위에 올렸습니다.</p>
                             <p>창단 이후 60여 편 이상의 작품을 제작·공연해왔으며, 2021년 전용 공연장 <strong>‘소극장 빨간객석’</strong>을 개관하여 장기 공연 시스템을 마련했습니다.</p>
                             <p>연극 제작을 넘어 시민 참여 활동을 전개하며, 2025년 전문예술단체 지정을 발판으로 지역 문화 생태계의 중심 역할을 수행하고 있습니다.</p>
@@ -195,8 +224,11 @@
                 </div>
                 <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
                     <div class="space-y-6 md:order-1 order-2">
-                        <h3 class="text-3xl md:text-4xl font-black text-white leading-tight keep-all">배우와 관객이 가장 가까이 만나는<br/><span class="text-rose-500">살아있는 연극의 중심</span></h3>
-                        <div class="text-slate-400 leading-relaxed space-y-4 md:space-y-5 text-base md:text-lg keep-all">
+                        
+                        <!-- 강제 줄바꿈을 데스크탑(sm) 이상에서만 적용하도록 변경 -->
+                        <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">배우와 관객이 가장 가까이 만나는 <br class="hidden sm:block"/><span class="text-rose-500 block sm:inline mt-2 sm:mt-0">살아있는 연극의 중심</span></h3>
+                        
+                        <div class="text-slate-400 leading-relaxed space-y-4 md:space-y-5 text-base md:text-lg">
                             <p>소극장 빨간객석은 극단 불씨촌의 전용 공연장으로, 생생한 현장성을 관객에게 전달하기 위해 오동동 아구찜 거리 내에 마련된 창작 공간입니다.</p>
                             <p>정기 공연, 창작극, 번역극 등 다양한 형태의 실험이 이루어지며, 관객과 배우가 가장 가까운 거리에서 호흡하는 독창적인 문화를 만들어가고 있습니다.</p>
                         </div>
@@ -213,10 +245,10 @@
                     </div>
                     <div class="md:order-2 order-1 grid grid-cols-2 gap-3 md:gap-4">
                         <div class="rounded-3xl overflow-hidden shadow-2xl h-[250px] md:h-[400px]">
-                            <img src="https://images.unsplash.com/photo-1516307364728-25b1ea4c9c11?q=80&w=800" class="w-full h-full object-cover" alt="Stage">
+                            <img src="https://images.unsplash.com/photo-1516307364728-25b1ea4c9c11?q=80&w=800" class="w-full h-full object-cover" alt="Stage" loading="lazy" decoding="async">
                         </div>
                         <div class="rounded-3xl overflow-hidden shadow-2xl h-[250px] md:h-[400px] mt-8 md:mt-12">
-                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=800" class="w-full h-full object-cover opacity-80" alt="Seats">
+                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=800" class="w-full h-full object-cover opacity-80" alt="Seats" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -303,7 +335,7 @@
                             <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-slate-700 flex items-center justify-center text-rose-500 shrink-0 text-xl"><i class="fa-solid fa-map-location-dot"></i></div>
                             <div>
                                 <p class="font-bold text-xl md:text-2xl mb-2">소극장 빨간객석</p>
-                                <p class="text-slate-400 text-base leading-relaxed keep-all">경남 창원시 마산합포구 오동동14길 62 (오동동 아구찜 거리 내)</p>
+                                <p class="text-slate-400 text-base leading-relaxed">경남 창원시 마산합포구 오동동14길 62 (오동동 아구찜 거리 내)</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-4">
@@ -326,7 +358,7 @@
             <div class="max-w-2xl mx-auto bg-white text-slate-900 p-10 md:p-16 rounded-[3rem] shadow-2xl mx-6 md:mx-auto">
                 <i class="fa-solid fa-id-card text-rose-600 text-5xl md:text-6xl mb-6 md:mb-8"></i>
                 <h3 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">빨간객석 관극회원 혜택</h3>
-                <div class="text-slate-600 leading-loose mb-10 text-left space-y-4 px-2 md:px-6 text-base md:text-lg keep-all">
+                <div class="text-slate-600 leading-loose mb-10 text-left space-y-4 px-2 md:px-6 text-base md:text-lg">
                     <p class="flex items-start gap-3"><i class="fa-solid fa-check text-rose-600 mt-1.5"></i> <span>모든 정기공연 할인 (정가 대비 약 40% 할인)</span></p>
                     <p class="flex items-start gap-3"><i class="fa-solid fa-check text-rose-600 mt-1.5"></i> <span>공연 일정 및 이벤트 소식 우선 안내</span></p>
                     <p class="flex items-start gap-3"><i class="fa-solid fa-check text-rose-600 mt-1.5"></i> <span>동반인 할인 혜택 제공</span></p>
@@ -338,7 +370,7 @@
 
     <div id="poster-modal" class="fixed inset-0 z-[600] bg-black/90 hidden items-center justify-center p-4 cursor-pointer" onclick="closePosterModal()">
         <i class="fa-solid fa-spinner fa-spin text-white/30 text-5xl absolute z-0"></i>
-        <img id="poster-modal-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl relative z-10 opacity-0 transition-opacity duration-500" alt="Poster Full View" onload="this.classList.remove('opacity-0')">
+        <img id="poster-modal-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl relative z-10 opacity-0 transition-opacity duration-500" alt="Poster Full View" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
         <button class="absolute top-6 right-6 md:top-10 md:right-10 z-30 text-white text-4xl hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
@@ -353,7 +385,7 @@
             <div class="flex flex-col md:flex-row overflow-y-auto custom-scroll h-full w-full relative">
                 <div class="w-full md:w-2/5 h-[350px] sm:h-[400px] md:h-auto md:min-h-[450px] relative bg-slate-100 shrink-0 flex items-center justify-center">
                     <i class="fa-solid fa-spinner fa-spin text-slate-300 text-4xl absolute z-0"></i>
-                    <img id="modal-actor-img" src="" class="w-full h-full object-cover object-top relative z-10 opacity-0 transition-opacity duration-500" alt="Actor" onload="this.classList.remove('opacity-0')">
+                    <img id="modal-actor-img" src="" class="w-full h-full object-cover object-top relative z-10 opacity-0 transition-opacity duration-500" alt="Actor" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                 </div>
                 <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center shrink-0">
                     <span id="modal-actor-role" class="text-rose-600 font-black text-xs uppercase tracking-widest mb-3 border border-rose-200 px-3 py-1.5 rounded-full w-fit bg-rose-50"></span>
@@ -361,12 +393,12 @@
                     
                     <div class="relative mb-5 pb-5 border-b border-slate-100">
                         <i class="fa-solid fa-quote-left text-rose-100 text-2xl absolute -top-3 -left-3 z-0"></i>
-                        <p id="modal-actor-desc" class="text-base md:text-lg text-slate-700 font-bold relative z-10 keep-all indent-3 leading-relaxed"></p>
+                        <p id="modal-actor-desc" class="text-base md:text-lg text-slate-700 font-bold relative z-10 indent-3 leading-relaxed"></p>
                     </div>
                     
                     <div class="space-y-2">
                         <p class="text-xs font-black text-slate-400 uppercase tracking-widest bg-slate-50 inline-block px-2 py-1 rounded">Career</p>
-                        <p id="modal-actor-career" class="text-sm md:text-base text-slate-600 leading-relaxed font-medium keep-all whitespace-pre-wrap"></p>
+                        <p id="modal-actor-career" class="text-sm md:text-base text-slate-600 leading-relaxed font-medium whitespace-pre-wrap"></p>
                     </div>
                 </div>
             </div>
@@ -545,7 +577,7 @@
             <div class="text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
                     <div class="logo-container footer-logo w-24 md:w-36 h-10 md:h-12 bg-transparent text-white flex items-center justify-center font-black rounded-lg text-lg shadow-lg overflow-hidden border border-slate-800 bg-slate-900">
-                        <img src="./logo.png" class="w-full h-full object-contain" alt="극단 불씨촌 로고" onerror="this.onerror=null; this.src='./logo.jpg'; this.onerror=function(){ this.parentElement.innerHTML='극단불씨촌'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800'); this.parentElement.classList.add('text-sm'); }">
+                        <img src="./logo.png" class="w-full h-full object-contain" alt="극단 불씨촌 로고" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='./logo.jpg'; this.onerror=function(){ this.parentElement.innerHTML='극단불씨촌'; this.parentElement.classList.remove('bg-transparent'); this.parentElement.classList.add('bg-rose-800'); this.parentElement.classList.add('text-sm'); }">
                     </div>
                     <div class="flex flex-col text-left hidden sm:flex">
                         <span class="text-xl md:text-2xl font-black text-white tracking-tighter leading-none">극단불씨촌 · 소극장빨간객석</span>
@@ -610,7 +642,6 @@
             console.error("Firebase 초기화 에러 (메모리 모드로 동작):", e);
         }
 
-        // --- 1. Global State ---
         const state = {
             isPreparing: false,
             hero: {
@@ -844,7 +875,7 @@
                             <div class="cursor-pointer group flex items-center gap-4 bg-white p-3 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all w-52 sm:w-64" onclick="window.openActorModal('${a.id}')">
                                 <div class="w-14 h-14 rounded-full shrink-0 relative bg-slate-100 flex items-center justify-center overflow-hidden">
                                     <i class="fa-solid fa-user text-slate-300 absolute z-0 text-xl"></i>
-                                    <img src="${a.img}" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500" alt="${a.name}" onload="this.classList.remove('opacity-0')">
+                                    <img src="${a.img}" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500" alt="${a.name}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                                 </div>
                                 <div class="text-left flex-1 min-w-0">
                                     <p class="font-bold text-slate-900 text-base sm:text-lg truncate">${a.name}</p>
@@ -860,7 +891,7 @@
                 <div class="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row border border-slate-100 mb-16 md:mb-20">
                     <div class="md:w-[40%] bg-slate-50 p-6 md:p-8 flex items-center justify-center relative min-h-[300px]">
                         <i class="fa-solid fa-spinner fa-spin text-slate-300 text-4xl absolute z-0"></i>
-                        <img id="curr-img" src="${c.img}" class="w-full max-w-[300px] md:max-w-none h-auto object-cover rounded-xl md:rounded-2xl shadow-lg cursor-pointer transition-all hover:scale-[1.02] relative z-10 opacity-0 duration-500" alt="Poster" onclick="window.openPosterModal('${c.img}')" onload="this.classList.remove('opacity-0')">
+                        <img id="curr-img" src="${c.img}" class="w-full max-w-[300px] md:max-w-none h-auto object-cover rounded-xl md:rounded-2xl shadow-lg cursor-pointer transition-all hover:scale-[1.02] relative z-10 opacity-0 duration-500" alt="Poster" onclick="window.openPosterModal('${c.img}')" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                     </div>
                     <div class="md:w-[60%] p-8 md:p-12 lg:p-16 flex flex-col">
                         <div class="mb-8">
@@ -909,7 +940,7 @@
 
                 <div class="bg-white rounded-[2rem] p-8 md:p-12 shadow-sm border border-slate-100 mb-8">
                     <h3 class="text-xl md:text-2xl font-black mb-6 text-slate-900 border-b-2 border-rose-600 inline-block pb-2">SYNOPSIS</h3>
-                    <div class="space-y-4 text-slate-600 leading-loose text-sm md:text-base keep-all">
+                    <div class="space-y-4 text-slate-600 leading-loose text-sm md:text-base">
                         <p>1980년대 후반의 어느 봄날, 세 딸과 부모가 함께 사는 한 가정집. 아버지는 퇴근길에 귤을 사 오고, 어머니는 부엌에서 밥을 준비하며, 세 딸은 각자의 일상 속에서 하루를 보낸다. 저녁이 되면 한 식탁에 둘러앉아 하루를 나눈다. 집에 돌아오며 건네는 <strong>“다녀왔습니다”</strong>라는 인사는 가족을 이어주는 평범하지만 소중한 말이다.</p>
                         <p>엄마의 나이가 된 소희는 문득 어린 시절을 떠올린다. 이제는 모두 세상을 떠나고 혼자 남겨진 소희에게 어린 시절의 기억은 더욱 선명해진다. 작가의 안내와 함께 소희는 과거의 어느 날 아침으로 돌아간다.</p>
                         <p class="font-bold text-slate-900 bg-rose-50 p-6 rounded-xl border-l-4 border-rose-500 italic mt-4">평범한 일상의 순간들은 지나간 뒤에야 비로소 의미를 드러내며, 작품은 그 늦은 이해의 과정을 무대 위에서 조용히 펼쳐 보인다.</p>
@@ -984,7 +1015,7 @@
                         ${item.img ? `
                         <div class="w-1/3 h-full relative bg-slate-100 flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-image text-slate-300 absolute z-0 text-2xl"></i>
-                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${item.title}" onload="this.classList.remove('opacity-0')">
+                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${item.title}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                         </div>
                         ` : '<div class="w-4 md:w-6 h-full bg-rose-500 shrink-0"></div>'}
                         <div class="p-4 md:p-6 flex-1">
@@ -1001,7 +1032,7 @@
             document.getElementById('press-list').innerHTML = state.press.sort((a,b) => b.id - a.id).map((p, i) => `
                 <div class="flex items-center p-4 md:p-5 hover:bg-slate-50 transition-colors group cursor-pointer border-b border-slate-50" onclick="window.open('${p.link}')">
                     <div class="w-10 md:w-16 text-center text-xs font-bold text-slate-400">${i+1}</div>
-                    <div class="flex-1 px-2 md:px-4 text-sm md:text-base font-bold text-slate-700 group-hover:text-rose-600 transition-colors truncate keep-all">${p.title}</div>
+                    <div class="flex-1 px-2 md:px-4 text-sm md:text-base font-bold text-slate-700 group-hover:text-rose-600 transition-colors truncate">${p.title}</div>
                     <div class="w-16 md:w-24 text-center text-xs text-slate-500 font-medium">${p.media}</div>
                     <div class="w-20 md:w-24 text-center text-xs text-slate-400 hidden sm:block">${p.date}</div>
                 </div>
@@ -1023,7 +1054,7 @@
                                 <p class="font-black text-slate-900 text-base md:text-lg">${rev.name}</p>
                                 <span class="text-xs text-slate-400 font-bold uppercase bg-slate-50 px-2 py-1 rounded">${rev.date}</span>
                             </div>
-                            <p class="text-sm md:text-base text-slate-600 leading-relaxed font-medium keep-all">${rev.text}</p>
+                            <p class="text-sm md:text-base text-slate-600 leading-relaxed font-medium">${rev.text}</p>
                         </div>
                     </div>
                     ${(rev.replies || []).map(r => `
@@ -1031,7 +1062,7 @@
                             <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 text-xs md:text-sm"><i class="fa-solid fa-masks-theater"></i></div>
                             <div>
                                 <p class="text-[10px] md:text-[11px] font-black text-rose-600 mb-0.5 uppercase tracking-tighter">${r.name}</p>
-                                <p class="text-xs text-slate-500 keep-all leading-relaxed">${r.text}</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">${r.text}</p>
                             </div>
                         </div>
                     `).join('')}

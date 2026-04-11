@@ -75,7 +75,15 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center gap-6 hidden transition-all duration-300">
-        <!-- Mobile Menu Overlay -->
+        <button class="absolute top-6 right-6 p-4 text-4xl text-slate-800" onclick="toggleMenu()">&times;</button>
+        <button onclick="showSection('home'); toggleMenu()" class="text-xl md:text-2xl font-bold">HOME</button>
+        <button onclick="showSection('about'); toggleMenu()" class="text-xl md:text-2xl font-bold">극단소개</button>
+        <button onclick="showSection('theater'); toggleMenu()" class="text-xl md:text-2xl font-bold">소극장 빨간객석 소개</button>
+        <button onclick="showSection('current'); toggleMenu()" class="text-xl md:text-2xl font-bold text-rose-600">현재공연</button>
+        <button onclick="showSection('history'); toggleMenu()" class="text-xl md:text-2xl font-bold">공연아카이브</button>
+        <button onclick="showSection('press'); toggleMenu()" class="text-xl md:text-2xl font-bold">언론보도</button>
+        <button onclick="showSection('review'); toggleMenu()" class="text-xl md:text-2xl font-bold text-rose-600">관람후기</button>
+        <button onclick="showSection('contact'); toggleMenu()" class="text-xl md:text-2xl font-bold">오시는 길</button>
         <button onclick="showSection('member'); toggleMenu()" class="text-xl md:text-2xl font-bold">관극회원</button>
         
         <!-- Mobile SNS Links -->
@@ -166,7 +174,7 @@
                         </div>
                         <div class="flex gap-4 pt-4">
                             <div class="text-center bg-slate-800 p-5 rounded-2xl flex-1 border border-slate-700">
-                                <p class="text-3xl md:text-4xl font-black text-white mb-1">50석</p>
+                                <p class="text-3xl md:text-4xl font-black text-white mb-1">60석</p>
                                 <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Max Seats</p>
                             </div>
                             <div class="text-center bg-slate-800 p-5 rounded-2xl flex-1 border border-slate-700">
@@ -341,15 +349,16 @@
         </div>
     </div>
 
-    <!-- Admin Password Modal -->
+    <!-- Firebase Auth Password Modal -->
     <div id="password-modal" class="fixed inset-0 z-[600] bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-6">
         <div class="bg-white p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-sm text-center">
-            <h3 class="text-xl font-black mb-2 text-slate-900 uppercase">Admin Access</h3>
-            <p class="text-sm text-slate-500 mb-6">초기 비밀번호: 1234</p>
-            <input type="password" id="admin-password" placeholder="PASSWORD" class="w-full p-4 border border-slate-200 rounded-xl mb-6 text-center text-2xl outline-none focus:border-rose-500 font-bold bg-slate-50 tracking-[0.3em]" onkeydown="if(event.key === 'Enter') checkPassword()" />
+            <h3 class="text-xl font-black mb-2 text-slate-900 uppercase">Admin Login</h3>
+            <p class="text-sm text-slate-500 mb-6">관리자 계정으로 로그인해주세요.</p>
+            <input type="email" id="admin-email" placeholder="이메일 주소" class="w-full p-4 border border-slate-200 rounded-xl mb-3 text-sm outline-none focus:border-rose-500 bg-slate-50" />
+            <input type="password" id="admin-password" placeholder="비밀번호" class="w-full p-4 border border-slate-200 rounded-xl mb-6 text-sm outline-none focus:border-rose-500 bg-slate-50 font-bold tracking-widest" onkeydown="if(event.key === 'Enter') checkPassword()" />
             <div class="flex gap-3">
                 <button onclick="closePasswordModal()" class="flex-1 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm">취소</button>
-                <button onclick="checkPassword()" class="flex-1 py-3 bg-rose-600 text-white rounded-xl font-bold text-sm">확인</button>
+                <button onclick="checkPassword()" class="flex-1 py-3 bg-rose-600 text-white rounded-xl font-bold text-sm">로그인</button>
             </div>
         </div>
     </div>
@@ -361,7 +370,10 @@
                 <h2 class="text-2xl md:text-3xl font-black text-slate-900">통합 관리 시스템</h2>
                 <p class="text-rose-600 font-bold text-xs uppercase tracking-widest">Theater Bulssichon Admin</p>
             </div>
-            <button onclick="closeAdmin()" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex gap-2">
+                <button onclick="logoutAdmin()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded-lg text-xs font-bold text-slate-700 transition-colors">로그아웃</button>
+                <button onclick="closeAdmin()" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
         </div>
         
         <div class="max-w-7xl mx-auto p-4 md:p-8">
@@ -553,6 +565,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
         import { getFirestore, doc, setDoc, collection, addDoc, deleteDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCAajk9jzK6SRJFutTL3r4xt4MNgxx32EY",
@@ -564,13 +577,19 @@
             measurementId: "G-HR7VJBJHXZ"
         };
 
-        let app, db;
+        let app, db, auth;
         let isFirebaseActive = false;
+        let currentUser = null;
 
         try {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
+            auth = getAuth(app);
             isFirebaseActive = true;
+
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+            });
         } catch (e) {
             console.error("Firebase 초기화 에러 (메모리 모드로 동작):", e);
         }
@@ -664,8 +683,6 @@
             activeArchTab: 'bulssichon'
         };
 
-        const ADMIN_PW = "1234";
-
         // --- Firebase Listeners (If Active) ---
         if (isFirebaseActive) {
             try {
@@ -680,7 +697,8 @@
                         window.renderAll();
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
-                        setDoc(doc(db, "site", "config"), { logoImg: state.logoImg, isPreparing: state.isPreparing, hero: state.hero, current: state.current });
+                        // 초기 설정 세팅 (최초 1회만)
+                        if(currentUser) setDoc(doc(db, "site", "config"), { logoImg: state.logoImg, isPreparing: state.isPreparing, hero: state.hero, current: state.current });
                     }
                 });
 
@@ -691,7 +709,7 @@
                         window.renderHistory();
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
-                        state.history.forEach(h => addDoc(collection(db, "history"), h));
+                        if(currentUser) state.history.forEach(h => addDoc(collection(db, "history"), h));
                     }
                 });
 
@@ -702,7 +720,7 @@
                         window.renderPress();
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
-                        state.press.forEach(p => addDoc(collection(db, "press"), p));
+                        if(currentUser) state.press.forEach(p => addDoc(collection(db, "press"), p));
                     }
                 });
 
@@ -1062,20 +1080,46 @@
             window.showToast('후기가 등록되었습니다.');
         });
 
-        // --- 5. Admin Panel Logic ---
+        // --- 5. Admin Panel Logic (Authentication) ---
         window.promptAdmin = function() {
-            document.getElementById('password-modal').classList.remove('hidden');
-            document.getElementById('admin-password').value = '';
-            setTimeout(() => document.getElementById('admin-password').focus(), 100);
-        }
-        window.closePasswordModal = function() { document.getElementById('password-modal').classList.add('hidden'); }
-        window.checkPassword = function() {
-            if(document.getElementById('admin-password').value === ADMIN_PW) {
-                window.closePasswordModal();
+            if(currentUser) {
                 window.openAdmin();
             } else {
-                window.showToast('비밀번호 오류');
+                document.getElementById('password-modal').classList.remove('hidden');
+                document.getElementById('admin-email').value = '';
+                document.getElementById('admin-password').value = '';
+                setTimeout(() => document.getElementById('admin-email').focus(), 100);
             }
+        }
+        
+        window.closePasswordModal = function() { document.getElementById('password-modal').classList.add('hidden'); }
+        
+        window.checkPassword = async function() {
+            if(!isFirebaseActive) {
+                window.showToast('데이터베이스가 연결되지 않았습니다.');
+                return;
+            }
+
+            const email = document.getElementById('admin-email').value;
+            const pwd = document.getElementById('admin-password').value;
+            
+            if(!email || !pwd) { window.showToast('이메일과 비밀번호를 입력해주세요.'); return; }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, pwd);
+                window.closePasswordModal();
+                window.openAdmin();
+                window.showToast('관리자 로그인 성공');
+            } catch(error) {
+                console.error("로그인 에러:", error);
+                window.showToast('이메일 또는 비밀번호가 올바르지 않습니다.');
+            }
+        }
+
+        window.logoutAdmin = async function() {
+            if(auth) await signOut(auth);
+            window.closeAdmin();
+            window.showToast('안전하게 로그아웃 되었습니다.');
         }
 
         window.openAdmin = function() {
@@ -1126,6 +1170,7 @@
         }
 
         window.saveHeroData = async function() {
+            if(!currentUser) { window.showToast('권한이 없습니다. 다시 로그인해주세요.'); return; }
             state.hero.bgImg = document.getElementById('admin-hero-bg').value;
             state.hero.tag = document.getElementById('admin-hero-tag').value;
             state.hero.title = document.getElementById('admin-hero-title').value;
@@ -1141,6 +1186,7 @@
         }
 
         window.togglePreparing = function(isChecked) {
+            if(!currentUser && isFirebaseActive) return;
             state.isPreparing = isChecked;
             const dot = document.getElementById('toggle-dot');
             const bg = document.getElementById('toggle-bg');
@@ -1253,6 +1299,7 @@
 
         // Admin Current Perf Actions
         window.saveCurrentData = async function() {
+            if(!currentUser) { window.showToast('권한이 없습니다.'); return; }
             const c = state.current;
             c.title = document.getElementById('admin-curr-title').value;
             c.period = document.getElementById('admin-curr-period').value;
@@ -1340,6 +1387,7 @@
 
         // Admin Other Actions
         window.addHistory = async function() {
+            if(!currentUser) return;
             const tab = document.getElementById('admin-hist-tab').value;
             const t = document.getElementById('admin-hist-title').value;
             const y = document.getElementById('admin-hist-year').value;
@@ -1362,6 +1410,7 @@
         }
         
         window.deleteHistory = async function(id) {
+            if(!currentUser) return;
             if (isFirebaseActive) {
                 await deleteDoc(doc(db, "history", id));
             } else {
@@ -1396,6 +1445,7 @@
         }
 
         window.saveHistoryEdit = async function(id) {
+            if(!currentUser) return;
             const tab = document.getElementById(`edit-hist-tab-${id}`).value;
             const title = document.getElementById(`edit-hist-title-${id}`).value;
             const year = document.getElementById(`edit-hist-year-${id}`).value;
@@ -1419,6 +1469,7 @@
         }
 
         window.addPress = async function() {
+            if(!currentUser) return;
             const t = document.getElementById('admin-press-title').value;
             const m = document.getElementById('admin-press-media').value;
             const d = document.getElementById('admin-press-date').value;
@@ -1442,6 +1493,7 @@
         }
         
         window.deletePress = async function(id) { 
+            if(!currentUser) return;
             if (isFirebaseActive) {
                 await deleteDoc(doc(db, "press", id.toString())); // Assuming id is string in Firebase
             } else {
@@ -1452,6 +1504,7 @@
         }
 
         window.deleteReview = async function(id) { 
+            if(!currentUser) return;
             if (isFirebaseActive) {
                 await deleteDoc(doc(db, "reviews", id));
             } else {
@@ -1462,6 +1515,7 @@
         }
         
         window.addAdminReply = async function(id) {
+            if(!currentUser) return;
             const input = document.getElementById('admin-reply-in-' + id);
             if(!input.value.trim()) return;
             const review = state.reviews.find(r => r.id === id);
@@ -1478,6 +1532,7 @@
         }
         
         window.delAdminReply = async function(revId, replyIdx) {
+            if(!currentUser) return;
             const review = state.reviews.find(r => r.id === revId);
             if(review) { 
                 const newReplies = [...review.replies];

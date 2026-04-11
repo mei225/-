@@ -179,7 +179,7 @@
                         <div class="text-slate-600 leading-loose space-y-4 md:space-y-6 text-base md:text-lg keep-all">
                             <p>극단 불씨촌은 1977년 마산에서 창단된 지역 기반 전문 연극단체입니다. 불씨극회로 출발하여 동인극 운동의 정신으로 지역 사회의 삶을 무대 위에 올렸습니다.</p>
                             <p>창단 이후 60여 편 이상의 작품을 제작·공연해왔으며, 2021년 전용 공연장 <strong>‘소극장 빨간객석’</strong>을 개관하여 장기 공연 시스템을 마련했습니다.</p>
-                            <p>연극 제작을 넘어 시민 참여 활동 전개하며, 2025년 전문예술단체 지정을 발판으로 지역 문화 생태계의 중심 역할을 수행하고 있습니다.</p>
+                            <p>연극 제작을 넘어 시민 참여 활동을 전개하며, 2025년 전문예술단체 지정을 발판으로 지역 문화 생태계의 중심 역할을 수행하고 있습니다.</p>
                         </div>
                     </div>
                 </div>
@@ -337,19 +337,26 @@
     </main>
 
     <div id="poster-modal" class="fixed inset-0 z-[600] bg-black/90 hidden items-center justify-center p-4 cursor-pointer" onclick="closePosterModal()">
-        <img id="poster-modal-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" alt="Poster Full View">
-        <button class="absolute top-6 right-6 md:top-10 md:right-10 text-white text-4xl hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+        <i class="fa-solid fa-spinner fa-spin text-white/30 text-5xl absolute z-0"></i>
+        <img id="poster-modal-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl relative z-10 opacity-0 transition-opacity duration-500" alt="Poster Full View" onload="this.classList.remove('opacity-0')">
+        <button class="absolute top-6 right-6 md:top-10 md:right-10 z-30 text-white text-4xl hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <div id="actor-modal" class="fixed inset-0 z-[500] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-opacity">
-        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl relative transform transition-transform scale-95" id="actor-modal-content">
-            <button onclick="closeActorModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-rose-600 transition-colors"><i class="fa-solid fa-xmark"></i></button>
-            <div class="flex flex-col md:flex-row h-full">
-                <div class="md:w-2/5 aspect-[3/4] md:aspect-auto md:min-h-[400px] relative bg-slate-200">
-                    <img id="modal-actor-img" src="" class="w-full h-full object-cover" alt="Actor">
+    <!-- Actor Detail Modal -->
+    <div id="actor-modal" class="fixed inset-0 z-[500] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6 transition-opacity">
+        <div class="bg-white rounded-[2rem] max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-hidden shadow-2xl relative transform transition-transform scale-95 flex flex-col" id="actor-modal-content">
+            
+            <button onclick="closeActorModal()" class="absolute top-4 right-4 md:top-5 md:right-5 z-30 w-12 h-12 bg-slate-900/60 backdrop-blur-md text-white rounded-full flex items-center justify-center hover:bg-rose-600 transition-colors shadow-lg border border-white/10">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="flex flex-col md:flex-row overflow-y-auto custom-scroll h-full w-full relative">
+                <div class="w-full md:w-2/5 h-[350px] sm:h-[400px] md:h-auto md:min-h-[450px] relative bg-slate-100 shrink-0 flex items-center justify-center">
+                    <i class="fa-solid fa-spinner fa-spin text-slate-300 text-4xl absolute z-0"></i>
+                    <img id="modal-actor-img" src="" class="w-full h-full object-cover object-top relative z-10 opacity-0 transition-opacity duration-500" alt="Actor" onload="this.classList.remove('opacity-0')">
                 </div>
-                <div class="md:w-3/5 p-6 md:p-10 flex flex-col justify-center">
-                    <span id="modal-actor-role" class="text-rose-600 font-black text-xs uppercase tracking-widest mb-2 border border-rose-200 px-3 py-1 rounded-full w-fit bg-rose-50"></span>
+                <div class="md:w-3/5 p-8 md:p-10 flex flex-col justify-center shrink-0">
+                    <span id="modal-actor-role" class="text-rose-600 font-black text-xs uppercase tracking-widest mb-3 border border-rose-200 px-3 py-1.5 rounded-full w-fit bg-rose-50"></span>
                     <h3 id="modal-actor-name" class="text-3xl md:text-4xl font-black text-slate-900 mb-5"></h3>
                     
                     <div class="relative mb-5 pb-5 border-b border-slate-100">
@@ -359,7 +366,7 @@
                     
                     <div class="space-y-2">
                         <p class="text-xs font-black text-slate-400 uppercase tracking-widest bg-slate-50 inline-block px-2 py-1 rounded">Career</p>
-                        <p id="modal-actor-career" class="text-sm text-slate-600 leading-relaxed font-medium keep-all whitespace-pre-wrap max-h-32 overflow-y-auto custom-scroll"></p>
+                        <p id="modal-actor-career" class="text-sm md:text-base text-slate-600 leading-relaxed font-medium keep-all whitespace-pre-wrap"></p>
                     </div>
                 </div>
             </div>
@@ -450,9 +457,10 @@
                         <input id="admin-curr-location" placeholder="공연 장소" class="p-3 text-base border rounded-xl bg-slate-50" />
                         <input id="admin-curr-time" placeholder="공연 시간" class="p-3 text-base border rounded-xl bg-slate-50" />
                         <input id="admin-curr-price" placeholder="정가 (예: 35,000원)" class="p-3 text-base border rounded-xl bg-slate-50" />
+                        <input id="admin-curr-info" placeholder="부가 정보 (예: 90분/초등이상)" class="p-3 text-base border rounded-xl bg-slate-50" />
                         <input id="admin-curr-img" placeholder="포스터 이미지 URL" class="p-3 text-base border rounded-xl bg-slate-50" />
                         <input id="admin-curr-nlink" placeholder="네이버 예약 링크 URL" class="p-3 text-base border rounded-xl bg-slate-50" />
-                        <input id="admin-curr-ilink" placeholder="인터파크 예매 링크 URL" class="p-3 text-base border rounded-xl bg-slate-50" />
+                        <input id="admin-curr-ilink" placeholder="인터파크 예매 링크 URL" class="col-span-1 sm:col-span-2 p-3 text-base border rounded-xl bg-slate-50" />
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6 mb-6">
@@ -618,6 +626,7 @@
                 location: "소극장 빨간객석",
                 time: "금요일 19:30 / 토요일 15:00",
                 price: "35,000원",
+                info: "90분/초등이상",
                 img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1000",
                 naverLink: "https://booking.naver.com",
                 interparkLink: "https://tickets.interpark.com",
@@ -652,7 +661,6 @@
                 ]
             },
             history: [
-                // 극단 불씨촌
                 { id: 'h1', tab: 'bulssichon', year: 1977, title: '톰 존스 <철부지들> (창립공연)', img: '' },
                 { id: 'h2', tab: 'bulssichon', year: 1977, title: '손튼 와일더 <OUR TOWN>', img: '' },
                 { id: 'h3', tab: 'bulssichon', year: 1978, title: '이강백 <결혼>, 서머셋 몸 <정복되지 않는 여자>', img: '' },
@@ -669,10 +677,8 @@
                 { id: 'h14', tab: 'bulssichon', year: 2024, title: '리 홀 <스푼페이스 스타인버그>', img: 'https://images.unsplash.com/photo-1521336575822-6da63fb45455?q=80&w=600' },
                 { id: 'h15', tab: 'bulssichon', year: 2025, title: '게오르크 뷔히너 <보이체크>', img: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?q=80&w=600' },
                 { id: 'h16', tab: 'bulssichon', year: 2026, title: '진병식 <도시의 독백, 사물들의 제의>', img: '' },
-                // 소극장 빨간객석
                 { id: 'h17', tab: 'redseat', year: 2021, title: '김민정 <다녀왔습니다> (개관 기념 공연)', img: 'https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=600' },
                 { id: 'h18', tab: 'redseat', year: 2026, title: '뮤지컬 <다녀왔습니다> (창단 50주년)', img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600' },
-                // 연극 아카데미
                 { id: 'h19', tab: 'academy', year: 1995, title: '오영진 <맹진사댁 경사>', img: '' },
                 { id: 'h20', tab: 'academy', year: 1996, title: '오경진 <정직한 사기한>', img: '' },
                 { id: 'h21', tab: 'academy', year: 1997, title: '정해완 <율보>', img: '' },
@@ -698,10 +704,8 @@
             }
         }
 
-        // --- Firebase Listeners (If Active) ---
         if (isFirebaseActive) {
             try {
-                // Config (Hero & Current Perf)
                 onSnapshot(doc(db, "site", "config"), (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
@@ -710,7 +714,6 @@
                         state.current = data.current || state.current;
                         
                         if (isInitialLoad) {
-                            // 최초 로드 시 배경 이미지 프리로딩
                             const imgPreloader = new Image();
                             imgPreloader.src = state.hero.bgImg || "https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=2000";
                             imgPreloader.onload = imgPreloader.onerror = () => {
@@ -724,13 +727,11 @@
                         
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
-                        // 초기 설정 세팅 (최초 1회만)
                         if(currentUser) setDoc(doc(db, "site", "config"), { isPreparing: state.isPreparing, hero: state.hero, current: state.current });
                         if (isInitialLoad) { window.renderAll(); window.hideLoader(); isInitialLoad = false; }
                     }
                 });
 
-                // History
                 onSnapshot(collection(db, "history"), (snapshot) => {
                     if (!snapshot.empty) {
                         state.history = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -741,7 +742,6 @@
                     }
                 });
 
-                // Press
                 onSnapshot(collection(db, "press"), (snapshot) => {
                     if (!snapshot.empty) {
                         state.press = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -752,7 +752,6 @@
                     }
                 });
 
-                // Reviews
                 onSnapshot(collection(db, "reviews"), (snapshot) => {
                     if (!snapshot.empty) {
                         state.reviews = snapshot.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => b.timestamp - a.timestamp);
@@ -767,7 +766,6 @@
             }
         }
 
-        // --- 2. Global UI Functions ---
         window.showSection = function(id) {
             document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -783,7 +781,7 @@
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            window.renderAll(); // Ensure data is rendered properly when changing sections
+            window.renderAll(); 
         }
 
         window.toggleMenu = function() {
@@ -799,7 +797,6 @@
             setTimeout(() => toast.remove(), 3000);
         }
 
-        // --- 3. Rendering ---
         window.renderAll = function() {
             window.renderHero();
             window.renderCurrentPerf();
@@ -833,7 +830,6 @@
 
             const c = state.current;
             
-            // Group actors by Role
             const rolesMap = {};
             c.actors.forEach(a => {
                 if(!rolesMap[a.role]) rolesMap[a.role] = [];
@@ -846,7 +842,10 @@
                     <div class="flex flex-wrap gap-4 justify-center sm:justify-start">
                         ${actors.map(a => `
                             <div class="cursor-pointer group flex items-center gap-4 bg-white p-3 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all w-52 sm:w-64" onclick="window.openActorModal('${a.id}')">
-                                <img src="${a.img}" class="w-14 h-14 rounded-full object-cover shrink-0" alt="${a.name}">
+                                <div class="w-14 h-14 rounded-full shrink-0 relative bg-slate-100 flex items-center justify-center overflow-hidden">
+                                    <i class="fa-solid fa-user text-slate-300 absolute z-0 text-xl"></i>
+                                    <img src="${a.img}" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500" alt="${a.name}" onload="this.classList.remove('opacity-0')">
+                                </div>
                                 <div class="text-left flex-1 min-w-0">
                                     <p class="font-bold text-slate-900 text-base sm:text-lg truncate">${a.name}</p>
                                     <p class="text-xs text-slate-500 font-medium truncate mt-0.5">${a.career.split('\n')[0]}</p>
@@ -859,8 +858,9 @@
 
             container.innerHTML = `
                 <div class="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row border border-slate-100 mb-16 md:mb-20">
-                    <div class="md:w-[40%] bg-slate-50 p-6 md:p-8 flex items-center justify-center">
-                        <img id="curr-img" src="${c.img}" class="w-full max-w-[300px] md:max-w-none h-auto object-cover rounded-xl md:rounded-2xl shadow-lg cursor-pointer transition-transform hover:scale-[1.02]" alt="Poster" onclick="window.openPosterModal('${c.img}')">
+                    <div class="md:w-[40%] bg-slate-50 p-6 md:p-8 flex items-center justify-center relative min-h-[300px]">
+                        <i class="fa-solid fa-spinner fa-spin text-slate-300 text-4xl absolute z-0"></i>
+                        <img id="curr-img" src="${c.img}" class="w-full max-w-[300px] md:max-w-none h-auto object-cover rounded-xl md:rounded-2xl shadow-lg cursor-pointer transition-all hover:scale-[1.02] relative z-10 opacity-0 duration-500" alt="Poster" onclick="window.openPosterModal('${c.img}')" onload="this.classList.remove('opacity-0')">
                     </div>
                     <div class="md:w-[60%] p-8 md:p-12 lg:p-16 flex flex-col">
                         <div class="mb-8">
@@ -892,7 +892,7 @@
                                 <i class="fa-solid fa-tags text-rose-500 text-xl mt-0.5"></i>
                                 <div>
                                     <p class="text-xs text-slate-400 font-bold uppercase mb-1">정가 / 정보</p>
-                                    <p class="font-black text-slate-900 text-sm md:text-base">${c.price} <span class="text-xs font-normal text-slate-500 ml-1">(90분/초등이상)</span></p>
+                                    <p class="font-black text-slate-900 text-sm md:text-base">${c.price} ${c.info ? `<span class="text-xs font-normal text-slate-500 ml-1">(${c.info})</span>` : ''}</p>
                                 </div>
                             </div>
                         </div>
@@ -981,7 +981,12 @@
                         <h1 class="mx-auto font-black text-sm md:text-xl text-white">${item.year.toString().slice(-2)}</h1>
                     </div>
                     <div class="flex-1 ${idx % 2 === 0 ? 'md:mr-10 ml-6 md:ml-0' : 'md:ml-10 ml-6'} bg-white rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 group flex items-center h-32 md:h-40">
-                        ${item.img ? `<img src="${item.img}" class="w-1/3 h-full object-cover group-hover:scale-105 transition-all" alt="${item.title}">` : '<div class="w-4 md:w-6 h-full bg-rose-500"></div>'}
+                        ${item.img ? `
+                        <div class="w-1/3 h-full relative bg-slate-100 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-image text-slate-300 absolute z-0 text-2xl"></i>
+                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${item.title}" onload="this.classList.remove('opacity-0')">
+                        </div>
+                        ` : '<div class="w-4 md:w-6 h-full bg-rose-500 shrink-0"></div>'}
                         <div class="p-4 md:p-6 flex-1">
                             <span class="text-xs font-bold text-rose-600 mb-1 md:mb-2 block tracking-widest">${item.year}</span>
                             <h3 class="font-bold text-slate-900 text-base md:text-xl break-keep">${item.title}</h3>
@@ -1034,9 +1039,10 @@
             `).join('');
         }
 
-        // --- 4. Modals & Actions ---
         window.openPosterModal = function(src) {
-            document.getElementById('poster-modal-img').src = src;
+            const imgEl = document.getElementById('poster-modal-img');
+            imgEl.classList.add('opacity-0');
+            imgEl.src = src;
             const modal = document.getElementById('poster-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -1050,7 +1056,11 @@
         window.openActorModal = function(id) {
             const actor = state.current.actors.find(a => a.id === id);
             if(!actor) return;
-            document.getElementById('modal-actor-img').src = actor.img;
+            
+            const imgEl = document.getElementById('modal-actor-img');
+            imgEl.classList.add('opacity-0');
+            imgEl.src = actor.img;
+            
             document.getElementById('modal-actor-role').textContent = `${actor.role} 役`;
             document.getElementById('modal-actor-name').textContent = actor.name;
             document.getElementById('modal-actor-desc').textContent = actor.desc || "무대에 대한 진심을 다합니다.";
@@ -1090,7 +1100,6 @@
             window.showToast('후기가 등록되었습니다.');
         });
 
-        // --- 5. Admin Panel Logic (Authentication) ---
         window.promptAdmin = function() {
             if(currentUser) {
                 window.openAdmin();
@@ -1133,14 +1142,12 @@
         }
 
         window.openAdmin = function() {
-            // Load Hero Data to Inputs
             document.getElementById('admin-hero-bg').value = state.hero.bgImg || "";
             document.getElementById('admin-hero-tag').value = state.hero.tag;
             document.getElementById('admin-hero-title').value = state.hero.title;
             document.getElementById('admin-hero-subtitle').value = state.hero.subtitle;
             document.getElementById('admin-hero-desc').value = state.hero.desc;
 
-            // Load Current Perf Data to Inputs
             const c = state.current;
             document.getElementById('admin-is-preparing').checked = state.isPreparing;
             window.togglePreparing(state.isPreparing);
@@ -1150,6 +1157,7 @@
             document.getElementById('admin-curr-location').value = c.location;
             document.getElementById('admin-curr-time').value = c.time;
             document.getElementById('admin-curr-price').value = c.price;
+            document.getElementById('admin-curr-info').value = c.info || "";
             document.getElementById('admin-curr-img').value = c.img;
             document.getElementById('admin-curr-nlink').value = c.naverLink;
             document.getElementById('admin-curr-ilink').value = c.interparkLink;
@@ -1216,7 +1224,6 @@
         }
 
         window.renderAdminTabs = function() {
-            // Render Creative Team Edit
             document.getElementById('admin-team-list').innerHTML = state.current.creativeTeam.map((t, i) => `
                 <div class="flex gap-2 items-center mb-1">
                     <span class="text-xs w-16 font-bold text-slate-600">${t.role}</span>
@@ -1229,7 +1236,6 @@
                 </div>
             `).join('');
 
-            // Render Discount Edit
             document.getElementById('admin-dc-list').innerHTML = state.current.discounts.map((d, i) => `
                 <div class="flex gap-2 items-center mb-1 border-b border-slate-100 pb-2">
                     <span class="text-xs flex-1 truncate">${d.name}</span>
@@ -1242,7 +1248,6 @@
                 </div>
             `).join('');
 
-            // Render Actors Edit
             document.getElementById('admin-actors-list').innerHTML = state.current.actors.map((a, i) => `
                 <div class="p-5 bg-slate-50 rounded-[1.5rem] border border-slate-100 shadow-inner">
                     <div class="flex justify-between items-center mb-3">
@@ -1261,7 +1266,6 @@
                 </div>
             `).join('');
 
-            // Render History (Admin)
             document.getElementById('admin-history-list').innerHTML = state.history.sort((a,b) => b.year - a.year).map(h => `
                 <div class="p-4 bg-white rounded-xl border border-slate-100 shadow-sm" id="adm-hist-${h.id}">
                     <div class="flex justify-between items-start">
@@ -1274,7 +1278,6 @@
                 </div>
             `).join('');
 
-            // Render Press (Admin)
             document.getElementById('admin-press-list').innerHTML = state.press.sort((a,b) => b.id - a.id).map(p => `
                 <div class="flex justify-between items-center p-4 bg-white rounded-xl border border-slate-100 shadow-sm">
                     <div class="flex-1 min-w-0 pr-4">
@@ -1285,7 +1288,6 @@
                 </div>
             `).join('');
 
-            // Render Reviews (Admin)
             document.getElementById('admin-review-list').innerHTML = state.reviews.map(r => `
                 <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm" id="adm-rev-${r.id}">
                     <div class="flex justify-between items-start mb-3">
@@ -1307,7 +1309,6 @@
             `).join('');
         }
 
-        // Admin Current Perf Actions
         window.saveCurrentData = async function() {
             if(!currentUser) { window.showToast('권한이 없습니다.'); return; }
             const c = state.current;
@@ -1316,6 +1317,7 @@
             c.location = document.getElementById('admin-curr-location').value;
             c.time = document.getElementById('admin-curr-time').value;
             c.price = document.getElementById('admin-curr-price').value;
+            c.info = document.getElementById('admin-curr-info').value; // 추가 정보 저장
             c.img = document.getElementById('admin-curr-img').value;
             c.naverLink = document.getElementById('admin-curr-nlink').value;
             c.interparkLink = document.getElementById('admin-curr-ilink').value;
@@ -1395,7 +1397,6 @@
             window.renderAdminTabs();
         }
 
-        // Admin Other Actions
         window.addHistory = async function() {
             if(!currentUser) return;
             const tab = document.getElementById('admin-hist-tab').value;
@@ -1505,7 +1506,7 @@
         window.deletePress = async function(id) { 
             if(!currentUser) return;
             if (isFirebaseActive) {
-                await deleteDoc(doc(db, "press", id.toString())); // Assuming id is string in Firebase
+                await deleteDoc(doc(db, "press", id.toString()));
             } else {
                 state.press = state.press.filter(p => p.id !== id);
                 window.renderPress();
@@ -1557,11 +1558,9 @@
             window.renderAdminTabs(); 
         }
 
-        // 비 파이어베이스 환경 또는 파이어베이스 로드 지연 시 대비
         window.onload = () => {
             window.setArchTab('bulssichon');
             if(!isFirebaseActive) {
-                // 프리로딩 진행
                 const img = new Image();
                 img.src = state.hero.bgImg;
                 img.onload = img.onerror = () => {

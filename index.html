@@ -6,7 +6,6 @@
     
     <title>극단불씨촌 · 소극장빨간객석</title>
     
-    <!-- 브라우저 탭 아이콘 (파비콘) -->
     <link rel="icon" href="./logo.jpg">
     <link rel="apple-touch-icon" href="./logo.jpg">
 
@@ -35,27 +34,23 @@
             scroll-behavior: smooth; 
             background-color: #f8fafc; 
             color: #0f172a; 
-            /* 모바일 한글 줄바꿈 최적화 코어 설정 */
-            word-break: keep-all; /* 단어 중간에서 찢어지는 현상 방지 */
-            overflow-wrap: break-word; /* 영어나 URL이 너무 길면 강제 줄바꿈 */
+            word-break: keep-all; 
+            overflow-wrap: break-word; 
         }
         
-        /* 최신 타이포그래피 최적화: 제목 라인 길이를 시각적으로 균형있게 맞춰줌 */
         h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
-        /* 본문에서 단어 하나만 외롭게 다음 줄로 떨어지는 현상 방지 */
         p { text-wrap: pretty; }
         
-        /* 글로벌 로딩 스크린 */
         #global-loader {
             position: fixed; inset: 0; z-index: 99999;
-            background-color: #020617; /* 슬레이트 950 */
+            background-color: #020617;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
             transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .theater-spinner {
             width: 60px; height: 60px;
-            border: 4px solid rgba(225, 29, 72, 0.15); /* 로즈 600 투명 */
-            border-top-color: #e11d48; /* 로즈 600 */
+            border: 4px solid rgba(225, 29, 72, 0.15);
+            border-top-color: #e11d48;
             border-radius: 50%;
             animation: theater-spin 1s linear infinite;
         }
@@ -80,7 +75,6 @@
         @keyframes fadeInOut { 0% { opacity: 0; transform: translateY(-20px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
         .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        /* Actor Hover Info */
         .actor-card:hover .actor-info-overlay { opacity: 1; transform: translateY(0); }
     </style>
 </head>
@@ -165,7 +159,6 @@
                     <div class="max-w-4xl text-center md:text-left">
                         <span id="hero-tag" class="inline-block px-4 py-1.5 bg-rose-600 text-white text-xs md:text-sm font-bold rounded-lg mb-6 tracking-widest uppercase shadow-xl">극단 불씨촌 창단 50주년 기념 공연</span>
                         
-                        <!-- 불필요한 <br/> 태그 제거, CSS 디스플레이 속성으로 모바일/PC 줄바꿈을 완벽히 호환되게 최적화 -->
                         <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8 tracking-tighter">
                             <span id="hero-title">다녀왔습니다</span>
                             <span id="hero-subtitle" class="text-rose-500 text-2xl md:text-4xl block mt-4 md:mt-6 font-bold opacity-90">돌아갈 수 없는 시간을 다시 만나는 이야기</span>
@@ -191,7 +184,7 @@
                 </div>
                 <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
                     <div class="rounded-[2.5rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] border-[12px] border-white relative">
-                        <img src="./story.png" class="w-full h-full object-cover" alt="History Photo" loading="lazy" decoding="async">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800" class="w-full h-full object-cover" alt="History Photo" loading="lazy" decoding="async">
                         <div class="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur text-white p-4 rounded-xl border border-slate-700">
                             <p class="text-[10px] text-rose-400 font-bold uppercase mb-1 tracking-widest">Established</p>
                             <p class="text-3xl font-black">1977</p>
@@ -202,7 +195,6 @@
                             <i class="fa-solid fa-award text-rose-500"></i> 경상남도 전문예술단체 지정 (2025)
                         </div>
                         
-                        <!-- 모바일에서는 글자 길이에 맞춰 자연스럽게, PC에서는 원래 의도대로 강제 꺾기 -->
                         <h3 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight">마산의 삶과 현실을 담은 <br class="hidden sm:block"/>창작 연극의 궤적</h3>
                         
                         <div class="text-slate-600 leading-loose space-y-4 md:space-y-6 text-base md:text-lg">
@@ -225,7 +217,6 @@
                 <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
                     <div class="space-y-6 md:order-1 order-2">
                         
-                        <!-- 강제 줄바꿈을 데스크탑(sm) 이상에서만 적용하도록 변경 -->
                         <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">배우와 관객이 가장 가까이 만나는 <br class="hidden sm:block"/><span class="text-rose-500 block sm:inline mt-2 sm:mt-0">살아있는 연극의 중심</span></h3>
                         
                         <div class="text-slate-400 leading-relaxed space-y-4 md:space-y-5 text-base md:text-lg">
@@ -245,10 +236,10 @@
                     </div>
                     <div class="md:order-2 order-1 grid grid-cols-2 gap-3 md:gap-4">
                         <div class="rounded-3xl overflow-hidden shadow-2xl h-[250px] md:h-[400px]">
-                            <img src="https://images.unsplash.com/photo-1516307364728-25b1ea4c9c11?q=80&w=800" class="w-full h-full object-cover" alt="Stage" loading="lazy" decoding="async">
+                            <img src="./stage.jpeg" class="w-full h-full object-cover" alt="Stage" loading="lazy" decoding="async">
                         </div>
                         <div class="rounded-3xl overflow-hidden shadow-2xl h-[250px] md:h-[400px] mt-8 md:mt-12">
-                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=800" class="w-full h-full object-cover opacity-80" alt="Seats" loading="lazy" decoding="async">
+                            <img src="./seat.jpeg" class="w-full h-full object-cover opacity-80" alt="Seats" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -374,7 +365,6 @@
         <button class="absolute top-6 right-6 md:top-10 md:right-10 z-30 text-white text-4xl hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <!-- Actor Detail Modal -->
     <div id="actor-modal" class="fixed inset-0 z-[500] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6 transition-opacity">
         <div class="bg-white rounded-[2rem] max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-hidden shadow-2xl relative transform transition-transform scale-95 flex flex-col" id="actor-modal-content">
             
@@ -398,7 +388,6 @@
                     
                     <div class="space-y-2">
                         <p class="text-xs font-black text-slate-400 uppercase tracking-widest bg-slate-50 inline-block px-2 py-1 rounded">Career</p>
-                        <!-- 스크롤 속성(overflow-y-auto, 최대 높이, custom-scroll) 추가 -->
                         <p id="modal-actor-career" class="text-sm md:text-base text-slate-600 leading-relaxed font-medium whitespace-pre-wrap max-h-32 md:max-h-48 overflow-y-auto custom-scroll pr-2"></p>
                     </div>
                 </div>
@@ -485,7 +474,7 @@
 
                     <h3 class="text-xl font-bold text-slate-900 mb-4 border-t border-slate-100 pt-6">기본 정보 & 링크</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                        <input id="admin-curr-title" placeholder="공연명" class="p-3 text-base border rounded-xl bg-slate-50" />
+                        <textarea id="admin-curr-title" placeholder="공연명 (엔터쳐서 줄바꿈)" class="p-3 text-base border border-slate-200 rounded-xl bg-slate-50 outline-none focus:bg-white focus:border-rose-500 custom-scroll resize-none" rows="2"></textarea>
                         <input id="admin-curr-period" placeholder="공연 기간" class="p-3 text-base border rounded-xl bg-slate-50" />
                         <input id="admin-curr-location" placeholder="공연 장소" class="p-3 text-base border rounded-xl bg-slate-50" />
                         <input id="admin-curr-time" placeholder="공연 시간" class="p-3 text-base border rounded-xl bg-slate-50" />
@@ -896,7 +885,7 @@
                     </div>
                     <div class="md:w-[60%] p-8 md:p-12 lg:p-16 flex flex-col">
                         <div class="mb-8">
-                            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tighter leading-tight text-slate-900 italic">${c.title}</h2>
+                            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tighter leading-tight text-slate-900 italic keep-all">${c.title.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>')}</h2>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-y-6 gap-x-8 mb-8 border-y border-slate-100 py-6 md:py-8">
                             <div class="flex items-start gap-3">
@@ -1016,12 +1005,12 @@
                         ${item.img ? `
                         <div class="w-1/3 h-full relative bg-slate-100 flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-image text-slate-300 absolute z-0 text-2xl"></i>
-                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${item.title}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
+                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${item.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                         </div>
                         ` : '<div class="w-4 md:w-6 h-full bg-rose-500 shrink-0"></div>'}
                         <div class="p-4 md:p-6 flex-1">
                             <span class="text-xs font-bold text-rose-600 mb-1 md:mb-2 block tracking-widest">${item.year}</span>
-                            <h3 class="font-bold text-slate-900 text-base md:text-xl break-keep">${item.title}</h3>
+                            <h3 class="font-bold text-slate-900 text-base md:text-xl break-keep">${item.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h3>
                         </div>
                     </div>
                     <div class="hidden md:block w-5/12"></div>
@@ -1538,7 +1527,7 @@
         window.deletePress = async function(id) { 
             if(!currentUser) return;
             if (isFirebaseActive) {
-                await deleteDoc(doc(db, "press", id.toString()));
+                await deleteDoc(doc(db, "press", id.toString())); // Assuming id is string in Firebase
             } else {
                 state.press = state.press.filter(p => p.id !== id);
                 window.renderPress();

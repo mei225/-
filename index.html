@@ -184,7 +184,7 @@
                 </div>
                 <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
                     <div class="rounded-[2.5rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] border-[12px] border-white relative">
-                        <img src="./story.png" class="w-full h-full object-cover" alt="History Photo" loading="lazy" decoding="async">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800" class="w-full h-full object-cover" alt="History Photo" loading="lazy" decoding="async">
                         <div class="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur text-white p-4 rounded-xl border border-slate-700">
                             <p class="text-[10px] text-rose-400 font-bold uppercase mb-1 tracking-widest">Established</p>
                             <p class="text-3xl font-black">1977</p>
@@ -220,7 +220,7 @@
                         <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">배우와 관객이 가장 가까이 만나는 <br class="hidden sm:block"/><span class="text-rose-500 block sm:inline mt-2 sm:mt-0">살아있는 연극의 중심</span></h3>
                         
                         <div class="text-slate-400 leading-relaxed space-y-4 md:space-y-5 text-base md:text-lg">
-                            <p>소극장 빨간객석은 극단 불씨촌의 전용 공연장으로, 생생한 현장성을 관객에게 전달하기 위해 오동동에 마련된 창작 공간입니다.</p>
+                            <p>소극장 빨간객석은 극단 불씨촌의 전용 공연장으로, 생생한 현장성을 관객에게 전달하기 위해 오동동 아구찜 거리 내에 마련된 창작 공간입니다.</p>
                             <p>정기 공연, 창작극, 번역극 등 다양한 형태의 실험이 이루어지며, 관객과 배우가 가장 가까운 거리에서 호흡하는 독창적인 문화를 만들어가고 있습니다.</p>
                         </div>
                         <div class="flex gap-4 pt-4">
@@ -236,10 +236,10 @@
                     </div>
                     <div class="md:order-2 order-1 grid grid-cols-2 gap-3 md:gap-4">
                         <div class="rounded-3xl overflow-hidden shadow-2xl h-[250px] md:h-[400px]">
-                            <img src="./stage.jpeg" class="w-full h-full object-cover" alt="Stage" loading="lazy" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1516307364728-25b1ea4c9c11?q=80&w=800" class="w-full h-full object-cover" alt="Stage" loading="lazy" decoding="async">
                         </div>
                         <div class="rounded-3xl overflow-hidden shadow-2xl h-[250px] md:h-[400px] mt-8 md:mt-12">
-                            <img src="./seat.jpeg" class="w-full h-full object-cover opacity-80" alt="Seats" loading="lazy" decoding="async">
+                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a151f96?q=80&w=800" class="w-full h-full object-cover opacity-80" alt="Seats" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -717,6 +717,16 @@
             activeArchTab: 'bulssichon'
         };
 
+        window.escapeHtml = function(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        };
+
         window.hideLoader = function() {
             const loader = document.getElementById('global-loader');
             if(loader) {
@@ -865,11 +875,11 @@
                             <div class="cursor-pointer group flex items-center gap-4 bg-white p-3 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all w-52 sm:w-64" onclick="window.openActorModal('${a.id}')">
                                 <div class="w-14 h-14 rounded-full shrink-0 relative bg-slate-100 flex items-center justify-center overflow-hidden">
                                     <i class="fa-solid fa-user text-slate-300 absolute z-0 text-xl"></i>
-                                    <img src="${a.img}" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500" alt="${a.name}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
+                                    <img src="${window.escapeHtml(a.img)}" class="w-full h-full object-cover relative z-10 opacity-0 transition-opacity duration-500" alt="${window.escapeHtml(a.name)}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                                 </div>
                                 <div class="text-left flex-1 min-w-0">
-                                    <p class="font-bold text-slate-900 text-base sm:text-lg truncate">${a.name}</p>
-                                    <p class="text-xs text-slate-500 font-medium truncate mt-0.5">${a.career.split('\n')[0]}</p>
+                                    <p class="font-bold text-slate-900 text-base sm:text-lg truncate">${window.escapeHtml(a.name)}</p>
+                                    <p class="text-xs text-slate-500 font-medium truncate mt-0.5">${window.escapeHtml(a.career.split('\n')[0])}</p>
                                 </div>
                             </div>
                         `).join('')}
@@ -881,47 +891,47 @@
                 <div class="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row border border-slate-100 mb-16 md:mb-20">
                     <div class="md:w-[40%] bg-slate-50 p-6 md:p-8 flex items-center justify-center relative min-h-[300px]">
                         <i class="fa-solid fa-spinner fa-spin text-slate-300 text-4xl absolute z-0"></i>
-                        <img id="curr-img" src="${c.img}" class="w-full max-w-[300px] md:max-w-none h-auto object-cover rounded-xl md:rounded-2xl shadow-lg cursor-pointer transition-all hover:scale-[1.02] relative z-10 opacity-0 duration-500" alt="Poster" onclick="window.openPosterModal('${c.img}')" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
+                        <img id="curr-img" src="${window.escapeHtml(c.img)}" class="w-full max-w-[300px] md:max-w-none h-auto object-cover rounded-xl md:rounded-2xl shadow-lg cursor-pointer transition-all hover:scale-[1.02] relative z-10 opacity-0 duration-500" alt="Poster" onclick="window.openPosterModal('${window.escapeHtml(c.img)}')" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                     </div>
                     <div class="md:w-[60%] p-8 md:p-12 lg:p-16 flex flex-col">
                         <div class="mb-8">
-                            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tighter leading-tight text-slate-900 italic keep-all">${c.title.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>')}</h2>
+                            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tighter leading-tight text-slate-900 italic keep-all">${window.escapeHtml(c.title).replace(/\n/g, '<br/>')}</h2>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-y-6 gap-x-8 mb-8 border-y border-slate-100 py-6 md:py-8">
                             <div class="flex items-start gap-3">
                                 <i class="fa-solid fa-calendar-day text-rose-500 text-xl mt-0.5"></i>
                                 <div>
                                     <p class="text-xs text-slate-400 font-bold uppercase mb-1">공연 기간</p>
-                                    <p class="font-bold text-slate-800 text-sm md:text-base">${c.period}</p>
+                                    <p class="font-bold text-slate-800 text-sm md:text-base">${window.escapeHtml(c.period)}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <i class="fa-regular fa-clock text-rose-500 text-xl mt-0.5"></i>
                                 <div>
                                     <p class="text-xs text-slate-400 font-bold uppercase mb-1">공연 시간</p>
-                                    <p class="font-bold text-slate-800 text-sm md:text-base">${c.time}</p>
+                                    <p class="font-bold text-slate-800 text-sm md:text-base">${window.escapeHtml(c.time)}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <i class="fa-solid fa-map-location-dot text-rose-500 text-xl mt-0.5"></i>
                                 <div>
                                     <p class="text-xs text-slate-400 font-bold uppercase mb-1">장소</p>
-                                    <p class="font-bold text-slate-800 text-sm md:text-base">${c.location}</p>
+                                    <p class="font-bold text-slate-800 text-sm md:text-base">${window.escapeHtml(c.location)}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <i class="fa-solid fa-tags text-rose-500 text-xl mt-0.5"></i>
                                 <div>
                                     <p class="text-xs text-slate-400 font-bold uppercase mb-1">정가 / 정보</p>
-                                    <p class="font-black text-slate-900 text-sm md:text-base">${c.price} ${c.info ? `<span class="text-xs font-normal text-slate-500 ml-1">(${c.info})</span>` : ''}</p>
+                                    <p class="font-black text-slate-900 text-sm md:text-base">${window.escapeHtml(c.price)} ${c.info ? `<span class="text-xs font-normal text-slate-500 ml-1">(${window.escapeHtml(c.info)})</span>` : ''}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3 md:gap-4 mt-auto">
-                            <button onclick="window.open('${c.naverLink}')" class="flex-1 py-4 bg-[#03cf5d] text-white font-bold rounded-xl btn-hover flex items-center justify-center gap-2 shadow-lg text-sm md:text-base">
+                            <button onclick="window.open('${window.escapeHtml(c.naverLink)}')" class="flex-1 py-4 bg-[#03cf5d] text-white font-bold rounded-xl btn-hover flex items-center justify-center gap-2 shadow-lg text-sm md:text-base">
                                 <i class="fa-solid fa-check-to-slot"></i> 네이버 예약
                             </button>
-                            <button onclick="window.open('${c.interparkLink}')" class="flex-1 py-4 bg-slate-900 text-white font-bold rounded-xl btn-hover flex items-center justify-center gap-2 shadow-lg text-sm md:text-base">
+                            <button onclick="window.open('${window.escapeHtml(c.interparkLink)}')" class="flex-1 py-4 bg-slate-900 text-white font-bold rounded-xl btn-hover flex items-center justify-center gap-2 shadow-lg text-sm md:text-base">
                                 <i class="fa-solid fa-ticket"></i> 인터파크 티켓
                             </button>
                         </div>
@@ -943,8 +953,8 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-sm text-slate-300">
                             ${c.creativeTeam.map(t => `
                                 <p class="flex items-start">
-                                    <span class="text-rose-500 font-bold mr-3 w-16 shrink-0 text-xs uppercase pt-0.5">${t.role}</span> 
-                                    <span class="flex-1">${t.name}</span>
+                                    <span class="text-rose-500 font-bold mr-3 w-16 shrink-0 text-xs uppercase pt-0.5">${window.escapeHtml(t.role)}</span> 
+                                    <span class="flex-1">${window.escapeHtml(t.name)}</span>
                                 </p>
                             `).join('')}
                         </div>
@@ -955,10 +965,10 @@
                             ${c.discounts.map(d => `
                                 <div class="flex justify-between items-center bg-white p-5 rounded-xl shadow-sm border border-slate-100">
                                     <div class="flex flex-col">
-                                        <span class="text-sm md:text-base font-bold text-slate-700 mb-1">${d.name}</span>
-                                        <span class="text-xs md:text-sm line-through opacity-40">${c.price}</span>
+                                        <span class="text-sm md:text-base font-bold text-slate-700 mb-1">${window.escapeHtml(d.name)}</span>
+                                        <span class="text-xs md:text-sm line-through opacity-40">${window.escapeHtml(c.price)}</span>
                                     </div>
-                                    <span class="font-black text-rose-600 text-xl md:text-2xl">${d.price}</span>
+                                    <span class="font-black text-rose-600 text-xl md:text-2xl">${window.escapeHtml(d.price)}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -1005,12 +1015,12 @@
                         ${item.img ? `
                         <div class="w-1/3 h-full relative bg-slate-100 flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-image text-slate-300 absolute z-0 text-2xl"></i>
-                            <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${item.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
+                            <img src="${window.escapeHtml(item.img)}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 relative z-10 opacity-0" alt="${window.escapeHtml(item.title)}" onload="this.classList.remove('opacity-0')" loading="lazy" decoding="async">
                         </div>
                         ` : '<div class="w-4 md:w-6 h-full bg-rose-500 shrink-0"></div>'}
                         <div class="p-4 md:p-6 flex-1">
                             <span class="text-xs font-bold text-rose-600 mb-1 md:mb-2 block tracking-widest">${item.year}</span>
-                            <h3 class="font-bold text-slate-900 text-base md:text-xl break-keep">${item.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h3>
+                            <h3 class="font-bold text-slate-900 text-base md:text-xl break-keep">${window.escapeHtml(item.title)}</h3>
                         </div>
                     </div>
                     <div class="hidden md:block w-5/12"></div>
@@ -1020,11 +1030,11 @@
 
         window.renderPress = function() {
             document.getElementById('press-list').innerHTML = state.press.sort((a,b) => b.id - a.id).map((p, i) => `
-                <div class="flex items-center p-4 md:p-5 hover:bg-slate-50 transition-colors group cursor-pointer border-b border-slate-50" onclick="window.open('${p.link}')">
+                <div class="flex items-center p-4 md:p-5 hover:bg-slate-50 transition-colors group cursor-pointer border-b border-slate-50" onclick="window.open('${window.escapeHtml(p.link)}')">
                     <div class="w-10 md:w-16 text-center text-xs font-bold text-slate-400">${i+1}</div>
-                    <div class="flex-1 px-2 md:px-4 text-sm md:text-base font-bold text-slate-700 group-hover:text-rose-600 transition-colors truncate">${p.title}</div>
-                    <div class="w-16 md:w-24 text-center text-xs text-slate-500 font-medium">${p.media}</div>
-                    <div class="w-20 md:w-24 text-center text-xs text-slate-400 hidden sm:block">${p.date}</div>
+                    <div class="flex-1 px-2 md:px-4 text-sm md:text-base font-bold text-slate-700 group-hover:text-rose-600 transition-colors truncate">${window.escapeHtml(p.title)}</div>
+                    <div class="w-16 md:w-24 text-center text-xs text-slate-500 font-medium">${window.escapeHtml(p.media)}</div>
+                    <div class="w-20 md:w-24 text-center text-xs text-slate-400 hidden sm:block">${window.escapeHtml(p.date)}</div>
                 </div>
             `).join('');
         }
@@ -1038,21 +1048,21 @@
             container.innerHTML = state.reviews.map(rev => `
                 <div class="bg-white rounded-[2rem] p-6 md:p-8 shadow-sm border border-slate-100">
                     <div class="flex gap-4 md:gap-5 items-start mb-4">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-2xl shadow-lg shrink-0">${rev.name.charAt(0)}</div>
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-2xl shadow-lg shrink-0">${window.escapeHtml(rev.name).charAt(0)}</div>
                         <div class="flex-1">
                             <div class="flex justify-between items-center mb-2">
-                                <p class="font-black text-slate-900 text-base md:text-lg">${rev.name}</p>
-                                <span class="text-xs text-slate-400 font-bold uppercase bg-slate-50 px-2 py-1 rounded">${rev.date}</span>
+                                <p class="font-black text-slate-900 text-base md:text-lg">${window.escapeHtml(rev.name)}</p>
+                                <span class="text-xs text-slate-400 font-bold uppercase bg-slate-50 px-2 py-1 rounded">${window.escapeHtml(rev.date)}</span>
                             </div>
-                            <p class="text-sm md:text-base text-slate-600 leading-relaxed font-medium">${rev.text}</p>
+                            <p class="text-sm md:text-base text-slate-600 leading-relaxed font-medium">${window.escapeHtml(rev.text)}</p>
                         </div>
                     </div>
                     ${(rev.replies || []).map(r => `
                         <div class="ml-12 md:ml-16 mt-3 bg-slate-50 p-4 md:p-5 rounded-[1.5rem] border-l-4 border-rose-500 flex gap-3 md:gap-4 items-start">
                             <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 text-xs md:text-sm"><i class="fa-solid fa-masks-theater"></i></div>
                             <div>
-                                <p class="text-[10px] md:text-[11px] font-black text-rose-600 mb-0.5 uppercase tracking-tighter">${r.name}</p>
-                                <p class="text-xs text-slate-500 leading-relaxed">${r.text}</p>
+                                <p class="text-[10px] md:text-[11px] font-black text-rose-600 mb-0.5 uppercase tracking-tighter">${window.escapeHtml(r.name)}</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">${window.escapeHtml(r.text)}</p>
                             </div>
                         </div>
                     `).join('')}
@@ -1247,8 +1257,8 @@
         window.renderAdminTabs = function() {
             document.getElementById('admin-team-list').innerHTML = state.current.creativeTeam.map((t, i) => `
                 <div class="flex gap-2 items-center mb-1">
-                    <span class="text-xs w-16 font-bold text-slate-600">${t.role}</span>
-                    <span class="text-sm flex-1">${t.name}</span>
+                    <span class="text-xs w-16 font-bold text-slate-600">${window.escapeHtml(t.role)}</span>
+                    <span class="text-sm flex-1">${window.escapeHtml(t.name)}</span>
                     <div class="flex gap-1 shrink-0">
                         <button onclick="moveAdminTeam(${i}, -1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === 0 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-up"></i></button>
                         <button onclick="moveAdminTeam(${i}, 1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === state.current.creativeTeam.length - 1 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-down"></i></button>
@@ -1259,8 +1269,8 @@
 
             document.getElementById('admin-dc-list').innerHTML = state.current.discounts.map((d, i) => `
                 <div class="flex gap-2 items-center mb-1 border-b border-slate-100 pb-2">
-                    <span class="text-xs flex-1 truncate">${d.name}</span>
-                    <span class="text-sm font-bold text-rose-600">${d.price}</span>
+                    <span class="text-xs flex-1 truncate">${window.escapeHtml(d.name)}</span>
+                    <span class="text-sm font-bold text-rose-600">${window.escapeHtml(d.price)}</span>
                     <div class="flex gap-1 shrink-0">
                         <button onclick="moveAdminDc(${i}, -1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === 0 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-up"></i></button>
                         <button onclick="moveAdminDc(${i}, 1)" class="text-slate-400 hover:text-blue-500 text-xs p-1" ${i === state.current.discounts.length - 1 ? 'disabled opacity-30' : ''}><i class="fa-solid fa-arrow-down"></i></button>
@@ -1272,17 +1282,17 @@
             document.getElementById('admin-actors-list').innerHTML = state.current.actors.map((a, i) => `
                 <div class="p-5 bg-slate-50 rounded-[1.5rem] border border-slate-100 shadow-inner">
                     <div class="flex justify-between items-center mb-3">
-                        <p class="text-xs font-black text-rose-600 uppercase tracking-widest">Actor ID: ${a.id}</p>
+                        <p class="text-xs font-black text-rose-600 uppercase tracking-widest">Actor ID: ${window.escapeHtml(a.id)}</p>
                         <button onclick="delAdminActor('${a.id}')" class="text-slate-400 hover:text-rose-600 text-sm"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
                     <div class="space-y-3">
                         <div class="flex gap-2">
-                            <input id="admin-a${a.id}-role" value="${a.role}" placeholder="배역" class="w-1/3 p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
-                            <input id="admin-a${a.id}-name" value="${a.name}" placeholder="이름" class="flex-1 p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
+                            <input id="admin-a${a.id}-role" value="${window.escapeHtml(a.role)}" placeholder="배역" class="w-1/3 p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
+                            <input id="admin-a${a.id}-name" value="${window.escapeHtml(a.name)}" placeholder="이름" class="flex-1 p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
                         </div>
-                        <input id="admin-a${a.id}-img" value="${a.img}" placeholder="사진 URL" class="w-full p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
-                        <input id="admin-a${a.id}-desc" value="${a.desc || ''}" placeholder="한줄 슬로건 (인사말)" class="w-full p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
-                        <textarea id="admin-a${a.id}-car" placeholder="이력 (여러 줄 입력 가능)" rows="3" class="w-full p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white custom-scroll">${a.career}</textarea>
+                        <input id="admin-a${a.id}-img" value="${window.escapeHtml(a.img)}" placeholder="사진 URL" class="w-full p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
+                        <input id="admin-a${a.id}-desc" value="${window.escapeHtml(a.desc || '')}" placeholder="한줄 슬로건 (인사말)" class="w-full p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white" />
+                        <textarea id="admin-a${a.id}-car" placeholder="이력 (여러 줄 입력 가능)" rows="3" class="w-full p-3 text-sm border border-slate-200 rounded-lg outline-none focus:bg-white custom-scroll">${window.escapeHtml(a.career)}</textarea>
                     </div>
                 </div>
             `).join('');
@@ -1290,7 +1300,7 @@
             document.getElementById('admin-history-list').innerHTML = state.history.sort((a,b) => b.year - a.year).map(h => `
                 <div class="p-4 bg-white rounded-xl border border-slate-100 shadow-sm" id="adm-hist-${h.id}">
                     <div class="flex justify-between items-start">
-                        <span class="text-sm font-bold flex-1"><span class="text-rose-600 mr-2">${h.year}</span> <span class="bg-slate-100 text-[10px] px-2 py-1 rounded mr-2 text-slate-500">${h.tab}</span> ${h.title}</span>
+                        <span class="text-sm font-bold flex-1"><span class="text-rose-600 mr-2">${h.year}</span> <span class="bg-slate-100 text-[10px] px-2 py-1 rounded mr-2 text-slate-500">${h.tab}</span> ${window.escapeHtml(h.title)}</span>
                         <div class="flex gap-3 shrink-0 mt-1">
                             <button onclick="enableEditHistory('${h.id}')" class="text-[10px] font-bold text-blue-500 hover:underline">수정</button>
                             <button onclick="deleteHistory('${h.id}')" class="text-[10px] font-bold text-rose-500 hover:underline">삭제</button>
@@ -1302,8 +1312,8 @@
             document.getElementById('admin-press-list').innerHTML = state.press.sort((a,b) => b.id - a.id).map(p => `
                 <div class="flex justify-between items-center p-4 bg-white rounded-xl border border-slate-100 shadow-sm">
                     <div class="flex-1 min-w-0 pr-4">
-                        <p class="text-sm font-bold truncate text-slate-800">${p.title}</p>
-                        <p class="text-xs text-slate-400 mt-1">${p.media} | ${p.date}</p>
+                        <p class="text-sm font-bold truncate text-slate-800">${window.escapeHtml(p.title)}</p>
+                        <p class="text-xs text-slate-400 mt-1">${window.escapeHtml(p.media)} | ${window.escapeHtml(p.date)}</p>
                     </div>
                     <button onclick="deletePress(${p.id})" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-rose-600 shrink-0"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
@@ -1312,17 +1322,17 @@
             document.getElementById('admin-review-list').innerHTML = state.reviews.map(r => `
                 <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm" id="adm-rev-${r.id}">
                     <div class="flex justify-between items-start mb-3">
-                        <span class="font-bold text-sm text-slate-800">${r.name} <span class="text-xs text-slate-400 font-normal ml-2">${r.date}</span></span>
+                        <span class="font-bold text-sm text-slate-800">${window.escapeHtml(r.name)} <span class="text-xs text-slate-400 font-normal ml-2">${window.escapeHtml(r.date)}</span></span>
                         <button onclick="deleteReview('${r.id}')" class="text-xs font-bold text-rose-500 hover:underline"><i class="fa-solid fa-trash"></i> 삭제</button>
                     </div>
-                    <p class="text-sm text-slate-600 keep-all mb-4">${r.text}</p>
+                    <p class="text-sm text-slate-600 keep-all mb-4">${window.escapeHtml(r.text)}</p>
                     <div class="flex gap-2">
                         <input id="admin-reply-in-${r.id}" placeholder="공식 답글 달기..." class="flex-1 p-3 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:bg-white outline-none focus:border-rose-500">
                         <button onclick="addAdminReply('${r.id}')" class="px-5 bg-slate-900 text-white rounded-lg text-sm font-bold">답글</button>
                     </div>
-                    ${r.replies.map((rp, ri) => `
+                    ${(r.replies || []).map((rp, ri) => `
                         <div class="mt-3 text-sm bg-rose-50 p-3 rounded-lg text-rose-800 flex justify-between items-center">
-                            <span class="keep-all font-medium">↪ ${rp.text}</span>
+                            <span class="keep-all font-medium">↪ ${window.escapeHtml(rp.text)}</span>
                             <button onclick="delAdminReply('${r.id}', ${ri})" class="text-rose-500 shrink-0 ml-3 p-1"><i class="fa-solid fa-xmark"></i></button>
                         </div>
                     `).join('')}
@@ -1466,8 +1476,8 @@
                         </select>
                         <input id="edit-hist-year-${id}" type="number" value="${h.year}" placeholder="연도" class="w-24 p-2 text-xs border rounded outline-none" />
                     </div>
-                    <input id="edit-hist-title-${id}" value="${h.title}" placeholder="공연명" class="w-full p-2 text-xs border rounded outline-none" />
-                    <input id="edit-hist-img-${id}" value="${h.img || ''}" placeholder="포스터 URL (선택)" class="w-full p-2 text-xs border rounded outline-none" />
+                    <input id="edit-hist-title-${id}" value="${window.escapeHtml(h.title)}" placeholder="공연명" class="w-full p-2 text-xs border rounded outline-none" />
+                    <input id="edit-hist-img-${id}" value="${window.escapeHtml(h.img || '')}" placeholder="포스터 URL (선택)" class="w-full p-2 text-xs border rounded outline-none" />
                     <div class="flex justify-end gap-2 mt-1">
                         <button onclick="saveHistoryEdit('${id}')" class="px-3 py-1.5 bg-blue-500 text-white rounded text-[10px] font-bold">저장</button>
                         <button onclick="window.renderAdminTabs()" class="px-3 py-1.5 bg-slate-200 text-slate-700 rounded text-[10px] font-bold">취소</button>

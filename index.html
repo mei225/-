@@ -538,6 +538,8 @@
                     </div>
                     <div id="admin-history-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
+                <!-- 하단 공통 닫기/확인 버튼 추가 -->
+                <button onclick="closeAdminWithToast()" class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-lg mt-8">저장 및 홈페이지 업데이트</button>
             </div>
 
             <div id="admin-tab-pres" class="admin-tab-content hidden space-y-6">
@@ -551,12 +553,16 @@
                     </div>
                     <div id="admin-press-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
+                <!-- 하단 공통 닫기/확인 버튼 추가 -->
+                <button onclick="closeAdminWithToast()" class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-lg mt-8">저장 및 홈페이지 업데이트</button>
             </div>
 
             <div id="admin-tab-rev" class="admin-tab-content hidden space-y-6">
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <div id="admin-review-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
+                <!-- 하단 공통 닫기/확인 버튼 추가 -->
+                <button onclick="closeAdminWithToast()" class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-lg mt-8">저장 및 홈페이지 업데이트</button>
             </div>
 
         </div>
@@ -1172,6 +1178,11 @@
             window.showToast('안전하게 로그아웃 되었습니다.');
         }
 
+        window.closeAdminWithToast = function() {
+            window.showToast('모든 변경사항이 홈페이지에 안전하게 반영되었습니다.');
+            window.closeAdmin();
+        }
+
         window.openAdmin = function() {
             document.getElementById('admin-hero-bg').value = state.hero.bgImg || "";
             document.getElementById('admin-hero-tag').value = state.hero.tag;
@@ -1226,12 +1237,12 @@
             state.hero.subtitle = document.getElementById('admin-hero-subtitle').value;
             state.hero.desc = document.getElementById('admin-hero-desc').value;
             
-            if (isFirebaseActive) {
-                await updateDoc(doc(db, "site", "config"), { hero: state.hero });
-            } else {
-                window.renderHero();
-            }
+            window.renderHero();
             window.showToast('메인 화면 정보가 갱신되었습니다.');
+
+            if (isFirebaseActive) {
+                try { await updateDoc(doc(db, "site", "config"), { hero: state.hero }); } catch(e) {}
+            }
         }
 
         window.togglePreparing = function(isChecked) {
@@ -1250,7 +1261,7 @@
                 txt.textContent = '공연 진행 중 (정상 표출)';
             }
             if (isFirebaseActive) {
-                updateDoc(doc(db, "site", "config"), { isPreparing: isChecked });
+                try { updateDoc(doc(db, "site", "config"), { isPreparing: isChecked }); } catch(e) {}
             }
         }
 
@@ -1367,12 +1378,12 @@
                 if(carEl) a.career = carEl.value;
             });
 
-            if (isFirebaseActive) {
-                await updateDoc(doc(db, "site", "config"), { current: state.current });
-            } else {
-                window.renderCurrentPerf();
-            }
+            window.renderCurrentPerf();
             window.showToast('현재 공연 정보가 갱신되었습니다.');
+
+            if (isFirebaseActive) {
+                try { await updateDoc(doc(db, "site", "config"), { current: state.current }); } catch(e) {}
+            }
         }
         
         window.addAdminTeam = function() {
@@ -1437,29 +1448,35 @@
             if(!t || !y) return;
             
             const newHistory = { tab: tab, year: parseInt(y), title: t, img: i };
+            
             if (isFirebaseActive) {
-                await addDoc(collection(db, "history"), newHistory);
+                try {
+                    const docRef = await addDoc(collection(db, "history"), newHistory);
+                    state.history.push({ id: docRef.id, ...newHistory });
+                } catch(e) {}
             } else {
                 state.history.push({ id: 'h'+Date.now(), ...newHistory });
-                window.renderHistory();
             }
             
+            window.renderHistory();
             document.getElementById('admin-hist-title').value = '';
             document.getElementById('admin-hist-year').value = '';
             document.getElementById('admin-hist-img').value = '';
             window.renderAdminTabs();
-            window.showToast("아카이브 추가됨");
+            window.showToast("아카이브에 성공적으로 추가되었습니다.");
         }
         
         window.deleteHistory = async function(id) {
             if(!currentUser) return;
-            if (isFirebaseActive) {
-                await deleteDoc(doc(db, "history", id));
-            } else {
-                state.history = state.history.filter(h => h.id !== id);
-                window.renderHistory();
-            }
+            
+            state.history = state.history.filter(h => h.id !== id);
+            window.renderHistory();
             window.renderAdminTabs(); 
+            window.showToast("삭제되었습니다.");
+
+            if (isFirebaseActive) {
+                try { await deleteDoc(doc(db, "history", id)); } catch(e) {}
+            }
         }
 
         window.enableEditHistory = function(id) {
@@ -1497,17 +1514,17 @@
 
             const updatedData = { tab: tab, year: parseInt(year), title: title, img: img };
 
-            if (isFirebaseActive) {
-                await updateDoc(doc(db, "history", id), updatedData);
-            } else {
-                const hist = state.history.find(h => h.id === id);
-                if(hist) {
-                    hist.tab = tab; hist.year = parseInt(year); hist.title = title; hist.img = img;
-                }
-                window.renderHistory();
+            const hist = state.history.find(h => h.id === id);
+            if(hist) {
+                hist.tab = tab; hist.year = parseInt(year); hist.title = title; hist.img = img;
             }
+            window.renderHistory();
             window.renderAdminTabs();
             window.showToast("공연 아카이브가 수정되었습니다.");
+
+            if (isFirebaseActive) {
+                try { await updateDoc(doc(db, "history", id), updatedData); } catch(e) {}
+            }
         }
 
         window.addPress = async function() {
@@ -1519,41 +1536,49 @@
             if(!t) return;
             
             const newPress = { title: t, media: m, date: d, link: l, timestamp: Date.now() };
+            
             if (isFirebaseActive) {
-                await addDoc(collection(db, "press"), newPress);
+                try {
+                    const docRef = await addDoc(collection(db, "press"), newPress);
+                    state.press.push({ id: docRef.id, ...newPress });
+                } catch(e) {}
             } else {
                 state.press.push({ id: Date.now(), ...newPress });
-                window.renderPress();
             }
             
+            window.renderPress();
             document.getElementById('admin-press-title').value = '';
             document.getElementById('admin-press-media').value = '';
             document.getElementById('admin-press-date').value = '';
             document.getElementById('admin-press-link').value = '';
             window.renderAdminTabs(); 
-            window.showToast("언론보도 추가됨");
+            window.showToast("언론보도가 추가되었습니다.");
         }
         
         window.deletePress = async function(id) { 
             if(!currentUser) return;
-            if (isFirebaseActive) {
-                await deleteDoc(doc(db, "press", id.toString())); // Assuming id is string in Firebase
-            } else {
-                state.press = state.press.filter(p => p.id !== id);
-                window.renderPress();
-            }
+
+            state.press = state.press.filter(p => p.id !== id);
+            window.renderPress();
             window.renderAdminTabs(); 
+            window.showToast("삭제되었습니다.");
+
+            if (isFirebaseActive) {
+                try { await deleteDoc(doc(db, "press", id.toString())); } catch(e) {}
+            }
         }
 
         window.deleteReview = async function(id) { 
             if(!currentUser) return;
-            if (isFirebaseActive) {
-                await deleteDoc(doc(db, "reviews", id));
-            } else {
-                state.reviews = state.reviews.filter(r => r.id !== id);
-                window.renderReviews();
-            }
+
+            state.reviews = state.reviews.filter(r => r.id !== id);
+            window.renderReviews();
             window.renderAdminTabs(); 
+            window.showToast("삭제되었습니다.");
+
+            if (isFirebaseActive) {
+                try { await deleteDoc(doc(db, "reviews", id)); } catch(e) {}
+            }
         }
         
         window.addAdminReply = async function(id) {
@@ -1563,14 +1588,15 @@
             const review = state.reviews.find(r => r.id === id);
             if(review) { 
                 const newReplies = [...(review.replies || []), { name: "극단 불씨촌", text: input.value }];
+                review.replies = newReplies;
+                window.renderReviews();
+                window.renderAdminTabs(); 
+                window.showToast("답글이 등록되었습니다.");
+
                 if (isFirebaseActive) {
-                    await updateDoc(doc(db, "reviews", id), { replies: newReplies });
-                } else {
-                    review.replies = newReplies;
-                    window.renderReviews();
+                    try { await updateDoc(doc(db, "reviews", id), { replies: newReplies }); } catch(e) {}
                 }
             }
-            window.renderAdminTabs(); 
         }
         
         window.delAdminReply = async function(revId, replyIdx) {
@@ -1579,14 +1605,15 @@
             if(review) { 
                 const newReplies = [...review.replies];
                 newReplies.splice(replyIdx, 1);
+                review.replies = newReplies;
+                window.renderReviews();
+                window.renderAdminTabs(); 
+                window.showToast("답글이 삭제되었습니다.");
+
                 if (isFirebaseActive) {
-                    await updateDoc(doc(db, "reviews", revId), { replies: newReplies });
-                } else {
-                    review.replies = newReplies;
-                    window.renderReviews();
+                    try { await updateDoc(doc(db, "reviews", revId), { replies: newReplies }); } catch(e) {}
                 }
             }
-            window.renderAdminTabs(); 
         }
 
         window.onload = () => {

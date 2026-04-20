@@ -220,7 +220,7 @@
                         <h3 class="text-3xl md:text-4xl font-black text-white leading-tight">배우와 관객이 가장 가까이 만나는 <br class="hidden sm:block"/><span class="text-rose-500 block sm:inline mt-2 sm:mt-0">살아있는 연극의 중심</span></h3>
                         
                         <div class="text-slate-400 leading-relaxed space-y-4 md:space-y-5 text-base md:text-lg">
-                            <p>소극장 빨간객석은 극단 불씨촌의 전용 공연장으로, 생생한 현장성을 관객에게 전달하기 위해 오동동 아구찜 거리 내에 마련된 창작 공간입니다.</p>
+                            <p>소극장 빨간객석은 극단 불씨촌의 전용 공연장으로, 생생한 현장성을 관객에게 전달하기 위해 오동동에 마련된 창작 공간입니다.</p>
                             <p>정기 공연, 창작극, 번역극 등 다양한 형태의 실험이 이루어지며, 관객과 배우가 가장 가까운 거리에서 호흡하는 독창적인 문화를 만들어가고 있습니다.</p>
                         </div>
                         <div class="flex gap-4 pt-4">
@@ -365,6 +365,7 @@
         <button class="absolute top-6 right-6 md:top-10 md:right-10 z-30 text-white text-4xl hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
+    <!-- Actor Detail Modal -->
     <div id="actor-modal" class="fixed inset-0 z-[500] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6 transition-opacity">
         <div class="bg-white rounded-[2rem] max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-hidden shadow-2xl relative transform transition-transform scale-95 flex flex-col" id="actor-modal-content">
             
@@ -769,9 +770,10 @@
                     }
                 });
 
+                // BUG FIX: Ensure the state ID perfectly matches the Firestore Document ID
                 onSnapshot(collection(db, "history"), (snapshot) => {
                     if (!snapshot.empty) {
-                        state.history = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                        state.history = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
                         window.renderHistory();
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
@@ -781,7 +783,7 @@
 
                 onSnapshot(collection(db, "press"), (snapshot) => {
                     if (!snapshot.empty) {
-                        state.press = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                        state.press = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
                         window.renderPress();
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
@@ -791,7 +793,7 @@
 
                 onSnapshot(collection(db, "reviews"), (snapshot) => {
                     if (!snapshot.empty) {
-                        state.reviews = snapshot.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => b.timestamp - a.timestamp);
+                        state.reviews = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).sort((a,b) => b.timestamp - a.timestamp);
                     } else {
                         state.reviews = [];
                     }
@@ -1125,9 +1127,11 @@
             const date = new Date().toLocaleDateString('ko-KR').replace(/ /g, '').slice(0,-1);
             
             if (isFirebaseActive) {
-                await addDoc(collection(db, "reviews"), {
-                    name: name, text: text, date: date, timestamp: Date.now(), replies: []
-                });
+                try {
+                    await addDoc(collection(db, "reviews"), {
+                        name: name, text: text, date: date, timestamp: Date.now(), replies: []
+                    });
+                } catch(e) { window.showToast('후기 등록 실패'); }
             } else {
                 state.reviews.unshift({ id: 'r' + Date.now(), name: name, text: text, date: date, timestamp: Date.now(), replies: [] });
                 window.renderReviews();
@@ -1453,7 +1457,7 @@
                 try {
                     const docRef = await addDoc(collection(db, "history"), newHistory);
                     state.history.push({ id: docRef.id, ...newHistory });
-                } catch(e) {}
+                } catch(e) { window.showToast("저장 오류 발생"); }
             } else {
                 state.history.push({ id: 'h'+Date.now(), ...newHistory });
             }
@@ -1475,7 +1479,7 @@
             window.showToast("삭제되었습니다.");
 
             if (isFirebaseActive) {
-                try { await deleteDoc(doc(db, "history", id)); } catch(e) {}
+                try { await deleteDoc(doc(db, "history", id)); } catch(e) { window.showToast("서버 삭제 오류"); }
             }
         }
 
@@ -1523,7 +1527,7 @@
             window.showToast("공연 아카이브가 수정되었습니다.");
 
             if (isFirebaseActive) {
-                try { await updateDoc(doc(db, "history", id), updatedData); } catch(e) {}
+                try { await updateDoc(doc(db, "history", id), updatedData); } catch(e) { window.showToast("서버 저장 오류"); }
             }
         }
 

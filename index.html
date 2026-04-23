@@ -164,7 +164,9 @@
                             <span id="hero-subtitle" class="text-rose-500 text-2xl md:text-4xl block mt-4 md:mt-6 font-bold opacity-90">돌아갈 수 없는 시간을 다시 만나는 이야기</span>
                         </h1>
 
-                        <p id="hero-desc" class="text-slate-300 text-base md:text-xl mb-12 leading-relaxed max-w-2xl mx-auto md:mx-0">1977년 마산에서 시작된 연극의 불씨가 50년의 시간이 되어 무대 위에서 타오릅니다.</p>
+                        <p id="hero-desc" class="text-slate-200 text-sm md:text-base lg:text-lg mb-10 leading-loose max-w-3xl mx-auto md:mx-0 font-medium drop-shadow-md">
+                            1977년 마산에서 시작된 연극의 불씨가 50년의 시간이 되어 무대 위에서 타오릅니다.
+                        </p>
                         
                         <div class="flex flex-wrap justify-center md:justify-start gap-4">
                             <button onclick="showSection('current')" class="px-8 md:px-10 py-4 md:py-5 bg-rose-600 text-white font-black rounded-2xl shadow-xl hover:bg-rose-700 transition-all btn-hover text-sm md:text-base tracking-widest uppercase">현재 공연</button>
@@ -333,7 +335,7 @@
                             <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-slate-700 flex items-center justify-center text-rose-500 shrink-0 text-xl"><i class="fa-solid fa-phone"></i></div>
                             <div>
                                 <p class="font-bold text-xl md:text-2xl mb-2">공연 문의</p>
-                                <p class="text-slate-400 text-base">0507-1428-8345 | 팩스 055-000-0000</p>
+                                <p class="text-slate-400 text-base">0507-1428-8345</p>
                             </div>
                         </div>
                     </div>
@@ -365,7 +367,6 @@
         <button class="absolute top-6 right-6 md:top-10 md:right-10 z-30 text-white text-4xl hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <!-- Actor Detail Modal -->
     <div id="actor-modal" class="fixed inset-0 z-[500] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6 transition-opacity">
         <div class="bg-white rounded-[2rem] max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-hidden shadow-2xl relative transform transition-transform scale-95 flex flex-col" id="actor-modal-content">
             
@@ -539,7 +540,6 @@
                     </div>
                     <div id="admin-history-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
-                <!-- 하단 공통 닫기/확인 버튼 추가 -->
                 <button onclick="closeAdminWithToast()" class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-lg mt-8">저장 및 홈페이지 업데이트</button>
             </div>
 
@@ -554,7 +554,6 @@
                     </div>
                     <div id="admin-press-list" class="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
-                <!-- 하단 공통 닫기/확인 버튼 추가 -->
                 <button onclick="closeAdminWithToast()" class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-lg mt-8">저장 및 홈페이지 업데이트</button>
             </div>
 
@@ -562,7 +561,6 @@
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <div id="admin-review-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
-                <!-- 하단 공통 닫기/확인 버튼 추가 -->
                 <button onclick="closeAdminWithToast()" class="w-full py-5 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-black transition-all uppercase tracking-widest text-lg mt-8">저장 및 홈페이지 업데이트</button>
             </div>
 
@@ -742,6 +740,17 @@
             }
         }
 
+        window.initRouting = function() {
+            const hash = window.location.hash.replace('#', '');
+            const validSections = ['home', 'about', 'theater', 'current', 'history', 'press', 'review', 'contact', 'member'];
+            if(validSections.includes(hash)) {
+                showSection(hash, false); 
+            } else {
+                showSection('home', false);
+                history.replaceState({ section: 'home' }, '', '#home');
+            }
+        };
+
         if (isFirebaseActive) {
             try {
                 onSnapshot(doc(db, "site", "config"), (docSnap) => {
@@ -758,6 +767,7 @@
                                 window.renderAll();
                                 window.hideLoader();
                                 isInitialLoad = false;
+                                window.initRouting();
                             };
                         } else {
                             window.renderAll();
@@ -766,11 +776,10 @@
                         if(!document.getElementById('admin-modal').classList.contains('hidden')) window.renderAdminTabs();
                     } else {
                         if(currentUser) setDoc(doc(db, "site", "config"), { isPreparing: state.isPreparing, hero: state.hero, current: state.current });
-                        if (isInitialLoad) { window.renderAll(); window.hideLoader(); isInitialLoad = false; }
+                        if (isInitialLoad) { window.renderAll(); window.hideLoader(); isInitialLoad = false; window.initRouting(); }
                     }
                 });
 
-                // BUG FIX: Ensure the state ID perfectly matches the Firestore Document ID
                 onSnapshot(collection(db, "history"), (snapshot) => {
                     if (!snapshot.empty) {
                         state.history = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
@@ -805,7 +814,7 @@
             }
         }
 
-        window.showSection = function(id) {
+        window.showSection = function(id, pushToHistory = true) {
             document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
 
@@ -821,7 +830,27 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             window.renderAll(); 
+
+            // 브라우저 뒤로가기 처리를 위한 주소 기록
+            if (pushToHistory) {
+                history.pushState({ section: id }, '', `#${id}`);
+            }
         }
+
+        // 브라우저의 뒤로가기/앞으로가기 버튼을 눌렀을 때의 동작
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.section) {
+                showSection(e.state.section, false);
+            } else {
+                const hash = window.location.hash.replace('#', '');
+                const validSections = ['home', 'about', 'theater', 'current', 'history', 'press', 'review', 'contact', 'member'];
+                if(validSections.includes(hash)) {
+                    showSection(hash, false);
+                } else {
+                    showSection('home', false);
+                }
+            }
+        });
 
         window.toggleMenu = function() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
@@ -994,14 +1023,16 @@
 
         window.setArchTab = function(tabName) {
             state.activeArchTab = tabName;
+            
             document.querySelectorAll('[id^="tab-arch-"]').forEach(btn => {
-                btn.classList.remove('bg-slate-900', 'text-white');
-                btn.classList.add('bg-white', 'text-slate-600');
+                btn.classList.remove('bg-slate-900', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200', 'hover:bg-slate-100', 'shadow-sm');
             });
+            
             const activeBtn = document.getElementById('tab-arch-' + tabName);
             if(activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-slate-600');
-                activeBtn.classList.add('bg-slate-900', 'text-white');
+                activeBtn.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200', 'hover:bg-slate-100', 'shadow-sm');
+                activeBtn.classList.add('bg-slate-900', 'text-white', 'shadow-md');
             }
             window.renderHistory();
         }
@@ -1226,11 +1257,13 @@
             
             document.querySelectorAll('[id^="tab-btn-"]').forEach(btn => {
                 btn.classList.remove('bg-slate-900', 'text-white');
-                btn.classList.add('bg-white', 'text-slate-600');
+                btn.classList.add('bg-white', 'text-slate-600', 'hover:bg-slate-100');
             });
             const activeBtn = document.getElementById('tab-btn-' + tabName);
-            activeBtn.classList.remove('bg-white', 'text-slate-600');
-            activeBtn.classList.add('bg-slate-900', 'text-white');
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-600', 'hover:bg-slate-100');
+                activeBtn.classList.add('bg-slate-900', 'text-white');
+            }
         }
 
         window.saveHeroData = async function() {
@@ -1628,6 +1661,7 @@
                 img.onload = img.onerror = () => {
                     window.renderAll();
                     window.hideLoader();
+                    window.initRouting();
                 }
             }
         }

@@ -1155,14 +1155,24 @@
             e.preventDefault();
             const name = document.getElementById('rev-name').value || '익명관객';
             const text = document.getElementById('rev-text').value;
-            const date = new Date().toLocaleDateString('ko-KR').replace(/ /g, '').slice(0,-1);
+            
+            /* 수정포인트 1: 아이폰(iOS Safari)에서 에러를 유발할 수 있는 toLocaleDateString 방식을
+               어떤 기기에서든 100% 안전하게 동작하는 방식으로 변경했습니다. */
+            const now = new Date();
+            const date = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
             
             if (isFirebaseActive) {
                 try {
                     await addDoc(collection(db, "reviews"), {
                         name: name, text: text, date: date, timestamp: Date.now(), replies: []
                     });
-                } catch(e) { window.showToast('후기 등록 실패'); }
+                } catch(e) { 
+                    /* 수정포인트 2: 실패했을 경우 에러 내역을 콘솔에 찍고,
+                       return을 통해 밑에 있는 '성공 메시지'가 뜨지 못하도록 로직을 수정했습니다. */
+                    console.error("후기 등록 에러:", e);
+                    window.showToast('후기 등록 실패: 권한 문제이거나 네트워크를 확인해주세요.'); 
+                    return; 
+                }
             } else {
                 state.reviews.unshift({ id: 'r' + Date.now(), name: name, text: text, date: date, timestamp: Date.now(), replies: [] });
                 window.renderReviews();
@@ -1363,7 +1373,7 @@
                         <p class="text-sm font-bold truncate text-slate-800">${window.escapeHtml(p.title)}</p>
                         <p class="text-xs text-slate-400 mt-1">${window.escapeHtml(p.media)} | ${window.escapeHtml(p.date)}</p>
                     </div>
-                    <button onclick="deletePress(${p.id})" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-rose-600 shrink-0"><i class="fa-solid fa-trash-can"></i></button>
+                    <button onclick="deletePress('${p.id}')" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-rose-600 shrink-0"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `).join('');
 

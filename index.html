@@ -196,6 +196,7 @@
                     <div id="notice-badge" class="hidden text-rose-600 text-sm font-bold mb-3">공지</div>
                     <h3 id="notice-title" tabindex="-1" class="text-2xl md:text-3xl font-black break-words"></h3><p id="notice-date" class="text-sm text-slate-400 mt-4 pb-6 border-b"></p>
                     <div id="notice-body" class="py-8 text-slate-700 leading-loose"></div>
+                    <div id="notice-photos" class="hidden space-y-6 pb-8" aria-label="공지 사진"></div>
                     <div id="notice-attachments" class="hidden border-t pt-6"><h4 class="font-bold mb-4"><i class="fa-solid fa-paperclip text-rose-500"></i> 첨부파일</h4><div id="notice-files" class="space-y-3"></div><p class="text-xs text-slate-500 mt-4">다운로드가 제한된 파일은 ‘열기’로 확인해 주세요.</p></div>
                 </article>
             </div>
@@ -462,6 +463,7 @@
                         <div><label for="notice-input-title" class="block font-bold text-sm mb-2">제목</label><input id="notice-input-title" required maxlength="200" class="w-full p-3 border rounded-xl" /></div>
                         <div><label for="notice-input-body" class="block font-bold text-sm mb-2">본문</label><textarea id="notice-input-body" required maxlength="100000" rows="8" class="w-full p-3 border rounded-xl"></textarea></div>
                         <label class="flex items-center gap-2 font-bold text-sm"><input id="notice-input-pinned" type="checkbox" class="accent-rose-600 w-4 h-4" /> 중요공지로 등록 (상단 고정)</label>
+                        <div class="bg-slate-50 p-4 rounded-2xl"><h4 class="font-bold mb-2">사진</h4><p class="text-xs text-slate-500 leading-relaxed mb-4">사진 주소(HTTPS) 또는 Google Drive 사진 파일 공유 링크를 입력하세요. Drive 사진은 ‘링크가 있는 모든 사용자 · 뷰어’로 공유해 주세요. 최대 20장까지 본문 아래에 표시됩니다.</p><div id="notice-photo-inputs" class="space-y-3"></div><button id="notice-add-photo" type="button" class="mt-3 text-sm font-bold text-rose-600">+ 사진 링크 추가</button></div>
                         <div class="bg-slate-50 p-4 rounded-2xl"><h4 class="font-bold mb-2">첨부파일</h4><p class="text-xs text-slate-500 leading-relaxed mb-4">Google Drive에 파일을 올리고 일반 액세스를 ‘링크가 있는 모든 사용자 · 뷰어’로 설정한 뒤 공유 링크를 붙여넣어 주세요. 최대 20개까지 등록할 수 있습니다.</p><div id="notice-attachment-inputs" class="space-y-3"></div><button id="notice-add-file" type="button" class="mt-3 text-sm font-bold text-rose-600">+ 첨부파일 추가</button></div>
                         <div class="flex gap-3"><button id="notice-save" type="submit" class="px-6 py-3 bg-rose-600 text-white font-bold rounded-xl">공지 등록</button><button id="notice-cancel" type="button" class="px-6 py-3 bg-slate-100 font-bold rounded-xl">새로 작성 / 취소</button></div>
                     </fieldset><p id="notice-save-status" role="status" class="text-sm text-rose-600 mt-4"></p></form>
@@ -1725,6 +1727,55 @@
             }
             return { open: url.href, download };
         }
+        function noticePhotoLink(raw) {
+            let url;
+            try { url = new URL(String(raw).trim()); } catch { return null; }
+            if (url.protocol !== 'https:' || url.username || url.password) return null;
+            if (url.hostname === 'drive.google.com') {
+                const links = driveLinks(url.href);
+                if (!links?.download) return null;
+                const download = new URL(links.download);
+                const preview = new URL('https://drive.google.com/file/d/' + download.searchParams.get('id') + '/preview');
+                const key = url.searchParams.get('resourcekey');
+                if (key) preview.searchParams.set('resourcekey', key);
+                return { url: url.href, src: preview.href, drive: true };
+            }
+            return { url: url.href, src: url.href, drive: false };
+        }
+        function addNoticePhoto(photo = {}) {
+            const container = noticeEl('notice-photo-inputs');
+            if (container.children.length >= 20) { window.showToast('사진은 최대 20장입니다.'); return; }
+            const row = document.createElement('div'); row.className = 'flex flex-col gap-2';
+            const url = document.createElement('input'); url.type = 'url'; url.maxLength = 4000; url.value = photo.url || '';
+            url.className = 'notice-photo-url w-full p-3 border rounded-xl'; url.placeholder = '사진 주소 또는 Google Drive 파일 공유 링크'; url.setAttribute('aria-label', '사진 링크');
+            const caption = document.createElement('input'); caption.maxLength = 200; caption.value = photo.caption || '';
+            caption.className = 'notice-photo-caption w-full p-3 border rounded-xl'; caption.placeholder = '사진 설명 (선택)'; caption.setAttribute('aria-label', '사진 설명');
+            row.append(url, caption, noticeButton('사진 제거', () => row.remove(), 'text-sm text-rose-600 p-2 self-end')); container.append(row);
+        }
+        function renderNoticePhotos(notice) {
+            const container = noticeEl('notice-photos'); container.replaceChildren();
+            (Array.isArray(notice.photos) ? notice.photos : []).slice(0, 20).forEach(photo => {
+                if (!photo) return;
+                const link = noticePhotoLink(photo.url); if (!link) return;
+                const figure = document.createElement('figure'); figure.className = 'space-y-3';
+                const caption = typeof photo.caption === 'string' ? photo.caption : '';
+                const media = document.createElement(link.drive ? 'iframe' : 'img');
+                media.src = link.src; media.loading = 'lazy'; media.referrerPolicy = 'no-referrer';
+                if (link.drive) {
+                    media.title = caption || 'Google Drive 사진 미리보기';
+                    media.className = 'w-full h-[360px] md:h-[600px] rounded-2xl border border-slate-200 bg-slate-50';
+                } else {
+                    media.alt = caption || '공지사항 사진'; media.className = 'w-full h-auto rounded-2xl border border-slate-100';
+                    media.addEventListener('error', () => { media.classList.add('hidden'); fallback.textContent = '사진을 표시할 수 없습니다. 원본 사진 열기 ↗'; });
+                }
+                const fallback = document.createElement('a'); fallback.href = link.url; fallback.target = '_blank'; fallback.rel = 'noopener noreferrer';
+                fallback.className = 'inline-block text-xs text-slate-500 underline'; fallback.textContent = '원본 사진 열기 ↗';
+                figure.append(media);
+                if (caption) { const text = document.createElement('figcaption'); text.className = 'text-sm text-slate-600 text-center'; text.textContent = caption; figure.append(text); }
+                figure.append(fallback); container.append(figure);
+            });
+            container.classList.toggle('hidden', !container.children.length);
+        }
         function noticeMillis(n) {
             return typeof n.createdAt?.toMillis === 'function' ? n.createdAt.toMillis() : Number(n.createdAtMs) || 0;
         }
@@ -1763,6 +1814,7 @@
             noticeEl('notice-list-view').classList.toggle('hidden', !!selected);
             noticeEl('notice-detail').classList.toggle('hidden', !selected);
             if (!selected) return;
+            renderNoticePhotos(selected);
             noticeEl('notice-title').textContent = selected.title || '';
             noticeEl('notice-body').textContent = selected.body || '';
             noticeEl('notice-date').textContent = '작성일 ' + noticeDate(selected);
@@ -1805,7 +1857,7 @@
         }
         function resetNoticeForm() {
             if (noticeSaving) return;
-            noticeEditing = null; noticeEl('notice-form').reset(); noticeEl('notice-attachment-inputs').replaceChildren();
+            noticeEditing = null; noticeEl('notice-form').reset(); noticeEl('notice-attachment-inputs').replaceChildren(); noticeEl('notice-photo-inputs').replaceChildren();
             noticeEl('notice-editor-heading').textContent = '새 공지 작성'; noticeEl('notice-save').textContent = '공지 등록'; noticeEl('notice-save-status').textContent = '';
         }
         function editNotice(id) {
@@ -1815,6 +1867,7 @@
             noticeEl('notice-editor-heading').textContent = '공지 수정'; noticeEl('notice-save').textContent = '수정 저장';
             noticeEl('notice-input-title').value = n.title || ''; noticeEl('notice-input-body').value = n.body || ''; noticeEl('notice-input-pinned').checked = n.pinned === true;
             (Array.isArray(n.attachments) ? n.attachments : []).forEach(a => { if(a) addNoticeAttachment(a); });
+            (Array.isArray(n.photos) ? n.photos : []).forEach(photo => { if (photo) addNoticePhoto(photo); });
             noticeEl('notice-input-title').focus();
         }
         async function deleteNotice(id) {
@@ -1837,8 +1890,17 @@
                 if (!name || !links) { status.textContent = '첨부파일명과 올바른 HTTPS Google Drive 공유 링크를 입력해 주세요.'; return; }
                 attachments.push({ name, url: links.open });
             }
+            const photos = [];
+            for (const row of noticeEl('notice-photo-inputs').children) {
+                const raw = row.querySelector('.notice-photo-url').value.trim();
+                const caption = row.querySelector('.notice-photo-caption').value.trim();
+                if (!raw && !caption) continue;
+                const link = noticePhotoLink(raw);
+                if (!link) { status.textContent = '올바른 HTTPS 사진 주소 또는 Google Drive 파일 공유 링크를 입력해 주세요.'; return; }
+                photos.push({ url: link.url, caption });
+            }
             const editingId = noticeEditing;
-            const data = { title, body, pinned: noticeEl('notice-input-pinned').checked, attachments, updatedAt: serverTimestamp() };
+            const data = { title, body, pinned: noticeEl('notice-input-pinned').checked, attachments, photos, updatedAt: serverTimestamp() };
             noticeSaving = true; noticeEl('notice-fields').disabled = true; status.textContent = '저장 중입니다…';
             try {
                 if (editingId) await updateDoc(doc(db, 'notices', editingId), data);
@@ -1847,6 +1909,7 @@
             } catch(e) { console.error('공지 저장 실패', e); status.textContent = '저장하지 못했습니다. 작성 내용은 유지됩니다. 로그인·연결 상태와 notices 관리자 쓰기 권한을 확인해 주세요.'; }
             finally { noticeSaving = false; noticeEl('notice-fields').disabled = false; }
         });
+        noticeEl('notice-add-photo').addEventListener('click', () => addNoticePhoto());
         noticeEl('notice-add-file').addEventListener('click', () => addNoticeAttachment());
         noticeEl('notice-cancel').addEventListener('click', resetNoticeForm);
         noticeEl('notice-back').addEventListener('click', () => { noticeSelected = null; renderNotices(); });

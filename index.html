@@ -182,6 +182,18 @@
                     </div>
                 </div>
             </div>
+            <div class="py-14 md:py-20 px-4 md:px-6 bg-slate-50" aria-labelledby="home-notices-heading">
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex items-end justify-between gap-4 mb-6">
+                        <div><span class="text-rose-600 text-xs font-bold tracking-widest uppercase">Notice</span><h2 id="home-notices-heading" class="text-2xl md:text-3xl font-black mt-2">공지사항</h2></div>
+                        <button id="home-notices-more" type="button" class="shrink-0 text-sm font-bold text-slate-500 hover:text-rose-600 py-2">전체보기 <i class="fa-solid fa-arrow-right ml-1" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                        <p id="home-notices-status" role="status" class="p-8 text-sm text-center text-slate-500">공지사항을 불러오는 중입니다.</p>
+                        <ul id="home-notices-list" class="divide-y divide-slate-100"></ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="notices" class="section-content py-20 md:py-32">
@@ -1791,7 +1803,32 @@
             button.type = 'button'; button.textContent = label; button.className = className;
             button.addEventListener('click', action); return button;
         }
+        function renderHomeNotices() {
+            const rows = sortedNotices().slice(0, 5);
+            const message = noticeError || (!noticeLoaded ? '공지사항을 불러오는 중입니다.' : !rows.length ? '등록된 공지사항이 없습니다.' : '');
+            noticeEl('home-notices-status').textContent = message;
+            noticeEl('home-notices-status').classList.toggle('hidden', !message);
+            const list = noticeEl('home-notices-list'); list.replaceChildren();
+            if (noticeError) return;
+            rows.forEach(n => {
+                const item = document.createElement('li');
+                const button = noticeButton('', () => {
+                    noticeSelected = n.id;
+                    window.showSection('notices');
+                    renderNotices();
+                    noticeEl('notice-title').focus({ preventScroll: true });
+                }, 'w-full flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-left p-5 md:px-7 hover:bg-rose-50/50 transition-colors');
+                const heading = document.createElement('span'); heading.className = 'flex items-start gap-3 flex-1 min-w-0';
+                if (n.pinned === true) {
+                    const badge = document.createElement('span'); badge.className = 'shrink-0 bg-rose-50 text-rose-600 rounded px-2 py-1 text-xs font-bold'; badge.textContent = '공지'; heading.append(badge);
+                }
+                const title = document.createElement('span'); title.className = 'font-bold text-sm md:text-base text-slate-800 break-all'; title.textContent = n.title || '(제목 없음)'; heading.append(title);
+                const date = document.createElement('span'); date.className = 'shrink-0 text-xs text-slate-400'; date.textContent = noticeDate(n);
+                button.append(heading, date); item.append(button); list.append(item);
+            });
+        }
         function renderNotices() {
+            renderHomeNotices();
             const rows = sortedNotices();
             const message = noticeError || (!noticeLoaded ? '공지사항을 불러오는 중입니다.' : !rows.length ? '등록된 공지사항이 없습니다.' : '');
             noticeEl('notice-status').textContent = message;
@@ -1908,6 +1945,9 @@
                 noticeSaving = false; resetNoticeForm(); status.textContent = editingId ? '수정되었습니다.' : '등록되었습니다.';
             } catch(e) { console.error('공지 저장 실패', e); status.textContent = '저장하지 못했습니다. 작성 내용은 유지됩니다. 로그인·연결 상태와 notices 관리자 쓰기 권한을 확인해 주세요.'; }
             finally { noticeSaving = false; noticeEl('notice-fields').disabled = false; }
+        });
+        noticeEl('home-notices-more').addEventListener('click', () => {
+            noticeSelected = null; window.showSection('notices'); renderNotices();
         });
         noticeEl('notice-add-photo').addEventListener('click', () => addNoticePhoto());
         noticeEl('notice-add-file').addEventListener('click', () => addNoticeAttachment());

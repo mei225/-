@@ -76,6 +76,11 @@
         .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .actor-card:hover .actor-info-overlay { opacity: 1; transform: translateY(0); }
+        #mobile-menu { overflow-y: auto; padding: 5rem 1rem 2rem; }
+        @media (max-height: 800px) { #mobile-menu { justify-content: flex-start; gap: 1rem; } }
+        #notice-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+        #notice-form :disabled { opacity: .6; }
+        [id^="tab-btn-"] { min-width: 120px; }
     </style>
 </head>
 <body>
@@ -109,6 +114,7 @@
                 <button onclick="showSection('current')" class="nav-btn font-bold text-[13px] text-slate-600 hover:text-rose-600 transition" id="btn-current">현재공연</button>
                 <button onclick="showSection('history')" class="nav-btn font-bold text-[13px] text-slate-600 hover:text-rose-600 transition" id="btn-history">공연아카이브</button>
                 <button onclick="showSection('press')" class="nav-btn font-bold text-[13px] text-slate-600 hover:text-rose-600 transition" id="btn-press">언론보도</button>
+                <button onclick="showSection('notices')" class="nav-btn font-bold text-[13px] text-slate-600 hover:text-rose-600 transition" id="btn-notices">공지사항</button>
                 <button onclick="showSection('review')" class="nav-btn font-bold text-[13px] text-slate-600 hover:text-rose-600 transition" id="btn-review-nav">관람후기</button>
                 <button onclick="showSection('contact')" class="nav-btn font-bold text-[13px] text-slate-600 hover:text-rose-600 transition" id="btn-contact">오시는 길</button>
                 <button onclick="showSection('member')" class="px-5 py-2.5 bg-slate-900 text-white rounded-full text-xs font-bold btn-hover hover:bg-rose-600 transition-colors" id="btn-member">관극회원</button>
@@ -127,6 +133,7 @@
         <button onclick="showSection('theater'); toggleMenu()" class="text-xl md:text-2xl font-bold">소극장 빨간객석 소개</button>
         <button onclick="showSection('current'); toggleMenu()" class="text-xl md:text-2xl font-bold text-rose-600">현재공연</button>
         <button onclick="showSection('history'); toggleMenu()" class="text-xl md:text-2xl font-bold">공연아카이브</button>
+        <button onclick="showSection('notices'); toggleMenu()" class="text-xl md:text-2xl font-bold">공지사항</button>
         <button onclick="showSection('press'); toggleMenu()" class="text-xl md:text-2xl font-bold">언론보도</button>
         <button onclick="showSection('review'); toggleMenu()" class="text-xl md:text-2xl font-bold text-rose-600">관람후기</button>
         <button onclick="showSection('contact'); toggleMenu()" class="text-xl md:text-2xl font-bold">오시는 길</button>
@@ -177,6 +184,22 @@
             </div>
         </section>
 
+        <section id="notices" class="section-content py-20 md:py-32">
+            <div class="max-w-5xl mx-auto px-4 md:px-6">
+                <div class="text-center mb-12"><span class="text-rose-600 font-bold tracking-widest text-sm uppercase">Notice</span><h2 class="text-3xl md:text-5xl font-black mt-3">공지사항</h2><div class="w-12 h-1 bg-rose-600 mx-auto mt-6"></div></div>
+                <div id="notice-list-view" class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                    <p id="notice-status" role="status" class="p-6 text-center text-slate-500">공지사항을 불러오는 중입니다.</p>
+                    <table id="notice-table" class="w-full text-sm hidden"><caption class="sr-only">공지사항 목록</caption><thead class="bg-slate-900 text-white"><tr><th class="p-3 md:p-5 w-16">번호</th><th class="p-3 md:p-5 text-left">제목</th><th class="p-3 md:p-5 w-28 whitespace-nowrap">작성일</th></tr></thead><tbody id="notice-list"></tbody></table>
+                </div>
+                <article id="notice-detail" class="hidden bg-white rounded-3xl border border-slate-200 p-6 md:p-10 shadow-sm">
+                    <button type="button" id="notice-back" class="text-sm font-bold text-slate-500 hover:text-rose-600 mb-8">← 목록으로</button>
+                    <div id="notice-badge" class="hidden text-rose-600 text-sm font-bold mb-3">공지</div>
+                    <h3 id="notice-title" tabindex="-1" class="text-2xl md:text-3xl font-black break-words"></h3><p id="notice-date" class="text-sm text-slate-400 mt-4 pb-6 border-b"></p>
+                    <div id="notice-body" class="py-8 text-slate-700 leading-loose"></div>
+                    <div id="notice-attachments" class="hidden border-t pt-6"><h4 class="font-bold mb-4"><i class="fa-solid fa-paperclip text-rose-500"></i> 첨부파일</h4><div id="notice-files" class="space-y-3"></div><p class="text-xs text-slate-500 mt-4">다운로드가 제한된 파일은 ‘열기’로 확인해 주세요.</p></div>
+                </article>
+            </div>
+        </section>
         <section id="about" class="section-content py-20 md:py-32">
             <div class="max-w-5xl mx-auto px-6">
                 <div class="text-center mb-16 md:mb-24">
@@ -427,10 +450,24 @@
                 <button onclick="switchAdminTab('home')" id="tab-btn-home" class="flex-1 py-3 rounded-xl font-bold text-base bg-slate-900 text-white transition-all">메인 관리</button>
                 <button onclick="switchAdminTab('perf')" id="tab-btn-perf" class="flex-1 py-3 rounded-xl font-bold text-base bg-white text-slate-600 hover:bg-slate-100 transition-all">현재공연 관리</button>
                 <button onclick="switchAdminTab('arch')" id="tab-btn-arch" class="flex-1 py-3 rounded-xl font-bold text-base bg-white text-slate-600 hover:bg-slate-100 transition-all">아카이브 관리</button>
-                <button onclick="switchAdminTab('pres')" id="tab-btn-press" class="flex-1 py-3 rounded-xl font-bold text-base bg-white text-slate-600 hover:bg-slate-100 transition-all">언론보도 관리</button>
+                <button onclick="switchAdminTab('pres')" id="tab-btn-pres" class="flex-1 py-3 rounded-xl font-bold text-base bg-white text-slate-600 hover:bg-slate-100 transition-all">언론보도 관리</button>
+                <button onclick="switchAdminTab('notices')" id="tab-btn-notices" class="flex-1 py-3 rounded-xl font-bold text-base bg-white text-slate-600 hover:bg-slate-100 transition-all">공지사항 관리</button>
                 <button onclick="switchAdminTab('rev')" id="tab-btn-rev" class="flex-1 py-3 rounded-xl font-bold text-base bg-white text-slate-600 hover:bg-slate-100 transition-all">관람후기 관리</button>
             </div>
 
+            <div id="admin-tab-notices" class="admin-tab-content hidden space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 id="notice-editor-heading" class="text-xl font-bold mb-6">새 공지 작성</h3>
+                    <form id="notice-form"><fieldset id="notice-fields" class="space-y-5 min-w-0">
+                        <div><label for="notice-input-title" class="block font-bold text-sm mb-2">제목</label><input id="notice-input-title" required maxlength="200" class="w-full p-3 border rounded-xl" /></div>
+                        <div><label for="notice-input-body" class="block font-bold text-sm mb-2">본문</label><textarea id="notice-input-body" required maxlength="100000" rows="8" class="w-full p-3 border rounded-xl"></textarea></div>
+                        <label class="flex items-center gap-2 font-bold text-sm"><input id="notice-input-pinned" type="checkbox" class="accent-rose-600 w-4 h-4" /> 중요공지로 등록 (상단 고정)</label>
+                        <div class="bg-slate-50 p-4 rounded-2xl"><h4 class="font-bold mb-2">첨부파일</h4><p class="text-xs text-slate-500 leading-relaxed mb-4">Google Drive에 파일을 올리고 일반 액세스를 ‘링크가 있는 모든 사용자 · 뷰어’로 설정한 뒤 공유 링크를 붙여넣어 주세요. 최대 20개까지 등록할 수 있습니다.</p><div id="notice-attachment-inputs" class="space-y-3"></div><button id="notice-add-file" type="button" class="mt-3 text-sm font-bold text-rose-600">+ 첨부파일 추가</button></div>
+                        <div class="flex gap-3"><button id="notice-save" type="submit" class="px-6 py-3 bg-rose-600 text-white font-bold rounded-xl">공지 등록</button><button id="notice-cancel" type="button" class="px-6 py-3 bg-slate-100 font-bold rounded-xl">새로 작성 / 취소</button></div>
+                    </fieldset><p id="notice-save-status" role="status" class="text-sm text-rose-600 mt-4"></p></form>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200"><h3 class="font-bold mb-4">등록된 공지</h3><div id="admin-notice-list" class="space-y-3"></div></div>
+            </div>
             <div id="admin-tab-home" class="admin-tab-content block space-y-6">
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <h3 class="text-xl font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4"><i class="fa-solid fa-house text-rose-500"></i> 홈페이지 메인 화면 및 설정</h3>
@@ -606,7 +643,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc, deleteDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, deleteDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -742,7 +779,7 @@
 
         window.initRouting = function() {
             const hash = window.location.hash.replace('#', '');
-            const validSections = ['home', 'about', 'theater', 'current', 'history', 'press', 'review', 'contact', 'member'];
+            const validSections = ['home', 'about', 'theater', 'current', 'history', 'press', 'review', 'contact', 'member', 'notices'];
             if(validSections.includes(hash)) {
                 showSection(hash, false); 
             } else {
@@ -843,7 +880,7 @@
                 showSection(e.state.section, false);
             } else {
                 const hash = window.location.hash.replace('#', '');
-                const validSections = ['home', 'about', 'theater', 'current', 'history', 'press', 'review', 'contact', 'member'];
+                const validSections = ['home', 'about', 'theater', 'current', 'history', 'press', 'review', 'contact', 'member', 'notices'];
                 if(validSections.includes(hash)) {
                     showSection(hash, false);
                 } else {
@@ -1313,6 +1350,7 @@
         }
 
         window.renderAdminTabs = function() {
+            renderAdminNotices();
             document.getElementById('admin-team-list').innerHTML = state.current.creativeTeam.map((t, i) => `
                 <div class="flex gap-2 items-center mb-1">
                     <span class="text-xs w-16 font-bold text-slate-600">${window.escapeHtml(t.role)}</span>
@@ -1661,6 +1699,169 @@
                     try { await updateDoc(doc(db, "reviews", revId), { replies: newReplies }); } catch(e) {}
                 }
             }
+        }
+
+        // Notices use a separate collection; no Drive API or file upload is required.
+        let notices = [], noticeSelected = null, noticeEditing = null;
+        let noticeLoaded = false, noticeError = '', noticeSaving = false;
+        const noticeEl = id => document.getElementById(id);
+        function driveLinks(raw) {
+            let url;
+            try { url = new URL(String(raw).trim()); } catch { return null; }
+            if (url.protocol !== 'https:' || url.username || url.password || url.port ||
+                !['drive.google.com', 'docs.google.com'].includes(url.hostname)) return null;
+            let id = null;
+            if (url.hostname === 'drive.google.com') {
+                id = url.pathname.match(/^\/file\/d\/([A-Za-z0-9_-]+)(?:\/|$)/)?.[1];
+                if (!id && ['/open', '/uc'].includes(url.pathname)) id = url.searchParams.get('id');
+            }
+            let download = null;
+            if (id && /^[A-Za-z0-9_-]+$/.test(id)) {
+                const dest = new URL('https://drive.google.com/uc');
+                dest.searchParams.set('export', 'download'); dest.searchParams.set('id', id);
+                const key = url.searchParams.get('resourcekey');
+                if (key) dest.searchParams.set('resourcekey', key);
+                download = dest.href;
+            }
+            return { open: url.href, download };
+        }
+        function noticeMillis(n) {
+            return typeof n.createdAt?.toMillis === 'function' ? n.createdAt.toMillis() : Number(n.createdAtMs) || 0;
+        }
+        function noticeDate(n) {
+            const ms = noticeMillis(n);
+            return ms ? new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms)).replaceAll('-', '.') : '날짜 확인 중';
+        }
+        function sortedNotices() {
+            return [...notices].sort((a,b) => Number(b.pinned === true)-Number(a.pinned === true) || noticeMillis(b)-noticeMillis(a) || a.id.localeCompare(b.id));
+        }
+        function noticeButton(label, action, className) {
+            const button = document.createElement('button');
+            button.type = 'button'; button.textContent = label; button.className = className;
+            button.addEventListener('click', action); return button;
+        }
+        function renderNotices() {
+            const rows = sortedNotices();
+            const message = noticeError || (!noticeLoaded ? '공지사항을 불러오는 중입니다.' : !rows.length ? '등록된 공지사항이 없습니다.' : '');
+            noticeEl('notice-status').textContent = message;
+            noticeEl('notice-status').classList.toggle('hidden', !message);
+            noticeEl('notice-table').classList.toggle('hidden', !rows.length || !!noticeError);
+            const list = noticeEl('notice-list'); list.replaceChildren();
+            let number = rows.filter(n => n.pinned !== true).length;
+            rows.forEach(n => {
+                const row = document.createElement('tr'); row.className = 'border-b border-slate-100 hover:bg-rose-50/50';
+                const num = document.createElement('td'); num.className = 'p-3 md:p-5 text-center text-slate-400';
+                num.textContent = n.pinned === true ? '공지' : String(number--);
+                if (n.pinned === true) num.innerHTML = '<span class="inline-block bg-rose-50 text-rose-600 rounded px-2 py-1 text-xs font-bold">공지</span>';
+                const title = document.createElement('td'); title.className = 'p-3 md:p-5';
+                title.append(noticeButton(n.title || '(제목 없음)', () => { noticeSelected = n.id; renderNotices(); noticeEl('notice-title').focus(); }, 'text-left font-bold text-slate-800 hover:text-rose-600 break-all'));
+                const date = document.createElement('td'); date.className = 'p-3 md:p-5 text-center text-xs text-slate-400 whitespace-nowrap'; date.textContent = noticeDate(n);
+                row.append(num, title, date); list.append(row);
+            });
+            const selected = notices.find(n => n.id === noticeSelected);
+            if (!selected) noticeSelected = null;
+            noticeEl('notice-list-view').classList.toggle('hidden', !!selected);
+            noticeEl('notice-detail').classList.toggle('hidden', !selected);
+            if (!selected) return;
+            noticeEl('notice-title').textContent = selected.title || '';
+            noticeEl('notice-body').textContent = selected.body || '';
+            noticeEl('notice-date').textContent = '작성일 ' + noticeDate(selected);
+            noticeEl('notice-badge').classList.toggle('hidden', selected.pinned !== true);
+            const files = noticeEl('notice-files'); files.replaceChildren();
+            (Array.isArray(selected.attachments) ? selected.attachments : []).forEach(a => {
+                if (!a || typeof a.name !== 'string') return;
+                const links = driveLinks(a.url); if (!links) return;
+                const item = document.createElement('div'); item.className = 'flex flex-col sm:flex-row sm:items-center gap-3 bg-slate-50 rounded-xl p-4';
+                const name = document.createElement('span'); name.className = 'flex-1 min-w-0 break-all text-sm font-medium'; name.textContent = a.name;
+                const actions = document.createElement('div'); actions.className = 'flex gap-2 shrink-0';
+                [['열기', links.open], ['다운로드', links.download]].forEach(([label, url]) => {
+                    if (!url) return;
+                    const link = document.createElement('a'); link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+                    link.className = 'px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:text-rose-600';
+                    link.textContent = label; link.setAttribute('aria-label', a.name + ' ' + label); actions.append(link);
+                });
+                item.append(name, actions); files.append(item);
+            });
+            noticeEl('notice-attachments').classList.toggle('hidden', !files.children.length);
+        }
+        function renderAdminNotices() {
+            const list = noticeEl('admin-notice-list'); list.replaceChildren();
+            if (noticeError || !notices.length) { list.textContent = noticeError || (noticeLoaded ? '등록된 공지가 없습니다.' : '공지사항을 불러오는 중입니다.'); return; }
+            sortedNotices().forEach(n => {
+                const item = document.createElement('div'); item.className = 'flex flex-wrap items-center gap-3 p-4 bg-slate-50 rounded-xl';
+                const title = document.createElement('p'); title.className = 'flex-1 min-w-0 break-all text-sm font-bold';
+                title.textContent = (n.pinned === true ? '[공지] ' : '') + n.title + ' · ' + noticeDate(n);
+                item.append(title, noticeButton('수정', () => editNotice(n.id), 'text-sm font-bold text-blue-600'), noticeButton('삭제', () => deleteNotice(n.id), 'text-sm font-bold text-rose-600'));
+                list.append(item);
+            });
+        }
+        function addNoticeAttachment(a = {}) {
+            const container = noticeEl('notice-attachment-inputs');
+            if (container.children.length >= 20) { window.showToast('첨부파일은 최대 20개입니다.'); return; }
+            const row = document.createElement('div'); row.className = 'notice-file-row flex flex-col sm:flex-row gap-2';
+            const name = document.createElement('input'); name.className = 'notice-file-name w-full sm:w-1/3 p-3 border rounded-xl min-w-0'; name.placeholder = '파일명 (예: 참가신청서.hwp)'; name.setAttribute('aria-label', '첨부파일명'); name.maxLength = 200; name.value = a.name || '';
+            const url = document.createElement('input'); url.type = 'url'; url.className = 'notice-file-url w-full sm:flex-1 p-3 border rounded-xl min-w-0'; url.placeholder = 'https://drive.google.com/...'; url.setAttribute('aria-label', 'Google Drive 공유 링크'); url.maxLength = 4000; url.value = a.url || '';
+            row.append(name, url, noticeButton('제거', () => row.remove(), 'text-sm text-rose-600 p-2 shrink-0')); container.append(row);
+        }
+        function resetNoticeForm() {
+            if (noticeSaving) return;
+            noticeEditing = null; noticeEl('notice-form').reset(); noticeEl('notice-attachment-inputs').replaceChildren();
+            noticeEl('notice-editor-heading').textContent = '새 공지 작성'; noticeEl('notice-save').textContent = '공지 등록'; noticeEl('notice-save-status').textContent = '';
+        }
+        function editNotice(id) {
+            if (!currentUser || noticeSaving) return;
+            const n = notices.find(n => n.id === id); if (!n) return;
+            resetNoticeForm(); noticeEditing = id;
+            noticeEl('notice-editor-heading').textContent = '공지 수정'; noticeEl('notice-save').textContent = '수정 저장';
+            noticeEl('notice-input-title').value = n.title || ''; noticeEl('notice-input-body').value = n.body || ''; noticeEl('notice-input-pinned').checked = n.pinned === true;
+            (Array.isArray(n.attachments) ? n.attachments : []).forEach(a => { if(a) addNoticeAttachment(a); });
+            noticeEl('notice-input-title').focus();
+        }
+        async function deleteNotice(id) {
+            if (!currentUser || !isFirebaseActive || noticeSaving) return;
+            const n = notices.find(n => n.id === id); if (!n || !confirm('“' + n.title + '” 공지를 삭제할까요? Drive 원본 파일은 유지됩니다.')) return;
+            try { await deleteDoc(doc(db, 'notices', id)); if (noticeEditing === id) resetNoticeForm(); window.showToast('공지가 삭제되었습니다.'); }
+            catch(e) { console.error('공지 삭제 실패', e); window.showToast('삭제하지 못했습니다. 로그인과 관리자 쓰기 권한을 확인해 주세요.'); }
+        }
+        noticeEl('notice-form').addEventListener('submit', async event => {
+            event.preventDefault(); if (noticeSaving) return;
+            const status = noticeEl('notice-save-status');
+            if (!currentUser || !isFirebaseActive) { status.textContent = '관리자 로그인과 데이터베이스 연결을 확인해 주세요.'; return; }
+            const title = noticeEl('notice-input-title').value.trim(), body = noticeEl('notice-input-body').value.trim();
+            if (!title || !body) { status.textContent = '제목과 본문을 입력해 주세요.'; return; }
+            const attachments = [];
+            for (const row of noticeEl('notice-attachment-inputs').children) {
+                const name = row.querySelector('.notice-file-name').value.trim(), raw = row.querySelector('.notice-file-url').value.trim();
+                if (!name && !raw) continue;
+                const links = driveLinks(raw);
+                if (!name || !links) { status.textContent = '첨부파일명과 올바른 HTTPS Google Drive 공유 링크를 입력해 주세요.'; return; }
+                attachments.push({ name, url: links.open });
+            }
+            const editingId = noticeEditing;
+            const data = { title, body, pinned: noticeEl('notice-input-pinned').checked, attachments, updatedAt: serverTimestamp() };
+            noticeSaving = true; noticeEl('notice-fields').disabled = true; status.textContent = '저장 중입니다…';
+            try {
+                if (editingId) await updateDoc(doc(db, 'notices', editingId), data);
+                else await addDoc(collection(db, 'notices'), { ...data, createdAt: serverTimestamp(), createdAtMs: Date.now() });
+                noticeSaving = false; resetNoticeForm(); status.textContent = editingId ? '수정되었습니다.' : '등록되었습니다.';
+            } catch(e) { console.error('공지 저장 실패', e); status.textContent = '저장하지 못했습니다. 작성 내용은 유지됩니다. 로그인·연결 상태와 notices 관리자 쓰기 권한을 확인해 주세요.'; }
+            finally { noticeSaving = false; noticeEl('notice-fields').disabled = false; }
+        });
+        noticeEl('notice-add-file').addEventListener('click', () => addNoticeAttachment());
+        noticeEl('notice-cancel').addEventListener('click', resetNoticeForm);
+        noticeEl('notice-back').addEventListener('click', () => { noticeSelected = null; renderNotices(); });
+        renderNotices(); renderAdminNotices();
+        if (isFirebaseActive) {
+            onSnapshot(collection(db, 'notices'), snapshot => {
+                notices = snapshot.docs.map(d => ({ ...d.data({ serverTimestamps: 'estimate' }), id: d.id }));
+                noticeLoaded = true; noticeError = ''; renderNotices(); renderAdminNotices();
+            }, error => {
+                console.error('공지 조회 실패', error); noticeLoaded = true;
+                noticeError = '공지사항을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.';
+                notices = []; renderNotices(); renderAdminNotices();
+            });
+        } else {
+            noticeLoaded = true; noticeError = '데이터베이스에 연결되지 않았습니다. 새로고침해 주세요.'; renderNotices(); renderAdminNotices();
         }
 
         window.onload = () => {
